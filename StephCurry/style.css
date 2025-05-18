@@ -375,7 +375,7 @@ nav {
     justify-content: center;
     align-items: center;
     font-size:70px;
-    background-image:linear-gradient( to right,#0f388a, #0d2238);
+    background-image:linear-gradient( to right,#FFC72C, #bd9526);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight:bold;
