@@ -214,4 +214,14 @@ nav {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    margin-top:200px;
+}
+#gallery_img{
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 2px solid #1D428A;
+}
+#link1{
+    text-decoration: none;
 }
