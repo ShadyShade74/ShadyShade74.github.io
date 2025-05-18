@@ -252,8 +252,17 @@ nav {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
+    display:flex;
 }
 
 .nav-button:hover {
     background-color: #FDB927;
+}
+#nav-button-left{
+    display:flex;
+    justify-content: flex-end;
+}
+#nav-button-right{
+    display:flex;
+    justify-content: flex-start;
 }
