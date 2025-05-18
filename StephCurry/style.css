@@ -208,3 +208,10 @@ nav {
     transform: translateY(-15px);
     transition: all 0.3s ease;
 }
+#gallery{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
