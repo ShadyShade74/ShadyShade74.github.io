@@ -485,3 +485,137 @@ nav {
         font-size: 14px;
     }
 }
+.stats-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.stat-tile {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 1.5rem;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-tile:hover {
+    transform: translateY(-5px);
+}
+
+.stat-tile h3 {
+    color: #ffd700;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.stat-number {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.stat-desc {
+    color: #cccccc;
+    font-size: 1rem;
+}
+.seasons-table {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
+}
+
+.seasons-table h2 {
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.seasons-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.seasons-table th, 
+.seasons-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.seasons-table th {
+    background-color: #2a2a2a;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.seasons-table td {
+    color: #ffffff;
+}
+
+.seasons-table tbody tr:hover {
+    background-color: #252525;
+}
+.Steph-interview{
+    background-color: #091528;
+    margin: 40px auto;
+    min-width: 1000px;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin-top:50px;
+    display:flex;
+}
+.info-tile1 {
+    background-color: #091528;
+    margin: 40px auto;
+    max-width: 1000px;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display:flex;
+    justify-content: center;
+    
+}   
+.Steph-interview{
+    display:flex;
+}
+#wywiad{
+    display:flex;
+    justify-content: flex-end;
+    font-size:20px;
+}
+#wywiad1{
+    display:flex;
+    justify-content: flex-start;
+    
+}
+#text{
+    font-size:30px;
+    margin-left:150px;
+    color:#cacaca;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.audio{
+    margin-top:30px;
+    margin-left:20px;
+}
