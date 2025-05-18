@@ -215,10 +215,12 @@ nav {
     margin-top:200px;
 }
 #gallery_img{
-    border-radius: 50%;
     object-fit: cover;
     margin-bottom: 12px;
-    border: 2px solid #1D428A;
+    border: 5px solid #1D428A;
+    border-radius:20px;
+    width: 500px;
+    height: 300px;
 }
 #link1{
     text-decoration: none;
