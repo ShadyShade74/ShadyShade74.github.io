@@ -225,3 +225,11 @@ nav {
 #link1{
     text-decoration: none;
 }
+#gallery_img1{
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 5px solid #1D428A;
+    border-radius:20px;
+    width: 200px;
+    height: 133px;
+}
