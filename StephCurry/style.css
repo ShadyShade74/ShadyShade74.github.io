@@ -214,7 +214,7 @@ nav {
     gap: 20px;
     margin-top:200px;
 }
-#gallery_img{
+.gallery_img{
     object-fit: cover;
     margin-bottom: 12px;
     border: 5px solid #1D428A;
@@ -225,7 +225,7 @@ nav {
 #link1{
     text-decoration: none;
 }
-#gallery_img1{
+.gallery_img1{
     object-fit: cover;
     margin-bottom: 12px;
     border: 5px solid #1D428A;
