@@ -214,13 +214,12 @@ nav {
     gap: 20px;
     margin-top:200px;
 }
-.gallery_img{
-    object-fit: cover;
-    margin-bottom: 12px;
-    border: 5px solid #1D428A;
-    border-radius:20px;
+.gallery_img {
     width: 500px;
     height: 300px;
+    display: block;
+    margin: 20px auto;
+    border: 5px solid #1D428A;
 }
 #link1{
     text-decoration: none;
