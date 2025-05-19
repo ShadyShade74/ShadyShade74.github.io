@@ -1,0 +1,76 @@
+body{
+    background-color:#444;
+    font-family: "Sour Gummy", sans-serif;
+    font-weight:700;
+}
+
+
+
+#nazwa{
+    background-image: linear-gradient(to right, #2a96be, #7108f1);
+    background-clip: text;
+    color:transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 50px;
+    font-weight: 700;
+    width:400px;
+    
+}
+
+#linki {
+    background-color: #3e3e3e;
+    width: 1000px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.tile {
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    font-size: 70px;
+    color:#1D428A;
+
+}
+.tile-text{
+    opacity:0.8 ;
+
+}
+.tile:hover {
+    transform: scale(1.05);
+    background-color: #353535;
+    transform: opacity(0.4);
+}
+
+#Steph-tile {
+    background-image: url('StephCurry/Podstrony/img2/steph.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid #1D428A;
+}
+
+.tile a {
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    
+}
+#Steph-tile:hover{
+    border: 3px solid #0C3179;
+    cursor:pointer;
+}
+a:hover{
+    text-decoration: none;
+}
+a{
+    text-decoration: none;
+
+}
