@@ -1,11 +1,14 @@
 body {
     background-color: #0f122a;
     font-family: "Sour Gummy", sans-serif;
-    width:150vh;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
-#content{
-    margin-right: auto;  
-    margin-left: auto;
+#content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 #nav {
     padding: 20px;
@@ -43,10 +46,13 @@ body {
 }
 #main-container {
     display: flex;
-    justify-content: flex-end;
     min-height: 80vh;
     padding: 20px;
     top:0;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .tile-container {
@@ -74,6 +80,10 @@ body {
     justify-content: center;
     align-items: center;
     font-size:30px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    box-sizing: border-box;
 }
 
 .tile:hover {
@@ -115,4 +125,71 @@ body {
 a{
     text-decoration: none;
     color: #fff;
+}
+
+
+
+
+@media screen and (max-width: 1200px) {
+    .nav-content {
+        padding: 0 20px;
+    }
+
+    .tile-container {
+        width: 90%;
+        height: auto;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #logo, #cv {
+        font-size: 32px;
+    }
+
+    .nav-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #cv-background {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .tile-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .tile {
+        width: 100%;
+        height: 200px;
+    }
+
+    .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #logo, #cv {
+        font-size: 24px;
+    }
+
+    #nav {
+        padding: 10px;
+    }
+
+    .tile-container {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .tile {
+        height: 150px;
+        font-size: 20px;
+    }
 }
