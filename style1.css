@@ -1,8 +1,12 @@
 body {
     background-color: #0f122a;
     font-family: "Sour Gummy", sans-serif;
+    width:150vh;
 }
-
+#content{
+    margin-right: auto;  
+    margin-left: auto;
+}
 #nav {
     padding: 20px;
 }
