@@ -1,76 +1,102 @@
-body{
-    background-color:#444;
+body {
+    background-color: #0f122a;
     font-family: "Sour Gummy", sans-serif;
-    font-weight:700;
 }
 
+#nav {
+    padding: 20px;
+}
 
-
-#nazwa{
-    background-image: linear-gradient(to right, #2a96be, #7108f1);
-    background-clip: text;
-    color:transparent;
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+#logo {
+    font-size: 48px;
+    font-weight: 600;
+    background: linear-gradient(to right, #4351ba, #7108f1, #2a96be);
+    background-size: 200% auto;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 50px;
-    font-weight: 700;
-    width:400px;
-    
+    animation: shine 3s linear infinite;
+    text-shadow: 0 0 20px rgba(67, 81, 186, 0.5);
+    cursor: pointer;
 }
 
-#linki {
-    background-color: #3e3e3e;
-    width: 1000px;
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+#logo:hover {
+    animation: shine 1.5s linear infinite;
+    text-shadow: 0 0 30px rgba(67, 81, 186, 0.8);
+}
+#main-container {
+    display: flex;
+    justify-content: flex-end;
+    min-height: 80vh;
+    padding: 20px;
+    top:0;
+}
+
+.tile-container {
+    background-color: #1a1f4d;
+    border-radius: 20px;
+    padding: 40px;
+    width: 800px;
     height: 600px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    padding: 20px;
+    gap: 30px;
+    box-shadow: 0 0 30px rgba(67, 81, 186, 0.3);
 }
 
 .tile {
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-    font-size: 70px;
-    color:#1D428A;
-
+    background-color: #2a2f66;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
-.tile-text{
-    opacity:0.8 ;
 
-}
 .tile:hover {
     transform: scale(1.05);
-    background-color: #353535;
-    transform: opacity(0.4);
+    box-shadow: 0 0 20px rgba(67, 81, 186, 0.5);
+    background-color: #3a3f86;
+}
+#content{
+    width:100hv;
+    width:20hv;
+}
+#cv {
+    font-size: 48px;
+    font-weight: 600;
+    background: linear-gradient(to right, #4351ba, #7108f1, #2a96be);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    text-shadow: 0 0 20px rgba(67, 81, 186, 0.5);
+    cursor: pointer;    
+    margin-left: 30px;
 }
 
-#Steph-tile {
-    background-image: url('StephCurry/Podstrony/img2/steph.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 3px solid #1D428A;
+#cv:hover {
+    animation: shine 1.5s linear infinite;
+    text-shadow: 0 0 30px rgba(67, 81, 186, 0.8);
 }
-
-.tile a {
-    color: white; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    
-}
-#Steph-tile:hover{
-    border: 3px solid #0C3179;
-    cursor:pointer;
-}
-a:hover{
-    text-decoration: none;
-}
-a{
-    text-decoration: none;
-
+#cv-background{
+    background-color:#1a1f4d;
+    border-radius: 30px; 
+    width:450px; 
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
