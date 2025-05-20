@@ -22,7 +22,7 @@ body {
     margin: 0 auto;
 }
 #logo {
-    font-size: 48px;
+    font-size: 64px;
     font-weight: 600;
     background: linear-gradient(to right, #4351ba, #7108f1, #2a96be);
     background-size: 200% auto;
