@@ -63,12 +63,16 @@ body {
     border-radius: 15px;
     transition: all 0.3s ease;
     cursor: pointer;
+    border:#262b5e 3px solid;
+    width:385px;
+    height:285px;
 }
 
 .tile:hover {
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(67, 81, 186, 0.5);
     background-color: #3a3f86;
+    border:#222756 3px solid;
 }
 #content{
     width:100hv;
