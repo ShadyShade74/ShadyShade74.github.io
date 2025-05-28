@@ -110,8 +110,12 @@ nav {
     object-fit: cover;
     border-radius: 10px;
     border: 3px solid #1D428A;
+    transition: all 0.3s ease;
 }
-
+.profile-image:hover {
+    transform: scale(1.05);
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
 .info-content {
     flex: 1;
 }
@@ -134,8 +138,13 @@ nav {
     object-fit: cover;
     border-radius: 10px;
     border: 3px solid #1D428A;
+    transition: all 0.3s ease;
 }
-
+.profile-image_wide:hover {
+    transform: scale(1.05);
+    animation: glow 1.5s ease-in-out infinite alternate;
+    transition: all 0.3s ease;
+}
 #skrot_meczu:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 0 5px #FFC72C);
@@ -618,4 +627,191 @@ nav {
 .audio{
     margin-top:30px;
     margin-left:20px;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+.page-links {
+    display: flex;
+    gap: 20px;
+}
+
+.page-link {
+    position: relative;
+    color: #fdb927;
+}
+
+.page-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #fdb927;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.page-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* Add padding-top to sections to account for fixed navbar */
+#profil, #najlepszy-mecz, #momenty, #wywiad {
+    scroll-margin-top: 100px;
+}
+
+@media screen and (max-width: 1200px) {
+    .page-links {
+        gap: 10px;
+    }
+    
+    .nav-link {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .page-links {
+        display: none;
+    }
+}
+.map-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 32px 24px 32px;
+    background-color: #091528;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px rgba(29,66,138,0.08);
+    margin: 32px auto;
+    max-width: 700px;
+    transition: box-shadow 0.3s;
+    position: relative;
+    overflow: visible;
+    min-width:1000px;
+}
+
+
+.map-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.location-icon {
+    filter: drop-shadow(0 2px 6px rgba(29,66,138,0.12));
+}
+
+.map-content {
+    width: 100%;
+}
+
+.map-glow {
+    border-radius: 18px;
+    box-shadow: 0 0 32px 0 #1d428a44, 0 2px 12px rgba(29,66,138,0.12);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    width:600px;
+}
+
+.map-glow:hover {
+    box-shadow: 0 0 48px 8px #2c6fff88, 0 2px 18px rgba(29,66,138,0.18);
+}
+
+.map-desc {
+    margin-top: 14px;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.5px;
+}
+.centrer{
+    display: flex;
+    justify-content: center;
+}
+
+.form-tile {
+    background: #091528;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px rgba(29,66,138,0.08);
+    margin: 32px auto;
+    padding: 32px 32px 24px 32px;
+    transition: box-shadow 0.3s;
+    width:500px;
+}
+.form-tile:hover {
+    box-shadow: 0 8px 32px 0 rgba(29,66,138,0.18), 0 0 0 4px #1d428a22;
+}
+.form-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    font-size:32px;
+    background: linear-gradient(90deg,
+            #1D428A 0%,
+            #FFC72C 50%,
+            #1D428A 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 3s linear infinite;
+}
+.form-icon {
+    filter: drop-shadow(0 2px 6px rgba(29,66,138,0.12));
+}
+.curry-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.curry-form .form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-center;
+    color: #1d428a;
+}
+.curry-form label {
+    font-weight: 600;
+    color: #1d428a;
+    margin-bottom: 6px;
+}
+.curry-form input,
+.curry-form textarea {
+    border: 1.5px solid #cfd8dc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #091528;
+    color: #1d428a;
+}
+.curry-form input:focus,
+.curry-form textarea:focus {
+    border-color: #1d428a;
+    box-shadow: 0 0 0 2px #1d428a33;
+    outline: none;
+    color: #1d428a;
+}
+.form-btn {
+    background: linear-gradient(90deg, #1d428a 60%, #ffc72c 100%);
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 10px 32px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(29,66,138,0.12);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.form-btn:hover {
+    background: linear-gradient(90deg, #ffc72c 0%, #1d428a 100%);
+    box-shadow: 0 4px 16px rgba(29,66,138,0.18);
 }
