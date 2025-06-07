@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steph Curry</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap" rel="stylesheet">
+    <script>
+    window.onload = function() {
+        // Scroll to top on page load
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        // Handle smooth scrolling for options
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-scroll');
+                if (targetId) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Handle back to top button
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    };
+</script>
+</head>
+<body>
+    <section id="scroll-top">
+
+    </section>
+    <section class="menu">
+        <div class="hamburger-menu">
+        <div class="menu-btn">
+            <span class="menu-icon">☰</span>
+        </div>
+        <div class="menu-content">
+            <a href="steph.html">Główna Strona</a>
+            <a href="Pages/stats.html">Statystyki</a>
+            <a href="Pages/career.html">Kariera</a>
+            <a href="Pages/biography.html">Biografia</a>
+            <a href="Pages/facts.html">Ciekawostki</a>
+        </div>
+    </section>
+    <section class="header" id="header">
+        <div class="top">
+                <div class="text-logo">
+                    Steph Curry
+                </div>
+            <div class="site-options">
+                <div class="top-options">
+                    <div class="option" data-scroll="#about">O Stephie</div>
+                    <div class="option" data-scroll="#highlights">Highlighty</div>
+                    <div class="option" data-scroll="#records">Rekordy</div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <section id="about" class="content-section">
+        <h2>O Stephie</h2>
+        <div class="about-container">
+            <div class="about-image">
+                <img src="media/img/steph.jpg" alt="Stephen Curry" height="480" width="160">
+            </div>
+            <div class="about-text">
+                <h3>Stephen Curry</h3>
+                <p class="subtitle">Najlepszy strzelec w historii NBA</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Data urodzenia:</span>
+                        <span class="value">14 marca 1988</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Wzrost:</span>
+                        <span class="value">1.88 m</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Drużyna:</span>
+                        <span class="value">Golden State Warriors</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Numer:</span>
+                        <span class="value">#30</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Stephen Curry jest rozgrywającym Golden State Warriors
+                    który Jest również 4-krotnym mistrzem NBA, 2-krotnym MVP 
+                    sezonu zasadniczego i rekordzistą pod względem 
+                    trafionych rzutów za 3 punkty w historii NBA.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="highlights" class="content-section">
+        <h2>Highlighty</h2>
+        <div class="highlights-container">
+            <div class="highlight-card">
+                <div class="highlight-image">
+                    <img src="media/img/buzzer-beater.jpg" alt="Game Winner vs OKC">
+                    <div class="highlight-overlay">
+                        <span class="date">27.02.2016</span>
+                    </div>
+                </div>
+                <div class="highlight-info">
+                    <h3>Game Winner przeciwko OKC</h3>
+                    <p>Zwycięski rzut z połowy boiska w dogrywce przeciwko Oklahoma City Thunder, ustanawiając rekord NBA - 12 trojek w meczu.</p>
+                </div>
+            </div>
+
+            <div class="highlight-card">
+                <div class="highlight-image">
+                    <img src="media/img/record.jpg" alt="Record Breaking Three">
+                    <div class="highlight-overlay">
+                        <span class="date">14.12.2021</span>
+                    </div>
+                </div>
+                <div class="highlight-info">
+                    <h3>Rekord Wszech Czasów</h3>
+                    <p>Pobicie rekordu Ray'a Allena w liczbie trafionych rzutów za 3 punkty w karierze, stając się najlepszym strzelcem z dystansu w historii NBA.</p>
+                </div>
+            </div>
+
+            <div class="highlight-card">
+                <div class="highlight-image">
+                    <img src="media/img/final-mvp.jpg" alt="Finals MVP">
+                    <div class="highlight-overlay">
+                        <span class="date">16.06.2022</span>
+                    </div>
+                </div>
+                <div class="highlight-info">
+                    <h3>Finals MVP</h3>
+                    <p>Zdobycie pierwszego w karierze tytułu MVP Finałów NBA, prowadząc Warriors do czwartego mistrzostwa w ostatnich ośmiu latach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="records" class="content-section">
+    <h2>Rekordy</h2>
+    <div class="awards-container">
+        <div class="award-card">
+            <div class="award-image">
+                <img src="media/img/championship.jpg" alt="NBA Championship Trophy">
+                <div class="award-overlay"></div>
+            </div>
+            <div class="award-content">
+                <h3>Mistrzostwo NBA</h3>
+                <div class="award-years">
+                    <span>2015</span>
+                    <span>2017</span>
+                    <span>2018</span>
+                    <span>2022</span>
+                </div>
+                <p class="award-description">4-krotny mistrz NBA z Golden State Warriors</p>
+            </div>
+        </div>
+
+        <div class="award-card">
+            <div class="award-image">
+                <img src="media/img/mvp.jpg" alt="MVP Trophy">
+                <div class="award-overlay"></div>
+            </div>
+            <div class="award-content">
+                <h3>MVP Sezonu</h3>
+                <div class="award-years">
+                    <span>2015</span>
+                    <span>2016</span>
+                </div>
+                <p class="award-description">Pierwszy w historii jednogłośny wybór MVP (2016)</p>
+            </div>
+        </div>
+
+        <div class="award-card">
+            <div class="award-image">
+                <img src="media/img/all-star.jpg" alt="All-Star Game">
+                <div class="award-overlay"></div>
+            </div>
+            <div class="award-content">
+                <h3>All-Star</h3>
+                <div class="award-years">
+                    <span>2014-2023</span>
+                </div>
+                <p class="award-description">9-krotny uczestnik NBA All-Star Game</p>
+            </div>
+        </div>
+
+        <div class="award-card">
+            <div class="award-image">
+                <img src="media/img/3-point-contest.webp" alt="3-Point Contest">
+                <div class="award-overlay"></div>
+            </div>
+            <div class="award-content">
+                <h3>3-Point Contest</h3>
+                <div class="award-years">
+                    <span>2015</span>
+                    <span>2021</span>
+                </div>
+                <p class="award-description">2-krotny zwycięzca konkursu rzutów za 3 punkty</p>
+            </div>
+        </div>
+        <div class="award-card">
+        <div class="award-image">
+            <img src="media/img/best-shooter.jpg" alt="Scoring Title">
+            <div class="award-overlay"></div>
+        </div>
+            <div class="award-content">
+                <h3>Król Strzelców</h3>
+                <div class="award-years">
+                    <span>2016</span>
+                    <span>2021</span>
+                </div>
+                <p class="award-description">2-krotny lider NBA w punktach na mecz, ze średnią 30.1 i 32.0 punktów</p>
+            </div>
+        </div>
+
+        <div class="award-card">
+            <div class="award-image">
+                <img src="media/img/3-record.webp" alt="Three Point Record">
+                <div class="award-overlay"></div>
+            </div>
+            <div class="award-content">
+                <h3>Rekord Trójek</h3>
+                <div class="award-years">
+                    <span>2021</span>
+                </div>
+                <p class="award-description">Rekord wszech czasów NBA w liczbie trafionych rzutów za 3 punkty (3,117)</p>
+            </div>
+        </div>
+    </div>
+    
+</section>
+    <div class="back-to-top">
+        <a href="#scroll-top">
+            <div class="top-btn">
+                <div class="top-icon">↑</div>
+            </div>
+        </a>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Steph Curry Fan Page</h4>
+                <p>Strona poświęcona karierze najlepszego strzelca w historii NBA.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Social Media</h4>
+                <div class="social-links">
+                    <a href="https://github.com/ShadyShade74" target="_blank">Github</a>
+                    <a href="https://www.instagram.com/stephencurry30" target="_blank">Instagram</a>
+                    <a href="https://www.facebook.com/StephenCurryOfficial" target="_blank">Facebook</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Steph Curry Fan Page ㅤ| ㅤ@ShadyShade74</p>
+        </div>
+    </footer>
+
+</body>
+</html>
