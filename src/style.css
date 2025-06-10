@@ -12,7 +12,8 @@ body {
     font-weight: 400;
     background-size: 200% auto;
     animation: gradient 2s linear infinite;
-    margin-left:50px;   
+    margin-top:20px; 
+    margin-left:20px;  
 }
 
 @keyframes gradient {
@@ -191,14 +192,13 @@ body {
     position: relative;
     width: 750px;
     height: 500px;
-    margin-left:50px ;
-    margin-top:50px;
+    margin:50px auto;
     padding: 25px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 25px;
-    background-color: rgba(35, 35, 35, 0.95);
+    background-color: rgba(35, 35, 35, 0.8);
     border: 3px solid;
     border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
     animation: borderGradient 3s ease infinite;
@@ -252,4 +252,17 @@ body {
 
 .block:hover::before {
     opacity: 1;
+}
+.about-container{
+    position: relative;
+    width: 900px;
+    height: 500px;
+    margin-left:150px ;
+    margin-top:100px;
+    padding: 25px;
+    background-color: rgba(35, 35, 35, 0.8);
+    border: 3px solid;
+    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
+    animation: borderGradient 3s ease infinite;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
