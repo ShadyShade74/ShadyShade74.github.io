@@ -34,7 +34,6 @@ body {
     position: relative;
 }
 
-/* Używamy pseudo-elementów zamiast span */
 .hamburger::before,
 .hamburger::after,
 .hamburger .middle {
@@ -53,7 +52,6 @@ body {
 .hamburger .middle { top: 15px; }
 .hamburger::after { top: 30px; }
 
-/* Animacja krzyżyka */
 .hamburger.active::before {
     transform: rotate(45deg) translate(12px, 12px);
 }
@@ -68,18 +66,24 @@ body {
 }
 
 .menu {
-    position: fixed;
-    top: 0;
-    right: -300px;
+    position: absolute;
+    top: 20px;
+    right: 0;
     width: 300px;
-    height: 100vh;
     background: rgba(35, 35, 35, 0.95);
-    transition: 0.5s all ease;
-    padding-top: 60px;
+    border-radius: 15px;
+    padding: 20px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .menu.active {
-    right: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .menu ul {
@@ -106,7 +110,6 @@ body {
 }
 
 .menu ul li a:hover {
-    color: #16b9bc;
     background: linear-gradient(to right, #038689, #018101);
     -webkit-background-clip: text;
     background-clip: text;
@@ -114,10 +117,12 @@ body {
     animation: gradient 1s linear infinite;
     filter: brightness(0.8);
 }
+
 .menu ul li:hover {
     background: rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
+
 .close-btn {
     position: absolute;
     top: 20px;
@@ -125,7 +130,6 @@ body {
     width: 30px;
     height: 30px;
     cursor: pointer;
-    font-size:50px;
 }
 
 .close-btn::before,
