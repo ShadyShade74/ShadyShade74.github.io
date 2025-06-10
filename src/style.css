@@ -187,12 +187,15 @@ body {
     50% { border-image: linear-gradient(45deg, #a918e7, #167da3, #a918e7) 1; }
     100% { border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1; }
 }
-
+.home-section{
+    display:flex;
+    justify-content:flex-end;
+}
 .block-container {
     position: relative;
     width: 750px;
     height: 500px;
-    margin:50px auto;
+    margin:50px;
     padding: 25px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -254,8 +257,12 @@ body {
     opacity: 1;
 }
 .about-container{
-    position: relative;
-    width: 900px;
+    display:flex;
+    justify-content:flex-start;
+    margin-left:100px;
+}
+.about-content{
+    width: 800px;
     height: 500px;
     margin-left:150px ;
     margin-top:100px;
@@ -264,15 +271,68 @@ body {
     border: 3px solid;
     border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
     animation: borderGradient 3s ease infinite;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);  
+}  
 .about-image{
+    position:relative;
     border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
     border: 3px solid;
     animation: borderGradient 3s ease infinite;
     transition:all 0.3s ease-in-out;
 }
-.about-image:hover{
+.about-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(22, 125, 163, 0.7), 
+        rgba(169, 24, 231, 0.7));
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+.about-image:hover::before {
+    opacity: 1;
+}
+.about-image:hover {
     box-shadow: 0px 5px 10px rgba(100, 24, 221, 0.75);
-    transition:all 0.3s ease-in-out;
+    transform: scale(1.02);
+
+}
+.about-text{
+    font-size:30px;
+    width:500px;
+    height:305px;
+    display:flex;
+    float:right;
+    background: linear-gradient(to right, #167da3, #a918e7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: 'Sour Gummy', sans-serif;
+}
+.about-blocks{
+    width:800px;
+    height:195px;
+    justify-content:end;
+}
+.about-block{
+    width:230px;
+    height:180px;
+    background-color: #1c1c1c;
+    float:left;
+    margin-top:20px;
+    margin-bottom:auto;
+    margin-left:15px;
+    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
+    border: 3px solid;
+    animation: borderGradient 3s ease infinite;
+
+}   
+.about-content-bottom{
+    height:195px;
+    width:800px;
 }
