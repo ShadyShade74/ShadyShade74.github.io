@@ -39,18 +39,29 @@ body {
 .hamburger .middle {
     content: '';
     position: absolute;
-    width: 100%;
     height: 4px;
     border-radius: 3px;
     transition: all 0.3s ease-in-out;
-    background: linear-gradient(to right,#167da3,#9a0cd7);
+    background: linear-gradient(to right, #16b9bc, #14b414);
     background-size: 200% auto;
     animation: gradient 2s linear infinite;
 }
-
-.hamburger::before { top: 0; }
-.hamburger .middle { top: 15px; }
-.hamburger::after { top: 30px; }
+.hamburger::before { 
+    top: 0;
+    width: 100%;
+}
+.hamburger .middle { 
+    top: 15px;
+    width: calc(100% - 5px);
+    right: 0;
+    margin-left:5px;
+}
+.hamburger::after { 
+    top: 30px;
+    width: calc(100% - 3px);
+    left: 0;
+    margin-right:10px;
+ }
 
 .hamburger.active::before {
     transform: rotate(45deg) translate(12px, 12px);
