@@ -30,4 +30,24 @@ document.addEventListener('DOMContentLoaded', function() {
             hamburger.style.opacity = '1';
         }
     });
+    document.querySelectorAll('.scroll-to').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                // Zamknij menu po kliknięciu
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                hamburger.style.opacity = '1';
+
+                // Płynne przewijanie
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
 });
