@@ -234,7 +234,7 @@ body {
 }
 .block:hover {
     transform: translateY(-10px);
-    box-shadow: 0 5px 15px rgba(22, 125, 163, 1);
+    
 }
 .block::before {
     content: '';
@@ -265,4 +265,14 @@ body {
     border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
     animation: borderGradient 3s ease infinite;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+.about-image{
+    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
+    border: 3px solid;
+    animation: borderGradient 3s ease infinite;
+    transition:all 0.3s ease-in-out;
+}
+.about-image:hover{
+    box-shadow: 0px 5px 10px rgba(100, 24, 221, 0.75);
+    transition:all 0.3s ease-in-out;
 }
