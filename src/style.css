@@ -9,7 +9,7 @@ body {
     color: transparent;
     font-size: 80px;
     font-family: 'Sour Gummy', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     background-size: 200% auto;
     animation: gradient 2s linear infinite;
     margin-top:20px; 
@@ -489,5 +489,19 @@ body {
     border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
     border: 3px solid;
     animation: borderGradient 3s ease infinite;
+}
+h2{
+    margin:50px auto;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to right,#48d3fd,#740cfd);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    animation:gradient 2s linear infinite;
+    font-family: 'Sour Gummy', sans-serif;
+    font-size:60px;
 }
 
