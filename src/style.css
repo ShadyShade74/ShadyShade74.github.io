@@ -192,6 +192,10 @@ body {
     justify-content:flex-start;
     height:660px;
 }
+.home-img{
+    display:flex;
+    justify-content:flex-end;
+}
 .block-container {
     position: relative;
     width: 750px;
@@ -352,4 +356,97 @@ body {
     display: flex;
     justify-content: flex-start;
     margin-top:150px;
+}
+.kafle-main-container {
+  background: rgba(30, 40, 60, 0.85);
+  border-radius: 32px;
+  padding: 40px 24px;
+  max-width: 1200px;
+  margin: 40px auto;
+  box-shadow: 0 4px 32px 0 rgba(30,40,60,0.10);
+}
+
+.kafle-container {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color:#232323c9;
+    margin:auto;
+    margin-top:100px;
+    height:250px;
+}
+
+.kafelek {
+    position: relative;
+    width: 15%;
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--bg) center/cover no-repeat;
+    opacity: 0.62;
+    box-shadow: 0 0 16px 2px rgba(30,40,60,0.13);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s, opacity 0.3s;
+    border: none;
+    animation: kafelek-glow 3s infinite alternate;
+    transition: all 0.7s ease;
+    font-family:'Sour Gummy', sans-serif;
+    
+}
+@keyframes kafelek-glow {
+  0% { box-shadow: 0 0 16px 2px #229ac5c7; }
+  100% { box-shadow: 0 0 28px 6px #a918e7cc; }
+   
+}
+
+.kafelek:hover {
+  opacity: 0.95;
+  box-shadow: 0 0 36px 10px #5a7bbd77;
+  animation: kafelek-glow-hover 1.2s infinite alternate;
+}
+
+@keyframes kafelek-glow-hover {
+  0% { box-shadow: 0 0 36px 10px #5a7bbdbd; }
+  100% { box-shadow: 0 0 48px 16px #9e5abdd5; }
+}
+
+.kafelek-text {
+  position: relative;
+  background: linear-gradient(to right,#48d3fd,#740cfd);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    animation:gradient 2s linear infinite;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  z-index: 2;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  text-shadow: 0 1px 8px #2a3a5a44;
+  transition: all 0.3s ease;
+}
+
+.kafelek:hover {
+  opacity: 1;
+  box-shadow: 0 0 16px 4px #7725d4;
+  transition:all 0.3s ease;
+  cursor:pointer;
+}
+.kafelek-link {
+  display: block;
+  text-decoration: none;
+  width: 15%;
+  height: 150px;
+  border-radius: 20px;
+}
+.kafelek-link .kafelek {
+  width: 100%;
+  height: 100%;
 }

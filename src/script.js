@@ -50,4 +50,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    // ANIMACJA FALI DLA KAFELKÓW
+    const kafelki = document.querySelectorAll('.kafelek');
+    let startTime = null;
+    const amplitude = 16; // wysokość fali w px
+    const period = 2000; // czas pełnej fali w ms
+
+    function animateWave(time) {
+        if (!startTime) startTime = time;
+        const elapsed = time - startTime;
+
+        kafelki.forEach((kafelek, i) => {
+            // Każdy kafelek ma przesunięcie fazy
+            const phase = (elapsed + i * (period / kafelki.length)) % period;
+            const angle = (phase / period) * 2 * Math.PI;
+            const y = Math.sin(angle) * amplitude;
+            kafelek.style.transform = `translateY(${y}px)`;
+        });
+
+        requestAnimationFrame(animateWave);
+    }
+
+    if (kafelki.length) {
+        requestAnimationFrame(animateWave);
+    }
 });
