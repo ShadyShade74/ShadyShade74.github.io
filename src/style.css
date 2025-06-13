@@ -402,9 +402,26 @@ body {
     
 }
 @keyframes kafelek-glow {
-  0% { box-shadow: 0 0 16px 2px #229ac5c7; }
-  100% { box-shadow: 0 0 28px 6px #a918e7cc; }
-   
+  0% { 
+    box-shadow: 
+      0 0 20px 5px #167da3,
+      0 0 30px 8px rgba(22, 125, 163, 0.6);
+  }
+  33% {
+    box-shadow: 
+      0 0 20px 5px #5a4cbd,
+      0 0 30px 8px rgba(90, 76, 189, 0.6);
+  }
+  66% {
+    box-shadow: 
+      0 0 20px 5px #9a0cd7,
+      0 0 30px 8px rgba(154, 12, 215, 0.6);
+  }
+  100% { 
+    box-shadow: 
+      0 0 20px 5px #167da3,
+      0 0 30px 8px rgba(22, 125, 163, 0.6);
+  }
 }
 
 .kafelek:hover {
@@ -413,8 +430,21 @@ body {
   animation: kafelek-glow-hover 1.2s infinite alternate;
 }
 @keyframes kafelek-glow-hover {
-  0% { box-shadow: 0 0 36px 10px #5a7bbdbd; }
-  100% { box-shadow: 0 0 48px 16px #9e5abdd5; }
+  0% { 
+    box-shadow: 
+      0 0 25px 8px #167da3,
+      0 0 35px 12px rgba(22, 125, 163, 0.7);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px 8px #9a0cd7,
+      0 0 35px 12px rgba(154, 12, 215, 0.7);
+  }
+  100% { 
+    box-shadow: 
+      0 0 25px 8px #167da3,
+      0 0 35px 12px rgba(22, 125, 163, 0.7);
+  }
 }
 
 .kafelek-text {
@@ -445,8 +475,8 @@ body {
 .kafelek-link {
   display: block;
   text-decoration: none;
-  width: 15%;
-  height: 150px;
+  width: 18%;
+  height: 200px;;
   border-radius: 20px;
 }
 .kafelek-link .kafelek {
