@@ -490,7 +490,7 @@ body {
     border: 3px solid;
     animation: borderGradient 3s ease infinite;
 }
-h2{
+.color-text{
     margin:50px auto;
     display: flex;
     justify-content: center;
@@ -512,10 +512,6 @@ h2{
 #contact h2 {
     text-align: center;
     margin-bottom: 50px;
-    background: linear-gradient(to right,#48d3fd,#740cfd);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
     font-family: 'Sour Gummy', sans-serif;
     font-size: 60px;
     animation: gradient 2s linear infinite;
