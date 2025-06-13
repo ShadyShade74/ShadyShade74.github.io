@@ -376,9 +376,6 @@ body {
     margin:auto;
     margin-top:100px;
     height:250px;
-    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
-    border: 3px solid;
-    animation: borderGradient 3s ease infinite;
 }
 
 .kafelek {
