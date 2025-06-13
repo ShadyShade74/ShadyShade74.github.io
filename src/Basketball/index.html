@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>NBA Legends</title>
@@ -7,14 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1 class="nba-gradient-title">The G.O.A.T.S</h1>
+    <h1 class="nba-gradient-title">NBA LEGENDS</h1>
 
     <div class="position-sections">
         <!-- Point Guards Section -->
         <section class="position-section point-guards">
             <h2 class="position-title">Point Guards</h2>
-            <div class="scroll-container">
-                <div class="kafle-row initial-view">
+            <div class="carousel-container">
+                <button class="carousel-button prev">❮</button>
+                <div class="carousel-track">
                     <a href="#" class="kafelek-link">
                         <div class="kafelek" style="--bg:url('media/magic.jpg')">
                             <span class="kafelek-text">Magic Johnson</span>
@@ -30,85 +31,83 @@
                             <span class="kafelek-text">John Stockton</span>
                         </div>
                     </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/chris.jpg')">
+                            <span class="kafelek-text">Chris Paul</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/thomas.jpg')">
+                            <span class="kafelek-text">Isiah Thomas</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/westbrook.jpg')">
+                            <span class="kafelek-text">Russell Westbrook</span>
+                        </div>
+                    </a>
                 </div>
-                <div class="kafle-row expanded-view hidden">
-                <!-- Original 3 remain in initial-view -->
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/chris.jpg')">
-                        <span class="kafelek-text">Chris Paul</span>
-                    </div>
-                </a>
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/thomas.jpg')">
-                        <span class="kafelek-text">Isiah Thomas</span>
-                    </div>
-                </a>
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/westbrook.jpg')">
-                        <span class="kafelek-text">Russell Westbrook</span>
-                    </div>
-                </a>
+                <button class="carousel-button next">❯</button>
+                <div class="carousel-dots"></div>
             </div>
-            </div>
-            <button class="expand-button">Show More</button>
         </section>
 
         <!-- Shooting Guards Section -->
         <section class="position-section shooting-guards">
             <h2 class="position-title">Shooting Guards</h2>
-            <div class="scroll-container">
-                <div class="kafle-row initial-view">
+            <div class="carousel-container">
+                <button class="carousel-button prev">❮</button>
+                <div class="carousel-track">
                     <a href="#" class="kafelek-link">
                         <div class="kafelek" style="--bg:url('media/jordan.jpg')">
                             <span class="kafelek-text">Michael Jordan</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('media/bryant.jpg')">
+                        <div class="kafelek" style="--bg:url('media/kobe.jpg')">
                             <span class="kafelek-text">Kobe Bryant</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('media/dwayne.jpg')">
-                            <span class="kafelek-text">Dwyane Wade</span>
+                        <div class="kafelek" style="--bg:url('media/wade.jpg')">
+                            <span class="kafelek-text">Dwayne Wade</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/allen.jpg')">
+                            <span class="kafelek-text">Ray Allen</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/reggie.jpg')">
+                            <span class="kafelek-text">Reggie Miller</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/harden.jpg')">
+                            <span class="kafelek-text">James Harden</span>
                         </div>
                     </a>
                 </div>
-                <div class="kafle-row expanded-view hidden">
-                <!-- Original 3 remain in initial-view -->
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/allen.webp')">
-                        <span class="kafelek-text">Ray Allen</span>
-                    </div>
-                </a>
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/reggie.jpg')">
-                        <span class="kafelek-text">Reggie Miller</span>
-                    </div>
-                </a>
-                <a href="#" class="kafelek-link">
-                    <div class="kafelek" style="--bg:url('media/harden.jpg')">
-                        <span class="kafelek-text">James Harden</span>
-                    </div>
-                </a>
+                <button class="carousel-button next">❯</button>
+                <div class="carousel-dots"></div>
             </div>
-            </div>
-            <button class="expand-button">Show More</button>
         </section>
 
         <!-- Small Forwards Section -->
         <section class="position-section small-forwards">
             <h2 class="position-title">Small Forwards</h2>
-            <div class="scroll-container">
-                <div class="kafle-row initial-view">
-                    <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('media/lebron.jpg')">
-                            <span class="kafelek-text">LeBron James</span>
-                        </div>
-                    </a>
+            <div class="carousel-container">
+                <button class="carousel-button prev">❮</button>
+                <div class="carousel-track">
                     <a href="#" class="kafelek-link">
                         <div class="kafelek" style="--bg:url('media/bird.jpg')">
                             <span class="kafelek-text">Larry Bird</span>
+                        </div>
+                    </a>
+                    <a href="#" class="kafelek-link">
+                        <div class="kafelek" style="--bg:url('media/lebron.jpg')">
+                            <span class="kafelek-text">LeBron James</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
@@ -116,113 +115,109 @@
                             <span class="kafelek-text">Kevin Durant</span>
                         </div>
                     </a>
-                </div>
-                <div class="kafle-row expanded-view hidden">
-                    <!-- Original 3 remain in initial-view -->
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/scottie-pippen.jpg')">
+                        <div class="kafelek" style="--bg:url('media/pippen.jpg')">
                             <span class="kafelek-text">Scottie Pippen</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/kawhi-leonard.jpg')">
+                        <div class="kafelek" style="--bg:url('media/kawhi.jpg')">
                             <span class="kafelek-text">Kawhi Leonard</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/paul-pierce.jpg')">
+                        <div class="kafelek" style="--bg:url('media/pierce.jpg')">
                             <span class="kafelek-text">Paul Pierce</span>
                         </div>
                     </a>
                 </div>
+                <button class="carousel-button next">❯</button>
+                <div class="carousel-dots"></div>
             </div>
-            <button class="expand-button">Show More</button>
         </section>
 
         <!-- Power Forwards Section -->
         <section class="position-section power-forwards">
             <h2 class="position-title">Power Forwards</h2>
-            <div class="scroll-container">
-                <div class="kafle-row initial-view">
+            <div class="carousel-container">
+                <button class="carousel-button prev">❮</button>
+                <div class="carousel-track">
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/tim-duncan.jpg')">
+                        <div class="kafelek" style="--bg:url('media/duncan.jpg')">
                             <span class="kafelek-text">Tim Duncan</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/karl-malone.jpg')">
+                        <div class="kafelek" style="--bg:url('media/malone.jpg')">
                             <span class="kafelek-text">Karl Malone</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/dirk-nowitzki.jpg')">
+                        <div class="kafelek" style="--bg:url('media/dirk.jpg')">
                             <span class="kafelek-text">Dirk Nowitzki</span>
                         </div>
                     </a>
-                </div>
-                <div class="kafle-row expanded-view hidden">
-                    <!-- Original 3 remain in initial-view -->
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/kevin-garnett.jpg')">
+                        <div class="kafelek" style="--bg:url('media/garnett.jpg')">
                             <span class="kafelek-text">Kevin Garnett</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/charles-barkley.jpg')">
+                        <div class="kafelek" style="--bg:url('media/barkley.jpg')">
                             <span class="kafelek-text">Charles Barkley</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/chris-webber.jpg')">
-                            <span class="kafelek-text">Chris Webber</span>
+                        <div class="kafelek" style="--bg:url('media/mchale.jpg')">
+                            <span class="kafelek-text">Kevin McHale</span>
                         </div>
                     </a>
                 </div>
+                <button class="carousel-button next">❯</button>
+                <div class="carousel-dots"></div>
             </div>
-            <button class="expand-button">Show More</button>
         </section>
 
         <!-- Centers Section -->
         <section class="position-section centers">
             <h2 class="position-title">Centers</h2>
-            <div class="scroll-container">
-                <div class="kafle-row initial-view">
+            <div class="carousel-container">
+                <button class="carousel-button prev">❮</button>
+                <div class="carousel-track">
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/kareem-abdul-jabbar.jpg')">
+                        <div class="kafelek" style="--bg:url('media/kareem.jpg')">
                             <span class="kafelek-text">Kareem Abdul-Jabbar</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/shaquille-oneal.jpg')">
+                        <div class="kafelek" style="--bg:url('media/shaq.jpg')">
                             <span class="kafelek-text">Shaquille O'Neal</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/hakeem-olajuwon.jpg')">
+                        <div class="kafelek" style="--bg:url('media/hakeem.jpg')">
                             <span class="kafelek-text">Hakeem Olajuwon</span>
                         </div>
                     </a>
-                </div>
-                <div class="kafle-row expanded-view hidden">
-                    <!-- Original 3 remain in initial-view -->
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/ray-allen.jpg')">
-                            <span class="kafelek-text">Ray Allen</span>
+                        <div class="kafelek" style="--bg:url('media/wilt.jpg')">
+                            <span class="kafelek-text">Wilt Chamberlain</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/reggie-miller.jpg')">
-                            <span class="kafelek-text">Reggie Miller</span>
+                        <div class="kafelek" style="--bg:url('media/russell.jpg')">
+                            <span class="kafelek-text">Bill Russell</span>
                         </div>
                     </a>
                     <a href="#" class="kafelek-link">
-                        <div class="kafelek" style="--bg:url('images/james-harden.jpg')">
-                            <span class="kafelek-text">James Harden</span>
+                        <div class="kafelek" style="--bg:url('media/robinson.jpg')">
+                            <span class="kafelek-text">David Robinson</span>
                         </div>
                     </a>
                 </div>
+                <button class="carousel-button next">❯</button>
+                <div class="carousel-dots"></div>
             </div>
-            <button class="expand-button">Show More</button>
         </section>
     </div>
 
