@@ -376,6 +376,9 @@ body {
     margin:auto;
     margin-top:100px;
     height:250px;
+    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
+    border: 3px solid;
+    animation: borderGradient 3s ease infinite;
 }
 
 .kafelek {
@@ -396,6 +399,7 @@ body {
     transition: all 0.7s ease;
     font-family:'Sour Gummy', sans-serif;
     
+    
 }
 @keyframes kafelek-glow {
   0% { box-shadow: 0 0 16px 2px #229ac5c7; }
@@ -408,7 +412,6 @@ body {
   box-shadow: 0 0 36px 10px #5a7bbd77;
   animation: kafelek-glow-hover 1.2s infinite alternate;
 }
-
 @keyframes kafelek-glow-hover {
   0% { box-shadow: 0 0 36px 10px #5a7bbdbd; }
   100% { box-shadow: 0 0 48px 16px #9e5abdd5; }
@@ -449,4 +452,14 @@ body {
 .kafelek-link .kafelek {
   width: 100%;
   height: 100%;
+}
+.kafle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    border-image: linear-gradient(45deg, #167da3, #a918e7, #167da3) 1;
+    border: 3px solid;
+    animation: borderGradient 3s ease infinite;
 }
