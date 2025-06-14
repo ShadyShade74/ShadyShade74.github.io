@@ -1,8 +1,47 @@
 body {
     background: linear-gradient(to right, #303030, #232323);
 }
+.sticky-logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background:linear-gradient(to right, #167da3, #9a0cd7);
+    transition: transform 0.3s ease;
+}
 
-.logo {
+.sticky-logo:hover {
+    transform: scale(1.1);
+}
+.logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .sticky-logo {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .logo-image {
+        width: 40px;
+        height: 40px;
+    }
+}
+.logo{
+    width:100px;
+    height:100px;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content:flex-start;
+}
+.text-logo {
     background: linear-gradient(to right,#167da3,#9a0cd7);
     -webkit-background-clip: text;
     background-clip: text;
@@ -13,7 +52,7 @@ body {
     background-size: 200% auto;
     animation: gradient 2s linear infinite;
     margin-top:20px; 
-    margin-left:20px;  
+    margin-left:200px;  
 }
 
 @keyframes gradient {
