@@ -272,14 +272,19 @@ body {
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: rgba(22, 125, 163, 0.3);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.dot:hover {
+    background: rgba(154, 12, 215, 0.5);
+}
+
 .dot.active {
     background: rgba(154, 12, 215, 0.8);
+    transform: scale(1.2);
 }

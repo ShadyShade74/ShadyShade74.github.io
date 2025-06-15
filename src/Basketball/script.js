@@ -31,14 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         initDots() {
-            const dotsCount = Math.ceil(this.slides.length / (3 * this.slidesPerView));
+            const dotsCount = 6; // Stała liczba kafelków
             for (let i = 0; i < dotsCount; i++) {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
                 if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => this.goToSlide(i + this.slides.length / 3)); // Dodajemy offset
                 this.dotsContainer.appendChild(dot);
-            }
         }
+    }
         
         addEventListeners() {
             this.nextButton.addEventListener('click', () => this.next());
@@ -75,11 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         updateDots() {
-            const activeDotIndex = Math.floor((this.currentIndex % (this.slides.length / 3)) / this.slidesPerView);
-            this.dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === activeDotIndex);
-            });
-        }
+        // Aktualizujemy logikę zaznaczania aktywnej kropki
+        const normalizedIndex = this.currentIndex % (this.slides.length / 3);
+        const activeDotIndex = Math.floor(normalizedIndex % 6); // Modulo 6 dla 6 kafelków
+        
+        this.dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === activeDotIndex);
+        });
+    }
         
         next() {
             this.goToSlide(this.currentIndex + 1);
