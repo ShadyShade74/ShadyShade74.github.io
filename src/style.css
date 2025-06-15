@@ -7,9 +7,7 @@ body {
     left: 20px;
     z-index: 1000;
     cursor: pointer;
-    padding: 10px;
     border-radius: 50%;
-    background:linear-gradient(to right, #167da3, #9a0cd7);
     transition: transform 0.3s ease;
 }
 
@@ -46,13 +44,13 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-size: 80px;
+    font-size: 100px;
     font-family: 'Sour Gummy', sans-serif;
-    font-weight: 00;
+    font-weight: 600;
     background-size: 200% auto;
     animation: gradient 2s linear infinite;
     margin-top:20px; 
-    margin-left:200px;  
+    margin-left:100px;  
 }
 
 @keyframes gradient {
@@ -228,12 +226,8 @@ body {
 }
 .home-section{
     display:flex;
-    justify-content:flex-start;
+    justify-content:center;
     height:660px;
-}
-.home-img{
-    display:flex;
-    justify-content:flex-end;
 }
 .block-container {
     position: relative;
@@ -302,11 +296,11 @@ body {
 }
 .about-container{
     display:flex;
-    justify-content:flex-end;
+    justify-content:center;
     margin-right:100px;
 }
 .about-content{
-    width: 800px;
+    width: 1000px;
     height: 500px;
     margin-left:150px ;
     margin-top:100px;
@@ -527,7 +521,7 @@ body {
 
 .kafelek {
     position: relative;
-    width: 10%;
+    width: 15%;
     height: 150px;
     border-radius: 20px;
     overflow: hidden;
@@ -673,7 +667,7 @@ body {
 .kafelek-link {
   display: block;
   text-decoration: none;
-  width: 10%;
+  width: 15%;
   height: 200px;;
   border-radius: 20px;
    width: 250px;
@@ -760,8 +754,8 @@ body {
     background: linear-gradient(45deg, #24292e, #2b3137);
 }
 
-.social-icon.facebook {
-    background: linear-gradient(45deg, #1877f2, #0a66c2);
+.social-icon.linkedin {
+    background: linear-gradient(45deg, #0077B5, #00A0DC);
 }
 
 
