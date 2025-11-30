@@ -53,7 +53,8 @@ for (let i=1 ; i<10; i++){
     ))
 
 }
-
+const buildings = []
+let activeTile = undefined
 function animate(){
     requestAnimationFrame(animate)
     c.drawImage(image, 0 , 0, canvas.width , canvas.height)
@@ -75,4 +76,16 @@ window.addEventListener('mousemove', (event) => {
 
     mouse.x = event.clientX - rect.left
     mouse.y = event.clientY - rect.top
+}
+    placementTiles.forEach(tile => {
+        if(
+            mouse.x > this.position.x &&
+            mouse.x < this.position.x + this.size &&
+            mouse.y > this.position.y &&
+            mouse.y < this.position.y + this.size
+
+        ) {
+            activeTile = tile
+        }
+    })
 })

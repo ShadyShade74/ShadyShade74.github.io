@@ -68,5 +68,12 @@ class PlacementTile {
     }
     }
 class building {
-    
+    constructor({position = {x:0 , y:0} }) {
+        this.position = position
+
+    }
+    draw(){
+        c.fillStyle='blue'
+        c.fillRect(this.position.x , this.position.y , 64 , 64)
+    }
 }
