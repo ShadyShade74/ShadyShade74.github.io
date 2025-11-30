@@ -14,7 +14,8 @@ for (let i = 0; i < placementData.length; i += 20) {
 const image = new Image()
 
 image.onload = () => {
-    c.drawImage(image, 0, 0, canvas.width, canvas.height)  
+    animate()
+  
 }
 image.src = 'media/map.png'
 
@@ -55,14 +56,23 @@ for (let i=1 ; i<10; i++){
 
 function animate(){
     requestAnimationFrame(animate)
-    c.drawImage(image, 0 , 0)
+    c.drawImage(image, 0 , 0, canvas.width , canvas.height)
 
     enemies.forEach(enemy => {
         enemy.update()
     })
     placementTiles.forEach(tile => {
-        tile.draw()
+        tile.update(mouse)
     })
 } 
 
-animate()
+const mouse = {
+    x: undefined,
+    y: undefined
+}
+window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect()
+
+    mouse.x = event.clientX - rect.left
+    mouse.y = event.clientY - rect.top
+})
