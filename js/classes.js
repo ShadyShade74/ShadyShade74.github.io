@@ -17,7 +17,6 @@ class Enemy {
     update(){
         this.draw()
         
-
         const waypoint = waypoints[this.waypointIndex]
         const yDistance = waypoint.y - this.center.y
         const xDistance = waypoint.x - this.center.x
@@ -36,44 +35,50 @@ class Enemy {
             this.waypointIndex < waypoints.length -1
         ){ 
             this.waypointIndex++
-    }
+        }
     }
 }
+
 class PlacementTile {
+    constructor({ position = { x: 0, y: 0 }, xIndex = 0, yIndex = 0 }) {
+        this.position = position;
+        this.gridX = xIndex;
+        this.gridY = yIndex;
+        this.size = 64;
+        this.color = 'rgba(255,255,255,0.2)';
+        this.occupied = false;
+    }
+
+    draw() {
+        c.fillStyle = this.color;
+        c.fillRect(this.position.x, this.position.y, this.size, this.size);
+    }
+
+    isHovered(mouse) {
+        return mouse.x > this.position.x &&
+               mouse.x < this.position.x + this.size &&
+               mouse.y > this.position.y &&
+               mouse.y < this.position.y + this.size;
+    }
+
+    update(highlight) {
+        this.color = highlight
+            ? 'rgba(255,255,255,0.3)'
+            : 'rgba(255,255,255,0.15)';
+
+        this.draw();
+    }
+}
+
+class Building {
     constructor({position = {x:0 , y:0} }) {
         this.position = position
-        this.size = 64 
-        this.color = 'rgba(255, 255, 255, 0.15)'
+        this.width = 128
+        this.height = 128
     }
-    draw(){
-        c.fillStyle=this.color
-        c.fillRect(this.position.x , this.position.y , 64 , 64)
-
-    }
-    update(mouse){
-            this.draw()
-
-        if(
-            mouse.x > this.position.x &&
-            mouse.x < this.position.x + this.size &&
-            mouse.y > this.position.y &&
-            mouse.y < this.position.y + this.size
-
-        ) {
-        this.color = 'rgba(255, 255, 255, 0.3)';
-        } else {
-            this.color = 'rgba(255, 255, 255, 0.15)';
-        }
-        
-    }
-    }
-class building {
-    constructor({position = {x:0 , y:0} }) {
-        this.position = position
-
-    }
+    
     draw(){
         c.fillStyle='blue'
-        c.fillRect(this.position.x , this.position.y , 64 , 64)
+        c.fillRect(this.position.x , this.position.y , this.width , this.height)
     }
 }
