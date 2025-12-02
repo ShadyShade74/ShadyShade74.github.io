@@ -43,35 +43,33 @@ class Enemy {
 }
 
 class PlacementTile {
-    constructor({ position = { x: 0, y: 0 }, xIndex = 0, yIndex = 0 }) {
+    constructor({ position, xIndex, yIndex }) {
         this.position = position;
         this.gridX = xIndex;
         this.gridY = yIndex;
         this.size = 64;
-        this.color = 'rgba(255,255,255,0.2)';
         this.occupied = false;
+        this.highlight = false;
     }
 
     draw() {
-        c.fillStyle = this.color;
-        c.fillRect(this.position.x, this.position.y, this.size, this.size);
-        
-
+        if (this.highlight) {
+            c.fillStyle = 'rgba(255,255,255,0.3)';
+            c.fillRect(this.position.x, this.position.y, this.size, this.size);
+        }
+        else {
+            c.fillStyle = 'rgba(255,255,255,0.15)';
+            c.fillRect(this.position.x, this.position.y, this.size, this.size);
+        }
     }
 
     isHovered(mouse) {
-        return mouse.x > this.position.x &&
-               mouse.x < this.position.x + this.size &&
-               mouse.y > this.position.y &&
-               mouse.y < this.position.y + this.size;
-    }
-
-    update(highlight) {
-        this.color = highlight
-            ? 'rgba(255,255,255,0.3)'
-            : 'rgba(255,255,255,0.15)';
-
-        this.draw();
+        return (
+            mouse.x >= this.position.x &&
+            mouse.x < this.position.x + this.size &&
+            mouse.y >= this.position.y &&
+            mouse.y < this.position.y + this.size
+        );
     }
 }
 
@@ -92,12 +90,15 @@ class Building {
                 }
             })
         ]
+        
+        this.enemy = enemies[0] 
     }
     
     draw(){
         c.fillStyle='blue'
         c.fillRect(this.position.x , this.position.y , this.width , this.height)
     }
+
 }
 class Projectile {
     constructor({position = {x:0 , y:0}, enemy}) {
