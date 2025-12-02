@@ -119,5 +119,8 @@ class Projectile {
 
         this.velocity.x = Math.cos(angle)
         this.velocity.y = Math.sin(angle)
+
+        this.position.x += this.velocity.x 
+        this.position.y += this.velocity.y 
     }
 }
