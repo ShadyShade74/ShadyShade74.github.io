@@ -8,11 +8,14 @@ class Enemy {
             x: this.position.x + this.width /2,
             y: this.position.y + this.height /2
         }
+        this.radius = 50
     }
 
     draw(){
         c.fillStyle='red'
-        c.fillRect(this.position.x , this.position.y , this.width , this.height)
+        c.beginPath()
+        c.arc(this.center.x , this.center.y , this.radius , 0 ,Math.PI * 2)
+        c.fill()
     }
     update(){
         this.draw()
@@ -52,6 +55,8 @@ class PlacementTile {
     draw() {
         c.fillStyle = this.color;
         c.fillRect(this.position.x, this.position.y, this.size, this.size);
+        
+
     }
 
     isHovered(mouse) {
@@ -95,12 +100,13 @@ class Building {
     }
 }
 class Projectile {
-    constructor({position = {x:0 , y:0}}) {
+    constructor({position = {x:0 , y:0}, enemy}) {
         this.position = position
         this.velocity ={
             x:0,
             y:0
         }
+        this.enemy = enemy
         
     }
     draw(){
@@ -108,5 +114,19 @@ class Projectile {
         c.arc(this.position.x , this.position.y , 10 , 0 , Math.PI *2 )
         c.fillStyle='orange'
         c.fill()
+    }
+    update(){
+        this.draw()
+
+        const angle = Math.atan2(
+            enemies[0].center.y -this.position.y,
+            enemies[0].center.x -this.position.x
+
+        )
+        this.velocity.x = Math.cos(angle)
+        this.velocity.y = Math.sin(angle)
+
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
     }
 }

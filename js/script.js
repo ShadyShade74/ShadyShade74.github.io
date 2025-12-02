@@ -144,7 +144,10 @@ function animate() {
         building.draw()
 
         building.projectiles.forEach(projectile => {
-          projectile.draw()
+          projectile.update()
+
+          const xDifference = projectile.enemy.position.x -projectile.position.x
+          const distance = Math.hypot()
         })
     });
 
@@ -186,7 +189,6 @@ window.addEventListener('mousemove', (event) => {
     ) {
       activeTile = tile
       
-      // Sprawdź czy 3-kafelkowa L-shape jest dostępna
       const lShape = getValidLShape(tile.gridX, tile.gridY)
       if (lShape) {
         activeLShapeTiles = lShape
