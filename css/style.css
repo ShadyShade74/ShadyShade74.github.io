@@ -1,0 +1,7 @@
+body{
+    background:linear-gradient(to right , rgb(107, 190, 190) , rgb(10, 196, 196));
+}
+canvas{
+    display:block;
+    margin:0 auto;
+}
