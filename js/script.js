@@ -52,10 +52,11 @@ function spawnEnemies(enemyCount){
     )
   }
 }
-spawnEnemies()
+
 const buildings = []
 let enemyCount =3
 let activeTile = undefined
+spawnEnemies(enemyCount)
 
 function animate() {
     requestAnimationFrame(animate)
