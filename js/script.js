@@ -58,7 +58,7 @@ function animate() {
     requestAnimationFrame(animate)
 
     c.drawImage(image, 0, 0)
-    for(let i = building.projectiles.length - 1; i >= 0; i--){
+    for(let i = enemies.length - 1; i >= 0; i--){
       const enemy = enemies[0]
       enemy.update()
     }
