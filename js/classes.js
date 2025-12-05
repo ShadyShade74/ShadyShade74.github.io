@@ -83,21 +83,35 @@ class Building {
       y: this.position.y + this.height / 2
 
     }
-    this.projectiles = [
-      new Projectile({
-          position: {
-            x: this.center.x,
-            y: this.center.y
-          },
-    })
-    ]
-    
+    this.projectiles = []
+    this.radius = 250
+    this.target 
+    this.frames = 0
   }
 
   draw() {
     c.fillStyle = 'blue'
     c.fillRect(this.position.x, this.position.y, this.width, 64)
-    
+
+    c.beginPath()
+    c.arc(this.center.x , this.center.y, this.radius, 0 , Math.PI * 2)
+    c.fillStyle = 'rgba(0, 179, 255, 0.37)'
+    c.fill()
+  }
+  update(){
+    this.draw()
+    if (this.frames % 100 ===0 && this.target){
+      this.projectiles.push(
+        new Projectile({
+          position: {
+              x: this.center.x,
+              y: this.center.y
+            },
+          enemy : this.target 
+        })
+      )
+    }
+    this.frames++
   }
 }
 
@@ -110,6 +124,8 @@ class Projectile {
       y: 0
     }
     this.radius = 10
+    this.enemy = enemy
+
   }
 
   draw() {
@@ -123,12 +139,13 @@ class Projectile {
     this.draw()
 
     const angle = Math.atan2(
-      enemies[0].position.y - this.position.y,
-      enemies[0].position.x - this.position.x
+      this.enemy.center.y - this.position.y,
+      this.enemy.center.x - this.position.x
     )
 
-    this.velocity.x = Math.cos(angle)
-    this.velocity.y = Math.sin(angle)
+    const power = 5
+    this.velocity.x = Math.cos(angle) * power
+    this.velocity.y = Math.sin(angle) * power
 
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
