@@ -39,6 +39,7 @@ class Enemy {
     }
     this.radius = 35
     this.health = 100
+    this.armor = 1
   }
 
   draw() {
@@ -96,6 +97,7 @@ class Building {
     this.radius = 250
     this.target 
     this.frames = 0
+    this.towerDamage = 20
   }
 
   draw() {
@@ -116,7 +118,8 @@ class Building {
               x: this.center.x,
               y: this.center.y
             },
-          enemy : this.target 
+          enemy : this.target ,
+          damage : this.towerDamage/ this.target.armor
         })
       )
     }
@@ -126,7 +129,7 @@ class Building {
 
 
 class Projectile {
-  constructor({ position = { x: 0, y: 0 }, enemy }) {
+  constructor({ position = { x: 0, y: 0 }, enemy , damage}) {
     this.position = position
     this.velocity = {
       x: 0,
@@ -134,6 +137,7 @@ class Projectile {
     }
     this.radius = 10
     this.enemy = enemy
+    this.damage = damage
 
   }
 
