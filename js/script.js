@@ -50,17 +50,20 @@ function spawnEnemies(enemyCount){
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
       })
     )
+    
   }
 }
 
 const buildings = []
 let enemyCount =3
+let xp =0
+let waveCounter =1
 let activeTile = undefined
 spawnEnemies(enemyCount)
 
 function animate() {
     requestAnimationFrame(animate)
-
+  
     c.drawImage(image, 0, 0)
     for(let i = enemies.length - 1; i >= 0; i--){
       const enemy = enemies[i]
@@ -89,7 +92,6 @@ function animate() {
         const xDifference = projectile.enemy.center.x - projectile.position.x
         const yDifference = projectile.enemy.center.y - projectile.position.y
         const distance = Math.hypot(xDifference , yDifference)
-        //when projectile hits a target
         if(distance < projectile.enemy.radius + projectile.radius){
           projectile.enemy.health -= projectile.damage
           if (projectile.enemy.health <= 0){
@@ -98,17 +100,21 @@ function animate() {
               return projectile.enemy === enemy
             })
             if(enemyIndex > -1)enemies.splice(enemyIndex , 1)
+            xp += 5
           }
             if(enemies.length === 0){
               enemyCount += 2
               spawnEnemies(enemyCount)
+              waveCounter += 1
             }
           building.projectiles.splice(i, 1)
         }
       }
     })
+    console.log(`XP: ${xp} | Wave: ${waveCounter}`)
 }
-
+console.log(xp)
+console.log(waveCounter)
 
 const mouse = {
   x: undefined,
