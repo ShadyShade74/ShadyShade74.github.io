@@ -1,5 +1,7 @@
 body{
     background:linear-gradient(to right , rgb(129, 170, 216) , rgb(145, 196, 222));
+    font-size:35px;
+    color:aliceblue;
 }
 canvas{
     display:block;
@@ -14,6 +16,9 @@ canvas{
     margin: 5px 0;
     font-size: 50px;
     font-weight: bold;
+}
+.pop_up{
+    display:none;
 }
 .stats{
     position: fixed;
