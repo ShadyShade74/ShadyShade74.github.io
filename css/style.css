@@ -5,3 +5,23 @@ canvas{
     display:block;
     margin:0 auto;
 }
+.game-container {
+    position: relative;
+    width: 1280px;
+    height: 768px;
+}
+.wave-display {
+    margin: 5px 0;
+    font-size: 50px;
+    font-weight: bold;
+}
+.stats{
+    position: fixed;
+    top:20px;
+    left: 120px;
+    padding: 10px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    font-family: Arial, sans-serif;
+    border-radius: 0 0 5px 0;
+}

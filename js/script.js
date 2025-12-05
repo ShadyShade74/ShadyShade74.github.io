@@ -7,6 +7,10 @@ canvas.height = 768
 c.fillStyle = 'white'
 c.fillRect(0, 0, canvas.width, canvas.height)
 
+const waveDisplay = document.querySelector('.wave-display')
+function WaveUpdate(){
+  waveDisplay.textContent = `Wave: ${waveCounter} / ${win}`
+}
 const placementTilesData2D = []
 
 for (let i = 0; i < placementTilesData.length; i += 20) {
@@ -59,6 +63,8 @@ let enemyCount =3
 let xp =0
 let waveCounter =1
 let activeTile = undefined
+let win = 40
+let winCounter = 0
 spawnEnemies(enemyCount)
 
 function animate() {
@@ -106,15 +112,14 @@ function animate() {
               enemyCount += 2
               spawnEnemies(enemyCount)
               waveCounter += 1
+              winCounter += 1
             }
           building.projectiles.splice(i, 1)
         }
       }
     })
-    console.log(`XP: ${xp} | Wave: ${waveCounter}`)
+    WaveUpdate()
 }
-console.log(xp)
-console.log(waveCounter)
 
 const mouse = {
   x: undefined,
