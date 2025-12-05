@@ -30,20 +30,20 @@ class PlacementTile {
 class Enemy {
   constructor({ position = { x: 0, y: 0 } }) {
     this.position = position
-    this.width = 50
-    this.height = 50
+    this.width = 32
+    this.height = 32
     this.waypointIndex = 0
     this.center = {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2
     }
-    this.radius = 50 
+    this.radius = 32 
   }
 
   draw() {
     c.fillStyle = 'green'
     c.beginPath()
-    c.arc(this.position.x ,this.position.y ,this.radius ,0 , Math.PI * 2)
+    c.arc(this.center.x ,this.center.y ,this.radius ,0 , Math.PI * 2)
     c.fill()
   }
 
