@@ -58,10 +58,10 @@ function animate() {
     requestAnimationFrame(animate)
 
     c.drawImage(image, 0, 0)
-    enemies.forEach((enemy) => {
+    for(let i = building.projectiles.length - 1; i >= 0; i--){
+      const enemy = enemies[0]
       enemy.update()
-    })
-
+    }
     placementTiles.forEach((tile) => {
       tile.update(mouse)
     })
@@ -93,7 +93,7 @@ function animate() {
 
               return projectile.enemy === enemy
             })
-            enemies.splice(enemyIndex , 1)
+            if(enemyIndex > -1)enemies.splice(enemyIndex , 1)
           }
           building.projectiles.splice(i, 1)
         }
