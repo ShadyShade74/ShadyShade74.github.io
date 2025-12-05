@@ -85,7 +85,16 @@ function animate() {
         const xDifference = projectile.enemy.center.x - projectile.position.x
         const yDifference = projectile.enemy.center.y - projectile.position.y
         const distance = Math.hypot(xDifference , yDifference)
+        //when projectile hits a target
         if(distance < projectile.enemy.radius + projectile.radius){
+          projectile.enemy.health -= 20
+          if (projectile.enemy.health <= 0){
+            const enemyIndex = enemies.findIndex((enemy) =>{
+
+              return projectile.enemy === enemy
+            })
+            enemies.splice(enemyIndex , 1)
+          }
           building.projectiles.splice(i, 1)
         }
       }
