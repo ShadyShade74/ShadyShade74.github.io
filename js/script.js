@@ -38,7 +38,7 @@ const image = new Image()
 image.onload = () => {
   animate()
 }
-image.src = 'media/Map.png'
+image.src = 'media/map.png'
 
 const enemies = []
 for (let i = 1; i < 10; i++) {
@@ -68,6 +68,10 @@ function animate() {
 
   buildings.forEach((building) => {
     building.draw()
+
+    building.projectiles.forEach((projectile) => {
+      projectile.update()
+    })
   })
 }
 
