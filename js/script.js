@@ -42,8 +42,8 @@ image.src = 'media/map.png'
 
 const enemies = []
 
-function spawnEnemies(){
-  for (let i = 1; i < 10; i++) {
+function spawnEnemies(enemyCount){
+  for (let i = 1; i < enemyCount + 1; i++) {
     const xOffset = i * 100
     enemies.push(
       new Enemy({
@@ -54,6 +54,7 @@ function spawnEnemies(){
 }
 spawnEnemies()
 const buildings = []
+let enemyCount =3
 let activeTile = undefined
 
 function animate() {
@@ -97,6 +98,10 @@ function animate() {
             })
             if(enemyIndex > -1)enemies.splice(enemyIndex , 1)
           }
+            if(enemies.length === 0){
+              enemyCount += 2
+              spawnEnemies(enemyCount)
+            }
           building.projectiles.splice(i, 1)
         }
       }
