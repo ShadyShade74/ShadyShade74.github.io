@@ -59,7 +59,7 @@ function animate() {
 
     c.drawImage(image, 0, 0)
     for(let i = enemies.length - 1; i >= 0; i--){
-      const enemy = enemies[0]
+      const enemy = enemies[i]
       enemy.update()
     }
     placementTiles.forEach((tile) => {
