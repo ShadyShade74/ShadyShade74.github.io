@@ -41,16 +41,18 @@ image.onload = () => {
 image.src = 'media/map.png'
 
 const enemies = []
-for (let i = 1; i < 10; i++) {
-  const xOffset = i * 100
-  enemies.push(
-    new Enemy({
-      position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
-    })
-  )
 
+function spawnEnemies(){
+  for (let i = 1; i < 10; i++) {
+    const xOffset = i * 100
+    enemies.push(
+      new Enemy({
+        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
+      })
+    )
+  }
 }
-
+spawnEnemies()
 const buildings = []
 let activeTile = undefined
 
