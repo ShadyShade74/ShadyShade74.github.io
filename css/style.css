@@ -11,6 +11,8 @@ canvas{
     position: relative;
     width: 1280px;
     height: 768px;
+    display:block;
+    margin:0 auto;
 }
 .wave-display {
     margin: 5px 0;
@@ -32,8 +34,8 @@ canvas{
 }
 .stats{
     position: fixed;
-    top:20px;
-    left: 120px;
+    top:8px;
+    left: 310px;
     padding: 10px;
     color: white;
     background: rgba(0, 0, 0, 0.5);
