@@ -9,6 +9,11 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 const placementTilesData2D = []
 
+const waveDisplay = document.querySelector('.wave-display')
+function WaveUpdate(){
+  waveDisplay.textContent = `Wave: ${waveCount} / ${waves}`
+}
+
 for (let i = 0; i < placementTilesData.length; i += 20) {
   placementTilesData2D.push(placementTilesData.slice(i, i + 20))
 }
@@ -42,8 +47,8 @@ image.src = 'media/map.png'
 
 const enemies = []
 
-function spawnEnemies(){
-  for (let i = 1; i < 10; i++) {
+function spawnEnemies(enemyCount){
+  for (let i = 1; i < enemyCount + 1; i++) {
     const xOffset = i * 100
     enemies.push(
       new Enemy({
@@ -52,9 +57,14 @@ function spawnEnemies(){
     )
   }
 }
-spawnEnemies()
+
+
 const buildings = []
 let activeTile = undefined
+let enemyCount = 3
+let waveCount = 1
+let waves = 50
+spawnEnemies(3)
 
 function animate() {
     requestAnimationFrame(animate)
@@ -96,10 +106,16 @@ function animate() {
             })
             if(enemyIndex > -1)enemies.splice(enemyIndex , 1)
           }
+          if(enemies.length === 0){
+            enemyCount += 2
+            spawnEnemies(enemyCount)
+            waveCount += 1
+          }
           building.projectiles.splice(i, 1)
         }
       }
     })
+    WaveUpdate()
 }
 
 
