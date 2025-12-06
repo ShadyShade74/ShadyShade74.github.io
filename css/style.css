@@ -27,8 +27,8 @@ canvas{
     color:transparent;
     font-family: 'Sour Gummy', cursive;
     position:absolute;
-    top:50%;
-    right:20%;
+    /*top:50%;
+    right:20%;*/
 }
 .stats{
     position: fixed;
