@@ -17,8 +17,8 @@ canvas{
     font-size: 50px;
     font-weight: bold;
 }
-.pop_up{
-    display:none;
+.game-over{
+    
 }
 .stats{
     position: fixed;
@@ -27,6 +27,6 @@ canvas{
     padding: 10px;
     color: white;
     background: rgba(0, 0, 0, 0.5);
-    font-family: Arial, sans-serif;
+    font-family: 'Sour Gummy', cursive;
     border-radius: 0 0 5px 0;
 }
