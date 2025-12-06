@@ -40,6 +40,10 @@ class Enemy {
     this.radius = 35
     this.health = 100
     this.armor = 1
+    this.velocity = {
+      x:0,
+      y:0
+    }
   }
 
   draw() {
@@ -64,6 +68,8 @@ class Enemy {
     const yDistance = waypoint.y - this.center.y
     const xDistance = waypoint.x - this.center.x
     const angle = Math.atan2(yDistance, xDistance)
+    this.velocity.x = Math.cos(angle)
+    this.velocity.y = Math.sin(angle)
     this.position.x += Math.cos(angle)
     this.position.y += Math.sin(angle)
     this.center = {
