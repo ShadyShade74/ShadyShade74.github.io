@@ -44,7 +44,7 @@ class Enemy {
       x:0,
       y:0
     }
-    this.speed = 1.5
+    this.speed = 1
   }
 
   draw() {
@@ -108,7 +108,7 @@ class Wolf {
       x:0,
       y:0
     }
-    this.speed = 3.5
+    this.speed = 2.5
   }
 
   draw() {
