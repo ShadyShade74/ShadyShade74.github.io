@@ -27,24 +27,44 @@ class PlacementTile {
   }
 }
 
+const enemy_stats = {
+  enemy: {
+    health: 100,
+    armor: 1,
+    speed: 1
+  },
+  wolf: {
+    health: 70,
+    armor: 0.7,
+    speed: 3.5
+  },
+  knight: {
+    health: 200,
+    armor: 3.5,
+    speed: 0.6
+  }
+}
+
 class Enemy {
   constructor({ position = { x: 0, y: 0 } }) {
+    const stats = enemy_stats.enemy
     this.position = position
-    this.width = 70
-    this.height = 70
+    this.width = 60
+    this.height = 60
     this.waypointIndex = 0
     this.center = {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2
     }
-    this.radius = 35
-    this.health = 100
-    this.armor = 1
+    this.radius = 30
+    this.health = stats.health
+    this.armor = stats.armor
+    this.speed = stats.speed
+    this.maxHealth =stats.health
     this.velocity = {
       x:0,
       y:0
     }
-    this.speed = 1
   }
 
   draw() {
@@ -58,7 +78,7 @@ class Enemy {
     c.fillRect(this.position.x , this.position.y - 15, this.width , 9)
 
     c.fillStyle= 'rgba(39, 199, 216, 1)'
-    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / 100, 9)
+    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / this.maxHealth, 9)
 
   }
 
@@ -93,22 +113,24 @@ class Enemy {
 }
 class Wolf {
   constructor({ position = { x: 0, y: 0 } }) {
+    const stats = enemy_stats.wolf
     this.position = position
-    this.width = 70
-    this.height = 70
+    this.width = 50
+    this.height = 50
     this.waypointIndex = 0
+    this.radius = 25
+    this.maxHealth =stats.health
     this.center = {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2
     }
-    this.radius = 35
-    this.health = 100
-    this.armor = 1
+    this.health = stats.health
+    this.armor = stats.armor
+    this.speed = stats.speed
     this.velocity = {
       x:0,
       y:0
     }
-    this.speed = 2.5
   }
 
   draw() {
@@ -122,7 +144,7 @@ class Wolf {
     c.fillRect(this.position.x , this.position.y - 15, this.width , 9)
 
     c.fillStyle= 'rgba(39, 199, 216, 1)'
-    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / 100, 9)
+    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / this.maxHealth, 9)
 
   }
 
@@ -157,22 +179,25 @@ class Wolf {
 }
 class Knight {
   constructor({ position = { x: 0, y: 0 } }) {
+    const stats =enemy_stats.knight
     this.position = position
     this.width = 70
     this.height = 70
     this.waypointIndex = 0
+    this.maxHealth =stats.health
     this.center = {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2
     }
     this.radius = 35
-    this.health = 100
-    this.armor = 1
+    this.health = stats.health
+    this.armor = stats.armor
+    this.speed = stats.speed
     this.velocity = {
       x:0,
       y:0
     }
-    this.speed = 0.8
+    
   }
 
   draw() {
@@ -186,7 +211,7 @@ class Knight {
     c.fillRect(this.position.x , this.position.y - 15, this.width , 9)
 
     c.fillStyle= 'rgba(39, 199, 216, 1)'
-    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / 100, 9)
+    c.fillRect(this.position.x , this.position.y - 15, this.width * this.health / this.maxHealth, 9)
 
   }
 
