@@ -18,6 +18,17 @@ canvas{
     font-weight: bold;
 }
 .game-over{
+    font-size: 200px;
+    font-weight: bold;
+    background:linear-gradient(to right , #00eeff , #078da2);
+    background-clip:text;
+    -webkit-background-clip: text;
+    -webkit-color:transparent;
+    color:transparent;
+    font-family: 'Sour Gummy', cursive;
+    position:absolute;
+    top:50%;
+    right:20%;
 }
 .stats{
     position: fixed;
