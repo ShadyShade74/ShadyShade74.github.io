@@ -1,49 +1,52 @@
 class PlacementTile {
   constructor({ position = { x: 0, y: 0 } }) {
-    this.position = position
-    this.size = 64
-    this.color = 'rgba(255, 255, 255, 0.25)'
-    this.occupied = false
+    this.position = position;
+    this.size = 64;
+    this.color = 'rgba(255, 255, 255, 0.25)';
+    this.isOccupied = false; // Upewnij się, że to istnieje
   }
 
   draw() {
-    c.fillStyle = this.color
-    c.fillRect(this.position.x, this.position.y, this.size, this.size)
-    c.drawImage(tileImage, this.position.x, this.position.y, this.size, this.size)
+    c.fillStyle = this.color;
+    c.fillRect(this.position.x, this.position.y, this.size, this.size);
+    c.drawImage(tileImage, this.position.x, this.position.y, this.size, this.size);
   }
-  
-  update(mouse) {
-    this.draw()
 
-    if (
+  update(mouse) {
+    this.draw();
+  
+    if (this === selectedTile) {
+      this.color = 'rgba(0, 0, 255, 0.5)'; // Kolor dla wybranego kafelka
+    } else if (
       mouse.x > this.position.x &&
       mouse.x < this.position.x + this.size &&
       mouse.y > this.position.y &&
       mouse.y < this.position.y + this.size
     ) {
-      
-      this.color = 'rgba(255, 255, 255, 0.44)'
-    } else this.color = 'rgba(255, 255, 255, 0.25)'
+      this.color = 'rgba(0, 255, 0, 0.5)'; // Kolor dla kafelka pod myszką
+    } else {
+      this.color = 'rgba(255, 255, 255, 0.25)'; // Domyślny kolor
+    }
+  }
+}
+const enemy_stats = {
+  enemy: {
+    health: 120,
+    armor: 1,
+    speed: 1.2,
+  },
+  wolf: {
+    health: 75,
+    armor: 0.7,
+    speed: 2.5
+  },
+  knight: {
+    health: 125,
+    armor: 3.5,
+    speed: 0.7
   }
 }
 
-const enemy_stats = {
-  enemy: {
-    health: 100,
-    armor: 1,
-    speed: 1
-  },
-  wolf: {
-    health: 70,
-    armor: 0.7,
-    speed: 3.5
-  },
-  knight: {
-    health: 200,
-    armor: 3.5,
-    speed: 0.6
-  }
-}
 
 class Enemy {
   constructor({ position = { x: 0, y: 0 } }) {
@@ -245,22 +248,36 @@ class Knight {
   }
 }
 
-  
-class Building {
-  constructor({ position = { x: 0, y: 0 } }) {
-    this.position = position
-    this.width = 64 * 2
-    this.height = 64 
+const tower_stats = {
+  mage:{
+    radius:250,
+    towerDamage:40,
+    cooldown:100,
+  },
+  archer:{
+    radius:350,
+    towerDamage:10,
+    cooldown:40,
+  }
+
+}
+class ArcherTower {
+  constructor({ position = { x: 0, y: 0 }, type = 'archer' }) {
+    const stats = tower_stats[type] || tower_stats.archer;
+    
+    this.position = position;
+    this.width = 64 * 2;
+    this.height = 64;
     this.center = {
       x: this.position.x + this.width / 2,
       y: this.position.y + this.height / 2
-
-    }
-    this.projectiles = []
-    this.radius = 250
-    this.target 
-    this.frames = 0
-    this.towerDamage = 20
+    };
+    this.projectiles = [];
+    this.radius = stats.radius;
+    this.target = null;
+    this.frames = 0;
+    this.towerDamage = stats.towerDamage;
+    this.cooldown = stats.cooldown;
   }
 
   draw() {
@@ -274,7 +291,52 @@ class Building {
   }
   update(){
     this.draw()
-    if (this.frames % 100 ===0 && this.target){
+    if (this.frames % this.cooldown ===0 && this.target){
+      this.projectiles.push(
+        new Projectile({
+          position: {
+              x: this.center.x,
+              y: this.center.y
+            },
+          enemy : this.target ,
+          damage : this.towerDamage/ this.target.armor
+        })
+      )
+    }
+    this.frames++
+  }
+}  
+class MageTower {
+  constructor({ position = { x: 0, y: 0 }, type = 'mage' }) {
+    const stats = tower_stats[type] || tower_stats.mage;
+    
+    this.position = position;
+    this.width = 64 * 2;
+    this.height = 64;
+    this.center = {
+      x: this.position.x + this.width / 2,
+      y: this.position.y + this.height / 2
+    };
+    this.projectiles = [];
+    this.radius = stats.radius;
+    this.target = null;
+    this.frames = 0;
+    this.towerDamage = stats.towerDamage;
+    this.cooldown = stats.cooldown;
+  }
+
+  draw() {
+    c.fillStyle = 'purple'
+    c.fillRect(this.position.x, this.position.y, this.width, 64)
+
+    c.beginPath()
+    c.arc(this.center.x , this.center.y, this.radius, 0 , Math.PI * 2)
+    c.fillStyle = 'hsla(273, 53.30%, 47.80%, 0.42)'
+    c.fill()
+  }
+  update(){
+    this.draw()
+    if (this.frames % this.cooldown ===0 && this.target){
       this.projectiles.push(
         new Projectile({
           position: {

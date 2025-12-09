@@ -10,7 +10,7 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 const placementTilesData2D = []
 
 const waveDisplay = document.querySelector('.wave-display')
-function WaveUpdate(){
+function WaveUpdate() {
   waveDisplay.textContent = `Wave: ${waveCount} / ${waves}`
 }
 
@@ -47,11 +47,11 @@ image.src = 'media/map.png'
 
 const enemies = []
 
-function spawnEnemies(enemyCount){
+function spawnEnemies(enemyCount) {
   for (let i = 1; i < enemyCount + 1; i++) {
     const xOffset = i * 100
     enemies.push(
-      new Knight({
+      new Wolf({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
       })
     )
@@ -65,6 +65,7 @@ let enemyCount = 3
 let waveCount = 1
 let waves = 50
 let hearts = 10
+let selectedTile = null;
 
 spawnEnemies(3)
 
@@ -144,37 +145,94 @@ const mouse = {
 
 canvas.addEventListener('click', (event) => {
   if (activeTile && !activeTile.isOccupied) {
-    buildings.push(
-      new Building({
-        position: {
-          x: activeTile.position.x,
-          y: activeTile.position.y
-        }
-      })
-    )
-    activeTile.isOccupied = true
+    selectedTile = activeTile; // Zapamiętaj kliknięty kafelek
+    const menu = document.getElementById('tower-menu');
+    menu.style.left = `${event.clientX}px`;
+    menu.style.top = `${event.clientY}px`;
+    menu.style.display = 'block';
   }
+});
 
-})
+canvas.addEventListener('click', (event) => {
+  if (activeTile && !activeTile.isOccupied) {
+    const menu = document.getElementById('tower-menu');
+    menu.style.left = `${event.clientX}px`;
+    menu.style.top = `${event.clientY}px`;
+    menu.style.display = 'block';
+
+    // Pobierz przyciski wyboru wieży
+    const archerButton = document.getElementById('archer-tower');
+    const mageButton = document.getElementById('mage-tower');
+
+    // Usuń poprzednie event listenery, aby uniknąć duplikacji
+    archerButton.onclick = null;
+    mageButton.onclick = null;
+
+    // Obsługa wyboru Archer Tower
+    archerButton.onclick = () => {
+      if (selectedTile) {
+        buildings.push(
+          new ArcherTower({
+            position: {
+              x: selectedTile.position.x,
+              y: selectedTile.position.y
+            },
+            type: 'archer'
+          })
+        );
+        selectedTile.isOccupied = true; // Oznacz kafelek jako zajęty
+        selectedTile = null; // Zresetuj wybrany kafelek
+        menu.style.display = 'none'; // Ukryj menu
+      }
+    };
+
+    // Obsługa wyboru Mage Tower
+    mageButton.onclick = () => {
+      if (selectedTile) {
+        buildings.push(
+          new MageTower({
+            position: {
+              x: selectedTile.position.x,
+              y: selectedTile.position.y
+            },
+            type: 'mage'
+          })
+        );
+        selectedTile.isOccupied = true; // Oznacz kafelek jako zajęty
+        selectedTile = null; // Zresetuj wybrany kafelek
+        menu.style.display = 'none'; // Ukryj menu
+      }
+    };
+  }
+});
 
 window.addEventListener('mousemove', (event) => {
-  const rect = canvas.getBoundingClientRect()
+  const rect = canvas.getBoundingClientRect();
 
-    mouse.x = event.clientX - rect.left
-    mouse.y = event.clientY - rect.top
+  mouse.x = event.clientX - rect.left;
+  mouse.y = event.clientY - rect.top;
 
-  
-  activeTile = null
+  activeTile = null;
   for (let i = 0; i < placementTiles.length; i++) {
-    const tile = placementTiles[i]
+    const tile = placementTiles[i];
     if (
       mouse.x > tile.position.x &&
       mouse.x < tile.position.x + tile.size &&
       mouse.y > tile.position.y &&
       mouse.y < tile.position.y + tile.size
     ) {
-      activeTile = tile
-      break
+      activeTile = tile;
+      break;
     }
   }
-})
+
+  console.log(activeTile); // Sprawdź, czy `activeTile` jest ustawiane
+});
+
+window.addEventListener('click', (event) => {
+  const menu = document.getElementById('tower-menu');
+  if (!menu.contains(event.target) && event.target !== canvas) {
+    menu.style.display = 'none';
+    selectedTile = null; // Zresetuj wybrany kafelek
+  }
+});
