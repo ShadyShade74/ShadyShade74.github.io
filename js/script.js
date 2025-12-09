@@ -200,7 +200,7 @@ canvas.addEventListener('click', (event) => {
         );
         selectedTile.isOccupied = true; // Oznacz kafelek jako zajęty
         selectedTile = null; // Zresetuj wybrany kafelek
-        menu.style.display = 'none'; // Ukryj menu
+        menu.style.display = 'none';
       }
     };
   }
