@@ -16,7 +16,7 @@ class PlacementTile {
     this.draw();
   
     if (this === selectedTile) {
-      this.color = 'rgba(0, 0, 255, 0.5)'; // Kolor dla wybranego kafelka
+      this.color = 'rgba(0, 0, 255, 0.5)';
     } else if (
       mouse.x > this.position.x &&
       mouse.x < this.position.x + this.size &&

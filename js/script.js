@@ -160,7 +160,6 @@ canvas.addEventListener('click', (event) => {
     menu.style.top = `${event.clientY}px`;
     menu.style.display = 'block';
 
-    // Pobierz przyciski wyboru wieży
     const archerButton = document.getElementById('archer-tower');
     const mageButton = document.getElementById('mage-tower');
 
