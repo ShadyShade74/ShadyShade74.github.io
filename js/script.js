@@ -51,7 +51,7 @@ function spawnEnemies(enemyCount) {
   for (let i = 1; i < enemyCount + 1; i++) {
     const xOffset = i * 100
     enemies.push(
-      new Wolf({
+      new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
       })
     )
