@@ -224,23 +224,24 @@ window.addEventListener('click', (event) => {
 // ===== ROZMIESZCZENIE PRZYCISKÓW W KOLE =====
 
 function arrangeButtonsInCircle() {
-  const menu = document.getElementById("tower-menu")
-  const buttons = menu.querySelectorAll(".tower-options")
+    const menu = document.getElementById("tower-menu");
+    const buttons = menu.querySelectorAll(".tower-options");
 
-  const count = buttons.length
-  const radius = 70
-  const centerX = 72
-  const centerY = 72
+    const count = buttons.length;
+    const radius = 75;
+    const centerX = 100;
+    const centerY = 100;
 
-  buttons.forEach((btn, i) => {
-    const angle = (i / count) * (2 * Math.PI) - Math.PI / 2
+    buttons.forEach((btn, i) => {
+        const angle = (i / count) * (2 * Math.PI) - Math.PI / 2;
 
-    const x = centerX + Math.cos(angle) * radius - 21
-    const y = centerY + Math.sin(angle) * radius - 21
+        const x = centerX + Math.cos(angle) * radius - 21;
+        const y = centerY + Math.sin(angle) * radius - 21;
 
-    btn.style.left = `${x}px`
-    btn.style.top = `${y}px`
-  })
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+    });
 }
+
 
 arrangeButtonsInCircle()

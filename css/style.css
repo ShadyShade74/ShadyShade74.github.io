@@ -61,3 +61,18 @@ canvas{
     align-items: center;
     justify-content: center;
 }
+#tower-menu {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+
+    border: 6px solid rgba(120,120,120,0.9);
+    border-radius: 50%;
+    display: none;
+
+    /* WAŻNE! */
+    position: absolute;
+}
+.tower-options {
+    position: absolute;
+}
