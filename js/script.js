@@ -17,6 +17,7 @@ function WaveUpdate() {
 for (let i = 0; i < placementTilesData.length; i += 20) {
   placementTilesData2D.push(placementTilesData.slice(i, i + 20))
 }
+
 const tileImage = new Image()
 tileImage.src = 'media/Free-Spot.png'
 const placementTiles = []
@@ -35,8 +36,6 @@ placementTilesData2D.forEach((row, y) => {
     }
   })
 })
-
-
 
 const image = new Image()
 
@@ -58,14 +57,13 @@ function spawnEnemies(enemyCount) {
   }
 }
 
-
 const buildings = []
 let activeTile = undefined
 let enemyCount = 3
 let waveCount = 1
 let waves = 50
 let hearts = 10
-let selectedTile = null;
+let selectedTile = null
 
 spawnEnemies(3)
 
@@ -137,101 +135,112 @@ function animate() {
   WaveUpdate()
 }
 
-
 const mouse = {
   x: undefined,
   y: undefined
 }
 
-canvas.addEventListener('click', (event) => {
-  if (activeTile && !activeTile.isOccupied) {
-    selectedTile = activeTile; // Zapamiętaj kliknięty kafelek
-    const menu = document.getElementById('tower-menu');
-    menu.style.left = `${event.clientX}px`;
-    menu.style.top = `${event.clientY}px`;
-    menu.style.display = 'block';
+// ===== POPRAWIONE WYŚWIETLANIE MENU =====
+
+canvas.addEventListener("click", (event) => {
+  if (!activeTile || activeTile.isOccupied) return
+
+  selectedTile = activeTile
+
+  const menu = document.getElementById("tower-menu")
+  const size = 144
+
+  // POBIERAMY POZYCJĘ CANVASA NA STRONIE
+  const rect = canvas.getBoundingClientRect()
+
+  // Pozycja kafelka na stronie
+  const tileScreenX = rect.left + activeTile.position.x
+  const tileScreenY = rect.top + activeTile.position.y
+
+  // Wyśrodkuj menu względem kafelka
+  menu.style.left = `${tileScreenX + activeTile.size / 2 - size / 2}px`
+  menu.style.top = `${tileScreenY + activeTile.size / 2 - size / 2}px`
+
+  menu.style.display = "block"
+
+  const archerButton = document.getElementById("archer-tower")
+  const mageButton = document.getElementById("mage-tower")
+
+  // Kliknięcie w menu NIE zamyka go
+  menu.addEventListener("click", (e) => e.stopPropagation())
+
+  archerButton.onclick = (e) => {
+      e.stopPropagation()
+      if (!selectedTile) return;
+
+      buildings.push(new ArcherTower({ position: selectedTile.position }))
+      selectedTile.isOccupied = true
+      menu.style.display = "none"
   }
-});
 
-canvas.addEventListener('click', (event) => {
-  if (activeTile && !activeTile.isOccupied) {
-    const menu = document.getElementById('tower-menu');
-    menu.style.left = `${event.clientX}px`;
-    menu.style.top = `${event.clientY}px`;
-    menu.style.display = 'block';
+  mageButton.onclick = (e) => {
+      e.stopPropagation()
+      if (!selectedTile) return;
 
-    const archerButton = document.getElementById('archer-tower');
-    const mageButton = document.getElementById('mage-tower');
-
-    // Usuń poprzednie event listenery, aby uniknąć duplikacji
-    archerButton.onclick = null;
-    mageButton.onclick = null;
-
-    // Obsługa wyboru Archer Tower
-    archerButton.onclick = () => {
-      if (selectedTile) {
-        buildings.push(
-          new ArcherTower({
-            position: {
-              x: selectedTile.position.x,
-              y: selectedTile.position.y
-            },
-            type: 'archer'
-          })
-        );
-        selectedTile.isOccupied = true; // Oznacz kafelek jako zajęty
-        selectedTile = null; // Zresetuj wybrany kafelek
-        menu.style.display = 'none'; // Ukryj menu
-      }
-    };
-
-    // Obsługa wyboru Mage Tower
-    mageButton.onclick = () => {
-      if (selectedTile) {
-        buildings.push(
-          new MageTower({
-            position: {
-              x: selectedTile.position.x,
-              y: selectedTile.position.y
-            },
-            type: 'mage'
-          })
-        );
-        selectedTile.isOccupied = true; // Oznacz kafelek jako zajęty
-        selectedTile = null; // Zresetuj wybrany kafelek
-        menu.style.display = 'none';
-      }
-    };
+      buildings.push(new MageTower({ position: selectedTile.position }))
+      selectedTile.isOccupied = true
+      menu.style.display = "none"
   }
-});
+  })
+
+// ===== DETEKCJA KAFELKA POD MYSZKĄ =====
 
 window.addEventListener('mousemove', (event) => {
-  const rect = canvas.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect()
 
-  mouse.x = event.clientX - rect.left;
-  mouse.y = event.clientY - rect.top;
+  mouse.x = event.clientX - rect.left
+  mouse.y = event.clientY - rect.top
 
-  activeTile = null;
+  activeTile = null
   for (let i = 0; i < placementTiles.length; i++) {
-    const tile = placementTiles[i];
+    const tile = placementTiles[i]
     if (
       mouse.x > tile.position.x &&
       mouse.x < tile.position.x + tile.size &&
       mouse.y > tile.position.y &&
       mouse.y < tile.position.y + tile.size
     ) {
-      activeTile = tile;
-      break;
+      activeTile = tile
+      break
     }
   }
+})
 
-  console.log(activeTile); // Sprawdź, czy `activeTile` jest ustawiane
-});
+// ===== KLIKNIĘCIE POZA MENU — ZAMKNIJ =====
 
 window.addEventListener('click', (event) => {
-  const menu = document.getElementById('tower-menu');
+  const menu = document.getElementById('tower-menu')
   if (!menu.contains(event.target) && event.target !== canvas) {
-    menu.style.display = 'none';
-    selectedTile = null; // Zresetuj wybrany kafelek
+    menu.style.display = 'none'
+    selectedTile = null
   }
-});
+})
+
+// ===== ROZMIESZCZENIE PRZYCISKÓW W KOLE =====
+
+function arrangeButtonsInCircle() {
+  const menu = document.getElementById("tower-menu")
+  const buttons = menu.querySelectorAll(".tower-options")
+
+  const count = buttons.length
+  const radius = 70
+  const centerX = 72
+  const centerY = 72
+
+  buttons.forEach((btn, i) => {
+    const angle = (i / count) * (2 * Math.PI) - Math.PI / 2
+
+    const x = centerX + Math.cos(angle) * radius - 21
+    const y = centerY + Math.sin(angle) * radius - 21
+
+    btn.style.left = `${x}px`
+    btn.style.top = `${y}px`
+  })
+}
+
+arrangeButtonsInCircle()

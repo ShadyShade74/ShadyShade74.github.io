@@ -40,20 +40,24 @@ canvas{
     font-family: 'Sour Gummy', cursive;
     border-radius: 0 0 5px 0;
 }
-.tower-option{
-    display: none; 
+.tower-option {
     position: absolute;
-    background:rgba(61, 61, 61, 0.3);
-    border: 1px solidblack;
-    gap:10px;
-    width:150px;
-    height:150px;
+    width: 144px;       /* było 240 */
+    height: 144px;
+    border-radius: 50%;
+    display: none;
+    pointer-events: auto;
+
+    background: rgba(61, 61, 61, 0); /* przezroczyste */
 }
-.tower-options{
-    margin-top:10px;
-    width:70px;
-    height:70px;
-    background:linear-gradient(100deg , #7b7a7a , #a0a2a2);
-    border-radius:20px;
-    border: 2px solid rgb(72, 70, 70)
+
+.tower-options {
+    position: absolute;
+    width: 60px;       /* też zmniejszamy (70 → 42px) */
+    height: 60px;
+    background: linear-gradient(100deg , #7b7a7a , #a0a2a2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
