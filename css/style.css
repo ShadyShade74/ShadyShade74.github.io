@@ -42,37 +42,83 @@ canvas{
 }
 .tower-option {
     position: absolute;
-    width: 144px;       /* było 240 */
+    width: 144px;
     height: 144px;
     border-radius: 50%;
     display: none;
     pointer-events: auto;
-
-    background: rgba(61, 61, 61, 0); /* przezroczyste */
+    background: rgba(61, 61, 61, 0);
 }
+
 
 .tower-options {
     position: absolute;
-    width: 60px;       /* też zmniejszamy (70 → 42px) */
+    width: 60px;
     height: 60px;
-    background: linear-gradient(100deg , #7b7a7a , #a0a2a2);
-    border-radius: 12px;
+    background: rgb(73, 73, 73);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    border: 2px solid rgba(120, 120, 120, 0.6);
+    box-shadow: 0 0 0px rgba(0, 140, 255, 0.0);
+    transition: all 0.2s cubic-bezier(.4,2,.3,1);
+    padding: 0;
+    background-clip: padding-box;
+    transition:all 0.3s ease;
 }
+
+.tower-options:hover {
+    transform: scale(1.12);
+    border-color: rgba(200, 200, 200, 0.8);
+    box-shadow: 0 0 12px 2px rgba(100, 150, 200, 0.2);
+    background: none;
+}
+
+.tower-options img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
 #tower-menu {
-    position: absolute;
+    position: fixed;
     width: 200px;
     height: 200px;
-
-    border: 6px solid rgba(120,120,120,0.9);
+    border: 6px solid rgba(120, 120, 120, 0.9);
     border-radius: 50%;
     display: none;
-
-    /* WAŻNE! */
-    position: absolute;
+    background: none;
+    box-shadow: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
 }
-.tower-options {
+
+.close-btn {
     position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    border: 2px solid rgba(120, 120, 120, 0.6);
+    background:black;
+    color: rgba(120, 120, 120, 0.8);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.close-btn:hover {
+    background: none;
+    border-color: rgba(200, 200, 200, 0.8);
+    color: rgba(200, 200, 200, 0.8);
+    transform: translateX(-50%) scale(1.15);
 }

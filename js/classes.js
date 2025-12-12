@@ -42,8 +42,13 @@ const enemy_stats = {
   },
   knight: {
     health: 125,
-    armor: 3.5,
+    armor: 10.5,
     speed: 0.7
+  },
+  chunkus: {
+    health: 300,
+    armor: 15,
+    speed: 100.5
   }
 }
 

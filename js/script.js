@@ -148,23 +148,24 @@ canvas.addEventListener("click", (event) => {
   selectedTile = activeTile
 
   const menu = document.getElementById("tower-menu")
-  const size = 144
 
   // POBIERAMY POZYCJĘ CANVASA NA STRONIE
   const rect = canvas.getBoundingClientRect()
 
-  // Pozycja kafelka na stronie
-  const tileScreenX = rect.left + activeTile.position.x
-  const tileScreenY = rect.top + activeTile.position.y
+  // Pozycja kafelka na stronie (środek kafelka w pikselach ekranu)
+  const tileScreenX = rect.left + activeTile.position.x + activeTile.size / 2
+  const tileScreenY = rect.top + activeTile.position.y + activeTile.size / 2
 
-  // Wyśrodkuj menu względem kafelka
-  menu.style.left = `${tileScreenX + activeTile.size / 2 - size / 2}px`
-  menu.style.top = `${tileScreenY + activeTile.size / 2 - size / 2}px`
+  // Ustaw menu na środek kafelka (fixed positioning względem ekranu)
+  menu.style.left = `${tileScreenX}px`
+  menu.style.top = `${tileScreenY}px`
 
   menu.style.display = "block"
+  arrangeButtonsInCircle()
 
   const archerButton = document.getElementById("archer-tower")
   const mageButton = document.getElementById("mage-tower")
+  const closeButton = document.getElementById("close-tower-menu")
 
   // Kliknięcie w menu NIE zamyka go
   menu.addEventListener("click", (e) => e.stopPropagation())
@@ -185,6 +186,12 @@ canvas.addEventListener("click", (event) => {
       buildings.push(new MageTower({ position: selectedTile.position }))
       selectedTile.isOccupied = true
       menu.style.display = "none"
+  }
+
+  closeButton.onclick = (e) => {
+      e.stopPropagation()
+      menu.style.display = "none"
+      selectedTile = null
   }
   })
 
@@ -228,15 +235,15 @@ function arrangeButtonsInCircle() {
     const buttons = menu.querySelectorAll(".tower-options");
 
     const count = buttons.length;
-    const radius = 75;
+    const radius = 85;
     const centerX = 100;
     const centerY = 100;
 
     buttons.forEach((btn, i) => {
         const angle = (i / count) * (2 * Math.PI) - Math.PI / 2;
 
-        const x = centerX + Math.cos(angle) * radius - 21;
-        const y = centerY + Math.sin(angle) * radius - 21;
+        const x = centerX + Math.cos(angle) * radius - 30;
+        const y = centerY + Math.sin(angle) * radius - 30;
 
         btn.style.left = `${x}px`;
         btn.style.top = `${y}px`;
