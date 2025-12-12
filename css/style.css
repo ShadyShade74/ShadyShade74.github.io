@@ -53,18 +53,26 @@ canvas{
 
 .tower-options {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    background: rgb(73, 73, 73);
-    border-radius: 10px;
+    width: 90px;
+    height: 90px;
+    
+    background-size: 100% 100%; 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;                  
+    box-shadow: none;              
+    border-radius: 0;              
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 2px solid rgba(120, 120, 120, 0.6);
-    box-shadow: 0 0 0px rgba(0, 140, 255, 0.0);
-    background-clip: padding-box;
-    transition:all 0.3s ease;
+    transition: all 0.3s ease-in-out;
+}
+
+.tower-options:hover {
+    transform: scale(1.05);
+    border: none; 
 }
 .tower-options:hover {
     transform: scale(1.12);
@@ -98,11 +106,11 @@ canvas{
     width: 40px;
     height: 40px;
     bottom: -20px;
-    left: 50%;
+    left: 52%;
     transform: translateX(-50%);
     border-radius: 50%;
     border: 2px solid rgba(120, 120, 120, 0.6);
-    background:black;
+    background:rgb(76, 76, 76);
     color: rgba(120, 120, 120, 0.8);
     font-size: 24px;
     cursor: pointer;
