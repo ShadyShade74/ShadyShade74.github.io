@@ -228,27 +228,37 @@ window.addEventListener('click', (event) => {
   }
 })
 
-// ===== ROZMIESZCZENIE PRZYCISKÓW W KOLE =====
+
 
 function arrangeButtonsInCircle() {
     const menu = document.getElementById("tower-menu");
     const buttons = menu.querySelectorAll(".tower-options");
 
     const count = buttons.length;
-    const radius = 85;
-    const centerX = 100;
-    const centerY = 100;
+    
+
+    const menuRadius = 60;
+    
+    const buttonSize = 80;
+    const buttonHalfSize = buttonSize / 2; // 40
+    
+
+    const outerRadius = menuRadius + buttonHalfSize; 
+    
+    const centerX = 125;
+    const centerY = 125;
 
     buttons.forEach((btn, i) => {
+
         const angle = (i / count) * (2 * Math.PI) - Math.PI / 2;
 
-        const x = centerX + Math.cos(angle) * radius - 30;
-        const y = centerY + Math.sin(angle) * radius - 30;
+        const buttonCenterX = centerX + Math.cos(angle) * outerRadius;
+        const buttonCenterY = centerY + Math.sin(angle) * outerRadius;
+
+        const x = buttonCenterX - buttonHalfSize; 
+        const y = buttonCenterY - buttonHalfSize;
 
         btn.style.left = `${x}px`;
         btn.style.top = `${y}px`;
     });
 }
-
-
-arrangeButtonsInCircle()
