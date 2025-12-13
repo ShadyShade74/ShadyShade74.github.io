@@ -140,7 +140,6 @@ const mouse = {
   y: undefined
 }
 
-// ===== POPRAWIONE WYŚWIETLANIE MENU =====
 
 canvas.addEventListener("click", (event) => {
   if (!activeTile || activeTile.isOccupied) return
@@ -149,14 +148,13 @@ canvas.addEventListener("click", (event) => {
 
   const menu = document.getElementById("tower-menu")
 
-  // POBIERAMY POZYCJĘ CANVASA NA STRONIE
+
   const rect = canvas.getBoundingClientRect()
 
-  // Pozycja kafelka na stronie (środek kafelka w pikselach ekranu)
   const tileScreenX = rect.left + activeTile.position.x + activeTile.size / 2
   const tileScreenY = rect.top + activeTile.position.y + activeTile.size / 2
 
-  // Ustaw menu na środek kafelka (fixed positioning względem ekranu)
+
   menu.style.left = `${tileScreenX}px`
   menu.style.top = `${tileScreenY}px`
 
@@ -167,7 +165,6 @@ canvas.addEventListener("click", (event) => {
   const mageButton = document.getElementById("mage-tower")
   const closeButton = document.getElementById("close-tower-menu")
 
-  // Kliknięcie w menu NIE zamyka go
   menu.addEventListener("click", (e) => e.stopPropagation())
 
   archerButton.onclick = (e) => {
@@ -195,7 +192,6 @@ canvas.addEventListener("click", (event) => {
   }
   })
 
-// ===== DETEKCJA KAFELKA POD MYSZKĄ =====
 
 window.addEventListener('mousemove', (event) => {
   const rect = canvas.getBoundingClientRect()
@@ -218,7 +214,7 @@ window.addEventListener('mousemove', (event) => {
   }
 })
 
-// ===== KLIKNIĘCIE POZA MENU — ZAMKNIJ =====
+
 
 window.addEventListener('click', (event) => {
   const menu = document.getElementById('tower-menu')
@@ -240,7 +236,7 @@ function arrangeButtonsInCircle() {
     const menuRadius = 60;
     
     const buttonSize = 80;
-    const buttonHalfSize = buttonSize / 2; // 40
+    const buttonHalfSize = buttonSize / 2;
     
 
     const outerRadius = menuRadius + buttonHalfSize; 
