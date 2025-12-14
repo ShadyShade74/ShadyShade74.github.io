@@ -18,7 +18,30 @@
 html {
     scroll-behavior: smooth;
 }
+.music {
+    /* Ustawienie sekcji, aby była widoczna */
+    text-align: center; /* Wyśrodkowanie odtwarzacza */
+    padding: 2rem 0;
+}
 
+.music .audio {
+    /* Zapewnienie, że kontener audio ma sensowną szerokość */
+    max-width: 600px;
+    margin: 0 auto; /* Wyśrodkowanie wewnątrz sekcji */
+    display: flex;
+    justify-content: center;
+}
+
+.music audio {
+    /* Nadanie odtwarzaczowi pełnej szerokości jego kontenera */
+    width: 100%;
+    /* Możesz też ustawić stałą szerokość: width: 400px; */
+    min-height: 45px; /* Upewnienie się, że kontrolki mają minimalną wysokość */
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    /* Opcjonalne: Użycie kolorów Warriors dla akcentu w odtwarzaczu */
+    accent-color: var(--secondary-color); 
+}
 body {
     font-family: var(--font-main);
     background-color: var(--background-color);
@@ -409,17 +432,6 @@ button[type="reset"]:hover {
     .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
 
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* --- ICON STYLES --- */
 h2 > .fa-solid {
     margin-right: 1rem;
@@ -691,7 +703,6 @@ main {
 .gallery-section {
     padding: 60px 20px;
     text-align: center;
-    background-color: #f4f4f4; /* Przykładowy kolor */
 }
 
 /* Kontener główny, który umożliwia pozycjonowanie strzałek i kropek */
@@ -706,23 +717,18 @@ main {
 
 /* Kontener slajdów (na tym etapie jest on tylko pojemnikiem) */
 .gallery-container {
-
-    
+    display: flex; /* To ustawi zdjęcia obok siebie */
+    width: 100%;
+    transition: transform 0.5s ease-in-out; /* Płynna animacja przesuwania */
 }
 
 /* Styl dla pojedynczego slajdu (zdjęcia) */
 .gallery-slide {
-    width: 100%;
+    min-width: 100%; /* Każde zdjęcie musi zajmować 100% szerokości wrappera */
     height: auto;
     object-fit: cover;
-    transition: opacity 0.8s ease-in-out;
-    opacity: 0;
-}
-
-/* Aktywny slajd */
-.gallery-slide.active {
-    display: block; /* Pokaż aktywny slajd */
-    opacity: 1;
+    /* Usuwamy opacity i transition, bo JS używa przesuwania, a nie zanikania */
+    display: block; 
 }
 
 /* --- Strzałki Nawigacyjne (Przyciski) --- */
