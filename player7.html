@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Jakub">
+    <meta name="keywords" content="Steve Kerr, Warriors, NBA, koszykówka, trener">
+    <meta name="description" content="Strona o Stevie Kerr, jednym z 7 cudów Golden State Warriors.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steve Kerr - 7 Cudów Warriors</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1><a href="index.html">7 Cudów Warriors</a></h1>
+        </div>
+        <nav class="nav-desktop">
+            <ul>
+                <li><a href="index.html">Strona Główna</a></li>
+                <li><a href="index.html#players">Zawodnicy</a></li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </header>
+    <nav class="nav-mobile">
+        <ul>
+            <li><a href="index.html">Strona Główna</a></li>
+            <li><a href="index.html#gallery">Galeria</a></li>
+            <li><a href="index.html#players">Zawodnicy</a></li>
+            <li><a href="index.html#form">Ankieta</a></li>
+            <li class="players-submenu">
+                <a href="#">Zawodnicy &raquo;</a>
+                <ul class="dropdown">
+                    <li><a href="player1.html">Stephen Curry</a></li>
+                    <li><a href="player2.html">Klay Thompson</a></li>
+                    <li><a href="player3.html">Draymond Green</a></li>
+                    <li><a href="player4.html">Kevin Durant</a></li>
+                    <li><a href="player5.html">Andre Iguodala</a></li>
+                    <li><a href="player6.html">Baron Davis</a></li>
+                    <li><a href="player7.html">Steve Kerr</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="player-page">
+        <section class="player-hero" style="background-image: url('media/kerr.jpg');">
+            <div class="hero-overlay">
+                <h2>Steve Kerr</h2>
+                <p>Architekt dynastii Warriors.</p>
+            </div>
+        </section>
+
+        <nav class="internal-nav">
+            <a href="#stats">Statystyki</a>
+            <a href="#achievements">Osiągnięcia</a>
+            <a href="#media">Media</a>
+            <a href="#map">Mapa</a>
+        </nav>
+
+        <section id="stats" class="player-section">
+            <h2>Statystyki Kariery (Jako Zawodnik)</h2>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Statystyka</th>
+                        <th>Wartość</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mistrzostwa NBA</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Punkty</td>
+                        <td>6.0 (średnio na mecz)</td>
+                    </tr>
+                     <tr>
+                        <td>Skuteczność za 3PT</td>
+                        <td>45.4% (rekord NBA)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="source">Źródło: <a href="https://www.basketball-reference.com/players/k/kerrst01.html" target="_blank">Basketball-Reference.com</a></p>
+        </section>
+
+        <section id="achievements" class="player-section">
+            <h2>Najważniejsze Osiągnięcia (Jako Trener)</h2>
+            <ul>
+                <li>4-krotny Mistrz NBA z Warriors (2015, 2017, 2018, 2022)</li>
+                <li>Trener Roku NBA (2016)</li>
+                <li>Rekord NBA: 73 zwycięstwa w sezonie regularnym (2015-16)</li>
+                <li>Jeden z 15 najlepszych trenerów w historii NBA</li>
+                <li>Złoty medalista olimpijski jako trener (2024)</li>
+            </ul>
+        </section>
+
+        <section id="media" class="player-section">
+            <h2>Wideo: Filozofia Trenerska</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/b876n5-prl8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p class="media-info">Steve Kerr o swojej filozofii trenerskiej i budowaniu kultury w zespole.</p>
+            </div>
+        </section>
+        
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Stanislaw Mykulyak</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

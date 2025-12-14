@@ -1,0 +1,783 @@
+/* --- GLOBAL STYLES & VARIABLES --- */
+:root {
+    --primary-color: #006BB6; /* Warriors Blue */
+    --secondary-color: #FDB927; /* Warriors Gold */
+    --text-color: #EAEAEA;
+    --background-color: #121212;
+    --container-color: #1E1E1E;
+    --font-main: 'Poppins', sans-serif;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #FFFFFF;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--container-color);
+    margin-top: 3rem;
+}
+
+/* --- HEADER & NAVIGATION --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.nav-desktop ul {
+    display: flex;
+    list-style: none;
+}
+
+.nav-desktop li {
+    margin-left: 2rem;
+}
+
+.nav-desktop a {
+    font-weight: 600;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.nav-desktop a:hover {
+    border-bottom-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.hamburger-menu .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--text-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-mobile {
+    display: none;
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--background-color);
+    /* INSTRUKCJA: Usunięto tło obrazkowe, ustawiono jednolity kolor */
+    color: #FFF;
+    padding: 0 2rem;
+}
+
+.hero-text h2 {
+    font-size: 4rem;
+    color: #FFF;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.cta-button {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: #FFF;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+}
+
+.cta-button:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    color: #FFF;
+}
+
+
+
+@keyframes fade {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+.players-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: -2rem auto 3rem auto;
+    font-size: 1.1rem;
+    color: #AAA;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem; /* Zwiększony odstęp */
+}
+.player-card .player-image {
+    width: 100%;       /* Obrazek ma zajmować 100% szerokości kontenera */
+    height: 100%;      /* Obrazek ma zajmować 100% wysokości kontenera */
+    object-fit: cover; /* KLUCZOWE: Zachowuje proporcje i wypełnia kontener, przycinając nadmiar */
+    object-position: center 20%; /* Ustawia, która część obrazka ma być widoczna (np. głowa gracza) */
+    display: block;
+    transition: transform 0.4s ease;
+}
+.player-card {
+    position: relative;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-size: cover;      /* GWARANTUJE, ŻE TŁO WYPEŁNI CAŁY KA feLEK (może uciąć część) */
+    background-position: center; /* Centruje obraz w kafelku */
+    background-repeat: no-repeat;
+    box-shadow: var(--shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.player-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px var(--secondary-color); /* Podwójny cień */
+}
+
+/* Tła graczy */
+.player-card.p1 { 
+    background-image: url('media/steph.jpg');
+}
+.player-card.p2 { background-image: url('media/klay.jpg'); }
+.player-card.p3 { background-image: url('media/green.jpg'); }
+.player-card.p4 { background-image: url('media/durant.jpg'); }
+.player-card.p5 { background-image: url('media/iguodala.jpg'); }
+.player-card.p6 { background-image: url('media/davis.jpg'); }
+.player-card.p7 { background-image: url('media/ellis.jpg'); }
+
+
+/* Warstwa Overlay z efektem hover */
+.player-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient, który zapewnia widoczność tekstu na dole */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 30%, transparent 70%);
+    display: flex;
+    align-items: flex-end;
+    transition: background 0.5s ease;
+}
+
+.player-card:hover .player-overlay {
+    /* Przyciemnienie całego tła przy najechaniu */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 40%, transparent 80%);
+}
+
+.player-info {
+    padding: 1.5rem;
+    width: 100%;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.player-card:hover .player-info {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.player-info h3 {
+    color: var(--secondary-color); /* Złoty kolor dla imienia */
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.player-role {
+    color: var(--primary-color); /* Niebieski akcent */
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+@media (max-width: 600px) {
+    .player-card {
+        height: 350px;
+        width:100%;
+    }
+    .grid-container {
+        gap: 1.5rem;
+    }
+}
+
+.form-section {
+    background-color: var(--container-color);
+    border-radius: 10px;
+    padding: 3rem;
+}
+
+.form-section form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+legend {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="email"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #333;
+    border: 1px solid #555;
+    color: var(--text-color);
+    border-radius: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+button[type="submit"],
+button[type="reset"] {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+button[type="submit"] {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: #FFF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+button[type="submit"]:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+button[type="reset"] {
+    background-color: #444;
+    color: var(--text-color);
+}
+button[type="reset"]:hover {
+    background-color: #666;
+    transform: translateY(-3px);
+}
+@media (max-width: 768px) {
+    h2 { font-size: 2rem; }
+    .hero-text h2 { font-size: 3rem; }
+
+    .nav-desktop { display: none; }
+    .hamburger-menu { display: block; }
+    
+    .nav-mobile {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--container-color);
+        flex-direction: column;
+        text-align: center;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+    .nav-mobile.active {
+        display: flex; /* Show when active */
+    }
+    .nav-mobile ul { list-style: none; width: 100%; }
+    .nav-mobile li {
+        padding: 1rem 0;
+        border-bottom: 1px solid #444;
+    }
+    .nav-mobile li:last-child { border-bottom: none; }
+    .nav-mobile a { display: block; width: 100%; }
+    .dropdown { display: none; background-color: #333; }
+    .players-submenu:hover .dropdown { display: block; }
+    .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger-menu.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- ICON STYLES --- */
+h2 > .fa-solid {
+    margin-right: 1rem;
+    vertical-align: middle;
+}
+
+/* --- PLAYER PAGE STYLES --- */
+.player-page {
+    padding-top: 60px; /* Header height */
+}
+
+.player-hero {
+    position: relative;
+    height: 60vh;
+    background-size: cover;
+    background-position: center 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.hero-overlay h2 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-overlay p {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.internal-nav {
+    display: flex;
+    justify-content: center;
+    background-color: var(--container-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 60px; /* Header height */
+    z-index: 900;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.internal-nav a {
+    color: var(--text-color);
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.internal-nav a:hover, .internal-nav a.active {
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
+}
+
+.player-section {
+    padding: 4rem 2rem;
+    background-color: var(--background-color);
+    border-bottom: 1px solid #333;
+}
+
+.player-section:last-of-type {
+    border-bottom: none;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.stats-table th, .stats-table td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #444;
+}
+
+.stats-table thead {
+    background-color: var(--primary-color);
+    color: #FFF;
+    text-transform: uppercase;
+}
+
+.stats-table tbody tr:nth-child(even) {
+    background-color: var(--container-color);
+}
+
+.stats-table tbody tr:hover {
+    background-color: var(--secondary-color);
+    color: #000;
+}
+
+.source {
+    text-align: right;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #AAA;
+}
+
+#achievements ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#achievements li {
+    background: var(--container-color);
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 5px solid var(--secondary-color);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#achievements li:hover {
+    transform: translateX(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+.video-container, .map-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    box-shadow: var(--shadow);
+    margin: 2rem auto 0 auto;
+}
+
+.video-container iframe, .map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.media-info {
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+    color: #AAA;
+}
+
+@media (max-width: 768px) {
+    .hero-overlay h2 {
+        font-size: 2.5rem;
+    }
+    .internal-nav {
+        flex-wrap: wrap;
+        padding: 0.5rem 0;
+    }
+    .internal-nav a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    .player-section {
+        padding: 3rem 1rem;
+    }
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+main {
+    overflow-x: hidden;
+}
+
+/* --- PLAYERS SECTION RWD --- */
+.players-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* --- TABLET --- */
+@media (max-width: 1024px) {
+    .players-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-text h2 {
+        font-size: 2.8rem;
+    }
+
+    section {
+        padding: 4rem 1.5rem;
+    }
+}
+
+/* --- TELEFON --- */
+@media (max-width: 600px) {
+    header {
+        padding: 0.8rem 1rem;
+    }
+
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 6rem;
+    }
+
+    .hero-text h2 {
+        font-size: 2.2rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+
+    .players-container {
+        grid-template-columns: 1fr;
+    }
+
+    .player-card {
+        height: 320px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    form {
+        padding: 0;
+    }
+
+    .form-section {
+        padding: 2rem 1rem;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+    .form-buttons button {
+        width: 100%;
+    }
+
+    footer {
+        font-size: 0.9rem;
+    }
+}
+
+/* --- DUŻE EKRANY --- */
+@media (min-width: 1400px) {
+    .players-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    section {
+        max-width: 1400px;
+    }
+}
+.gallery-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #f4f4f4; /* Przykładowy kolor */
+}
+
+/* Kontener główny, który umożliwia pozycjonowanie strzałek i kropek */
+.gallery-wrapper {
+    position: relative;
+    max-width: 800px; /* Maksymalna szerokość galerii */
+    margin: 30px auto;
+    overflow: hidden; /* Upewnia się, że tylko aktywny slajd jest widoczny */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Kontener slajdów (na tym etapie jest on tylko pojemnikiem) */
+.gallery-container {
+
+    
+}
+
+/* Styl dla pojedynczego slajdu (zdjęcia) */
+.gallery-slide {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: opacity 0.8s ease-in-out;
+    opacity: 0;
+}
+
+/* Aktywny slajd */
+.gallery-slide.active {
+    display: block; /* Pokaż aktywny slajd */
+    opacity: 1;
+}
+
+/* --- Strzałki Nawigacyjne (Przyciski) --- */
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 24px;
+    line-height: 1; /* Upewnij się, że ikona jest dobrze wyśrodkowana */
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.prev-button:hover, .next-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
+}
+
+/* --- Kropki Nawigacyjne (Dots) --- */
+.slider-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 2px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #fdb927; /* Kolor Golden State Warriors */
+    border: 2px solid #00539c; /* Inny kolor Warriors */
+    transform: scale(1.1);
+}

@@ -1,54 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Jakub">
+    <meta name="keywords" content="Warriors, NBA, 7 cudów, koszykówka, Stephen Curry, Klay Thompson, Draymond Green, Kevin Durant, Andre Iguodala, Baron Davis, Monta Ellis">
+    <meta name="description" content="Strona o 7 największych legendach Golden State Warriors na wzór 7 cudów świata.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css"/>
-    <title>Helltrip TD</title>
+    <title>7 Cudów Warriors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <canvas></canvas>
+    <header>
+        <div class="logo">
+            <h1><a href="index.html">7 Cudów Warriors</a></h1>
+        </div>
+        <nav class="nav-desktop">
+            <ul>
+                <li><a href="#gallery">Galeria</a></li>
+                <li><a href="#players">Zawodnicy</a></li>
+                <li><a href="#form">Ankieta</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger-menu" aria-label="Otwórz menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+    </header>
+    <nav class="nav-mobile">
+        <ul>
+            <li><a href="index.html">Strona Główna</a></li>
+            <li><a href="#gallery">Galeria</a></li>
+            <li><a href="#players">Zawodnicy</a></li>
+            <li><a href="#form">Ankieta</a></li>
+            <li class="players-submenu">
+                <a href="#">Zawodnicy &raquo;</a>
+                <ul class="dropdown">
+                    <li><a href="player1.html">Stephen Curry</a></li>
+                    <li><a href="player2.html">Klay Thompson</a></li>
+                    <li><a href="player3.html">Draymond Green</a></li>
+                    <li><a href="player4.html">Kevin Durant</a></li>
+                    <li><a href="player5.html">Andre Iguodala</a></li>
+                    <li><a href="player6.html">Baron Davis</a></li>
+                    <li><a href="player7.html">Monta Ellis</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 
-
-            <div class="stats">
-                
-                <p class="wave-display">Wave: 1</p>
-
+    <main>
+        <section class="hero">
+            <div class="hero-text">
+                <h2>Legendy XXI Wieku</h2>
+                <p>Odkryj 7 współczesnych cudów koszykówki, które zdefiniowały Golden State Warriors.</p>
+                <a href="#players" class="cta-button">Zobacz Legendy</a>
             </div>
+        </section>
 
-    </div>
-    
-    <div class="game-over">Game Over</div>
-    <div id="tower-menu">
+        <section id="gallery" class="gallery-section animate-on-scroll">
+            <h2><i class="fa-solid fa-camera"></i> Galeria Sław</h2>
+            <div class="gallery-wrapper">                 <div class="gallery-container">
+                                        <img src="media/steph.jpg" alt="Galeria zdjęcie 1 - Stephen Curry" class="gallery-slide active">
+                    <img src="media/klay.jpg" alt="Galeria zdjęcie 2 - Klay Thompson" class="gallery-slide">
+                    <img src="media/durant.jpg" alt="Galeria zdjęcie 3 - Kevin Durant" class="gallery-slide">
+                    <img src="media/green.jpg" alt="Galeria zdjęcie 4 - Draymond Green" class="gallery-slide">
+                </div>
 
-        <button id="archer-tower" class="tower-options">
-            <img src="media/archer.png" height="60px" width="60px">
-        </button>
+                                <button class="prev-button" aria-label="Poprzednie zdjęcie"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="next-button" aria-label="Następne zdjęcie"><i class="fa-solid fa-chevron-right"></i></button>
 
-        <button id="mage-tower" class="tower-options">
-            <img src="media/mage.png" height="60px" width="60px">
-        </button>
+                                <div class="slider-dots">
+                                    </div>
+            </div>
+        </section>
 
-        <button id="barracks" class="tower-options">
-            <img src="media/barracks.png" height="80px" width="80px">
-        </button>
+        <section id="map" class="player-section">
+            <h2>Mapa: Dom Warriors</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.589973273107!2d-122.389738784682!3d37.7680099797607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7fc5b6997f73%3A0x2a91411c64363247!2sChase%20Center!5e0!3m2!1spl!2spl!4f19.53" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p class="media-info">Mapa Google wskazująca na halę Chase Center w San Francisco.</p>
+            </div>
+        </section>
+        
+        <section id="video" class="player-section">
+            <h2>Najlepsze akcje Warriors</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/BSyKyQrCs44?si=79aHR8xb7iSOICad&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            
+        </section>
 
-        <button id="soul-hunter" class="tower-options">
-            <img src="media/soul-hunter.png" height="60px" width="60px">
-        </button>
+        <section id="players" class="players-section">
+            <h2><i class="fa-solid fa-users"></i> Poznaj Legendy</h2>
+            <div class="players-container">
+                <div class="player-card">
+                    <a href="player1.html">
+                        <img src="media/steph.jpg" alt="Stephen Curry">
+                        <div class="player-info">
+                            <h3>Stephen Curry</h3>
+                            <p>Rozgrywający</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="player-card">
+                    <a href="player2.html">
+                        <img src="media/klay.jpg" alt="Klay Thompson">
+                        <div class="player-info">
+                            <h3>Klay Thompson</h3>
+                            <p>Rzucający obrońca</p>
+                        </div>
+                    </a>
+                </div>
 
-        <button id="workshop" class="tower-options">
-            <img src="media/workshop.png" height="60px" width="60px">
-        </button>
+                <div class="player-card">
+                    <a href="player3.html">
+                        <img src="media/green.jpg" alt="Draymond Green">
+                        <div class="player-info">
+                            <h3>Draymond Green</h3>
+                            <p>Silny skrzydłowy</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Player 4: Kevin Durant -->
+                <div class="player-card">
+                    <a href="player4.html">
+                        <img src="media/durant.jpg" alt="Kevin Durant">
+                        <div class="player-info">
+                            <h3>Kevin Durant</h3>
+                            <p>Niski skrzydłowy</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Player 5: Andre Iguodala -->
+                <div class="player-card">
+                    <a href="player5.html">
+                        <img src="media/iguodala.webp" alt="Andre Iguodala">
+                        <div class="player-info">
+                            <h3>Andre Iguodala</h3>
+                            <p>Niski skrzydłowy</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Player 6: Baron Davis -->
+                <div class="player-card">
+                    <a href="player6.html">
+                        <img src="media/davis.webp" alt="Baron Davis">
+                        <div class="player-info">
+                            <h3>Baron Davis</h3>
+                            <p>Rozgrywający</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="player-card">
+                    <a href="player7.html">
+                        <img src="media/kerr.jpg" alt="Steve Kerr">
+                        <div class="player-info">
+                            <h1> Trener Warriors</h1>
+                            <h3> Steve Kerr </h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-        <button id="close-tower-menu" class="close-btn">✕</button>
+        <section id="form" class="form-section">
+            <h2>Ankieta: Twoja opinia</h2>
+            <form action="#" method="POST">
+                <fieldset>
+                    <legend>Kto jest Twoim ulubionym graczem?</legend>
+                    <label for="fav-player">Wybierz z listy:</label>
+                    <select id="fav-player" name="fav-player">
+                        <option value="" disabled selected>Wybierz gracza</option>
+                        <option value="curry">Stephen Curry</option>
+                        <option value="thompson">Klay Thompson</option>
+                        <option value="green">Draymond Green</option>
+                        <option value="durant">Kevin Durant</option>
+                        <option value="iguodala">Andre Iguodala</option>
+                        <option value="davis">Baron Davis</option>
+                        <option value="ellis">Monta Ellis</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <legend>Które mistrzostwo było najważniejsze?</legend>
+                    <div>
+                        <input type="radio" id="championship2015" name="championship" value="2015">
+                        <label for="championship2015">2015</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="championship2017" name="championship" value="2017">
+                        <label for="championship2017">2017</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="championship2018" name="championship" value="2018">
+                        <label for="championship2018">2018</label>
+                    </div>
+                     <div>
+                        <input type="radio" id="championship2022" name="championship" value="2022">
+                        <label for="championship2022">2022</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Co w grze Warriors lubisz najbardziej?</legend>
+                    <div>
+                        <input type="checkbox" id="element-shooting" name="elements" value="shooting">
+                        <label for="element-shooting">Rzuty za 3 punkty</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="element-defense" name="elements" value="defense">
+                        <label for="element-defense">Obrona zespołowa</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="element-movement" name="elements" value="movement">
+                        <label for="element-movement">Ruch piłki w ataku</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Twoje dane</legend>
+                    <label for="user-email">Twój e-mail:</label>
+                    <input type="email" id="user-email" name="user-email" required placeholder="np. jan.kowalski@example.com">
+                    <label for="user-age">Wiek:</label>
+                    <input type="number" id="user-age" name="user-age" min="1" max="100">
+                </fieldset>
+                <div class="form-buttons">
+                    <button type="submit">Wyślij</button>
+                    <button type="reset">Wyczyść</button>
+                </div>
+            </form>
+        </section>
+    </main>
 
-    </div>
+    <footer>
+        <p>&copy; 2025 Stanislaw Mykulyak</p>
+    </footer>
 
-    <script src="js/placement.js"></script>
-    <script src="js/waypoints.js"></script>
-    <script src="js/classes.js"></script>
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
