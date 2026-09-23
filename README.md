@@ -1,0 +1,3 @@
+Shadow of Aldenor is a medieval fantasy jRPG where you take on the role of a veteran warrior named Arkelas Maine to take on the challenges of the world of Aldenor . You will be fighting monsters ,the fantastic ones as well as humans who are oftentimes worse than the scariest of beasts , you will traverse the large open world and uncover lots of secrets in the classic 3/4 top down view but with a much fresher and better looking graphics. While playing you will learn advanced alchemy mechanics ,the simple but rewarding combat system and complete lots of well-thought and detailed quests that are filled with lore and are designed to help you understand the complex political state of the world.
+
+The 1st version Demo launch is scheduled for 13th of december 2026 .
