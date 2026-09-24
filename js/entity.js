@@ -6,6 +6,7 @@ export class Entity {
         this.height = height;
         this.color = options.color || '#38bdf8';
         this.isStatic = options.isStatic ?? false;
+        this.isSolid = options.isSolid ?? true;
         this.bottomOffset = options.bottomOffset ?? 0;
         this.sprite = null;
         this.isLoaded = false;
@@ -15,11 +16,20 @@ export class Entity {
             this.sprite.onload = () => {
                 this.isLoaded = true;
                 if (options.preserveAspect ?? true) {
-                    const aspectRatio = this.sprite.naturalHeight / this.sprite.naturalWidth;
-                    this.height = Math.round(this.width * aspectRatio);
+                    const ratio = this.sprite.naturalHeight / this.sprite.naturalWidth;
+                    this.height = Math.round(this.width * ratio);
                 }
             };
         }
+    }
+
+    get collider() {
+        return null;
+    }
+
+    get colliders() {
+        const c = this.collider;
+        return c ? [c] : [];
     }
     get sortY() {
         return this.y + this.height - this.bottomOffset;
@@ -31,10 +41,8 @@ export class Entity {
         if (this.isLoaded && this.sprite) {
             ctx.drawImage(
                 this.sprite,
-                Math.round(this.x),
-                Math.round(this.y),
-                Math.round(this.width),
-                Math.round(this.height)
+                Math.round(this.x), Math.round(this.y),
+                Math.round(this.width), Math.round(this.height)
             );
         } else {
             ctx.fillStyle = this.color;

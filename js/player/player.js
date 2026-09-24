@@ -1,75 +1,116 @@
 import { Entity } from '../entity.js';
-
+import { checkCollision, getCollisionNormal } from '../collision.js';
 export class Player extends Entity {
     constructor(x, y) {
-        const frameWidth = 16;
+        const frameWidth  = 16;
         const frameHeight = 32;
         const scale = 2;
-
-        super(x, y, frameWidth * scale, frameHeight * scale, {
+        const w = frameWidth  * scale;
+        const h = frameHeight * scale;
+        super(x, y, w, h, {
             sprite: './assets/player/spritesheet.png',
-            hasShadow: true
+            isSolid: false 
         });
-
-        this.frameWidth = frameWidth;
+        this.frameWidth  = frameWidth;
         this.frameHeight = frameHeight;
         this.scale = scale;
-
         this.maxFrames = 4;
-
         this.frameIndex = 0;
-        this.animTimer = 0;
-        this.frameDuration = 0.14;
+        this.animTimer  = 0;
+        this.frameDuration = 0.13;
 
         this.directionRow = 0;
-        this.isMoving = false;
-
         this.speed = 220;
+
+        this.collisionStep = 4;
     }
 
-    update(keys, dt) {
-        let dx = 0;
-        let dy = 0;
+    get collider() {
+        return {
+            type: 'ellipse',
+            x: this.x + this.width  / 2,
+            y: this.y + this.height - 15,
+            radiusX: 9,
+            radiusY: 6
+        };
+    }
+    get sortY() {
+        return this.y + this.height - 15;
+    }
+    update(keys, dt, collidables = []) {
+        let dx = (keys['KeyD'] || keys['ArrowRight'] ? 1 : 0) - (keys['KeyA'] || keys['ArrowLeft']  ? 1 : 0);
+        let dy = (keys['KeyS'] || keys['ArrowDown']  ? 1 : 0) - (keys['KeyW'] || keys['ArrowUp']   ? 1 : 0);
+        if (dx && dy) { dx *= 0.7071; dy *= 0.7071; }
 
-        if (keys['KeyS'] || keys['ArrowDown']) {
-            dy += 1;
-            this.directionRow = 0;
-        } else if (keys['KeyW'] || keys['ArrowUp']) {
-            dy -= 1;
-            this.directionRow = 2;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            this.directionRow = dx > 0 ? 1 : 3;
+        } else if (dy !== 0) {
+            this.directionRow = dy > 0 ? 0 : 2;
         }
+        const moved = this._move(dx * this.speed * dt, dy * this.speed * dt, collidables);
 
-        if (keys['KeyD'] || keys['ArrowRight']) {
-            dx += 1;
-            this.directionRow = 1;
-        } else if (keys['KeyA'] || keys['ArrowLeft']) {
-            dx -= 1;
-            this.directionRow = 3;
-        }
-
-        if (dx !== 0 && dy !== 0) {
-            dx *= 0.7071;
-            dy *= 0.7071;
-        }
-
-        this.x += dx * this.speed * dt;
-        this.y += dy * this.speed * dt;
-
-        this.isMoving = (dx !== 0 || dy !== 0);
-
-        if (this.isMoving) {
+        if (moved) {
             this.animTimer += dt;
             if (this.animTimer >= this.frameDuration) {
-                this.animTimer = 0;
+                this.animTimer %= this.frameDuration;
                 this.frameIndex = (this.frameIndex + 1) % this.maxFrames;
             }
         } else {
             this.frameIndex = 0;
-            this.animTimer = 0;
+            this.animTimer  = 0;
         }
     }
 
-     draw(ctx) {
+    _move(amountX, amountY, collidables) {
+        const startX = this.x;
+        const startY = this.y;
+        const steps = Math.max(1,
+            Math.ceil(Math.max(Math.abs(amountX), Math.abs(amountY)) / this.collisionStep)
+        );
+        const sx = amountX / steps;
+        const sy = amountY / steps;
+        for (let i = 0; i < steps; i++) {
+            this._step(sx, sy, collidables);
+        }
+        return this.x !== startX || this.y !== startY;
+    }
+    _step(sx, sy, collidables) {
+        const next = {
+            type: 'ellipse',
+            x: this.x + sx + this.width  / 2,
+            y: this.y + sy + this.height - 15,
+            radiusX: 9,
+            radiusY: 6
+        };
+
+        const blocker = collidables.find(obj => {
+            if (obj === this || !obj.isSolid) return false;
+            const shapes = obj.colliders ?? (obj.collider ? [obj.collider] : []);
+            return shapes.some(col => checkCollision(next, col));
+        });
+        if (!blocker) {
+            this.x += sx;
+            this.y += sy;
+            return;
+        }
+
+        const shapes = blocker.colliders ?? [blocker.collider];
+        const blockingShape = shapes.find(col => checkCollision(next, col)) ?? shapes[0];
+
+        const normal = getCollisionNormal(next, blockingShape);
+        const into   = sx * normal.x + sy * normal.y;
+        const slideX = into < 0 ? sx - normal.x * into : sx;
+        const slideY = into < 0 ? sy - normal.y * into : sy;
+
+        const nextX = { ...next, x: this.x + slideX + this.width / 2 };
+        const blockX = shapes.some(col => checkCollision(nextX, col));
+        if (!blockX) this.x += slideX;
+
+        const nextY = { ...next, x: this.x + this.width / 2, y: this.y + slideY + this.height - 10 };
+        const blockY = shapes.some(col => checkCollision(nextY, col));
+        if (!blockY) this.y += slideY;
+    }
+    draw(ctx) {
         ctx.save();
         ctx.imageSmoothingEnabled = false;
         if (this.isLoaded && this.sprite) {
