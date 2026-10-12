@@ -1,9 +1,10 @@
 import { Entity } from './entity.js';
 // Co wypada po rozbiciu drewnianego manekina:
 const DUMMY_LOOT_TABLE = [
-  { itemId: 'wood', chance: 1.0, min: 1, max: 3 },       // 100% na 1-3 kawałki drewna
-  { itemId: 'straw', chance: 0.8, min: 1, max: 2 },      // 80% na 1-2 słomy
-  { itemId: 'iron_scrap', chance: 0.35, min: 1, max: 1 } // 35% na złom z okuć
+  { itemId: 'wood', chance: 1.0, min: 1, max: 3 },
+  { itemId: 'bread', chance: 0.8, min: 1, max: 2 },
+  { itemId: 'iron_ingot', chance: 0.35, min: 1, max: 1 },
+  { itemId: 'diamond', chance: 0.99, min: 1, max: 5 }
 ];
 
 export class Dummy extends Entity {

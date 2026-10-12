@@ -102,23 +102,21 @@ class Game {
 
     // Zebranie przedmiotów pod 'E'
     if (this.input.isJustPressed('KeyE') && this.activeInteractable) {
-      for (let i = this.droppedItems.length - 1; i >= 0; i--) {
-        const item = this.droppedItems[i];
-        const dist = Math.hypot(this.player.x - item.x, this.player.y - item.y);
-        
-        if (dist < item.interactionRadius) {
-          this.lootNotifications.push({
-            text: `+${item.count} ${item.name}`,
-            color: item.color,
-            life: 2.2,
-            y: 80
-          });
-          this.droppedItems.splice(i, 1);
-        }
+      const itemToPick = this.activeInteractable;
+      const index = this.droppedItems.indexOf(itemToPick);
+      if (index !== -1) {
+        this.lootNotifications.push({
+          text: `+${itemToPick.count} ${itemToPick.name}`,
+          color: itemToPick.color,
+          life: 2.2,
+          y: 80
+        });
+        // Usuwamy tylko ten jeden konkretny przedmiot:
+        this.droppedItems.splice(index, 1);
+        this.activeInteractable = null;
       }
-      this.activeInteractable = null;
     }
-
+    
     // Aktualizacja powiadomień lootu
     for (let i = this.lootNotifications.length - 1; i >= 0; i--) {
       const notif = this.lootNotifications[i];

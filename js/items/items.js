@@ -6,18 +6,25 @@ export const itemDatabase = {
     color: '#854d0e',
     rarity: 'common'
   },
-  straw: {
-    id: 'straw',
-    name: 'Pęczek Słomy',
-    icon: 'assets/objects/items/straw.png', // <-- Twój asset słomy
-    color: '#eab308',
+  bread: {
+    id: 'bread',
+    name: 'Kawałek Chleba',
+    icon: 'assets/objects/items/bread.png', // <-- Twój asset chleba
+    color: '#f59e0b',
     rarity: 'common'
   },
-  iron_scrap: {
-    id: 'iron_scrap',
-    name: 'Złom Żelazny',
-    icon: 'assets/objects/items/iron_scrap.png', // <-- Twój asset żelaza
+  iron_ingot: {
+    id: 'iron_ingot',
+    name: 'Kawałek Żelaza',
+    icon: 'assets/objects/items/iron-ingot.png', // <-- Twój asset żelaza
     color: '#94a3b8',
     rarity: 'uncommon'
+  },
+  diamond: {
+    id: 'diamond',
+    name: 'Diament',
+    icon: 'assets/objects/items/diamond.png', // <-- Twój asset diamentu
+    color: '#06b6d4',
+    rarity: 'rare'
   }
 };

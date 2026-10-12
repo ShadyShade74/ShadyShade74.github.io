@@ -7,7 +7,9 @@ export class DroppedItem {
     this.color = itemData.color || '#fbbf24';
     this.count = itemData.count || 1;
 
-    this.targetSize = 20;
+    // Maksymalny rozmiar ikonki na ziemi w pikselach:
+    this.maxSize = itemData.size || 22; // <-- NAPRAWIONA ZMIENNA!
+
     this.sprite = null;
     if (itemData.icon) {
       this.sprite = new Image();
@@ -48,7 +50,8 @@ export class DroppedItem {
     const floatY = Math.sin(this.animTime) * 2.5;
 
     ctx.save();
-    // Cień
+
+    // 1. Cień na ziemi pod przedmiotem:
     ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
     ctx.beginPath();
     ctx.ellipse(screenX, screenY, 8, 4, 0, 0, Math.PI * 2);
@@ -56,13 +59,26 @@ export class DroppedItem {
 
     const itemCenterY = screenY - 10 + floatY;
 
+    // 2. Rysowanie grafiki przedmiotu:
     if (this.sprite && this.sprite.complete && this.sprite.naturalWidth > 0) {
       const maxDim = Math.max(this.sprite.naturalWidth, this.sprite.naturalHeight);
-      const scale = this.targetSize / maxDim;
-      const destW = this.sprite.naturalWidth * scale;
-      const destH = this.sprite.naturalHeight * scale;
-      ctx.drawImage(this.sprite, Math.round(screenX - destW / 2), Math.round(itemCenterY - destH / 2), Math.round(destW), Math.round(destH));
+      const scale = this.maxSize / maxDim; // Teraz działa poprawnie!
+      const destW = Math.round(this.sprite.naturalWidth * scale);
+      const destH = Math.round(this.sprite.naturalHeight * scale);
+
+      ctx.imageSmoothingEnabled = false;
+
+      // Efekt stosu jeśli count > 1:
+      if (this.count > 1) {
+        ctx.globalAlpha = 0.7;
+        ctx.drawImage(this.sprite, Math.round(screenX - destW / 2 + 3), Math.round(itemCenterY - destH / 2 - 3), destW, destH);
+        ctx.globalAlpha = 1.0;
+      }
+
+      // Główny przedmiot:
+      ctx.drawImage(this.sprite, Math.round(screenX - destW / 2), Math.round(itemCenterY - destH / 2), destW, destH);
     } else {
+      // Kolorowy fallback:
       ctx.fillStyle = this.color;
       ctx.beginPath();
       ctx.arc(screenX, itemCenterY, 5, 0, Math.PI * 2);
@@ -71,6 +87,7 @@ export class DroppedItem {
       ctx.lineWidth = 1.2;
       ctx.stroke();
     }
+
     ctx.restore();
   }
 }
