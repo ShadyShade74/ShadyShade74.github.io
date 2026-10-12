@@ -5,62 +5,76 @@ export class Player {
   constructor(x = 1910, y = 1960) {
     this.x = x;
     this.y = y;
-
+    // Fizyczny collisionBox stóp (zielona elipsa w F3)
     this.collisionBox = {
       radiusX: 14,
       radiusY: 7,
       offsetX: 0,
       offsetY: -13
     };
-
+    // Statystyki walki
+    this.hitsThisSwing = new Set();
+    this.baseDamage = 25;
+    // Ruch i bieganie
     this.baseSpeed = 180;
     this.runSpeed = 290;
     this.speed = this.baseSpeed;
-
-    this.direction = 0;
+    this.direction = 0; // 0: Dół, 1: Prawo, 2: Góra, 3: Lewo
     this.isMoving = false;
     this.isRunning = false;
-
+    // Paski Zdrowia i Staminy
     this.maxHp = 100;
     this.hp = 100;
     this.maxStamina = 100;
     this.stamina = 100;
     this.staminaRegenRate = 25;
     this.runStaminaCost = 25;
-
-    // Mechanika ataku
+    // Mechanika Ataku
     this.isAttacking = false;
     this.attackTimer = 0;
     this.attackDuration = 0.22;
     this.attackCooldown = 0;
     this.attackCooldownTime = 0.32;
-    this.currentBladeAngle = 0;
+    this.attackType = 'slash'; // 'slash' lub 'thrust'
     this.attackAnimFrame = 0;
-
-    // Wymiary ostrza miecza
+    this.attackFrameCount = 4;
+    this.attackStartAngle = 0;
+    this.attackEndAngle = 0;
+    this.attackAngle = 0;
+    // Parametry Dasha przy pchnięciu
+    this.thrustDashSpeed = 0;
+    this.thrustDirX = 0;
+    this.thrustDirY = 0;
+    // Fizyczna belka ostrza (pomarańczowa w F3)
     this.bladeLength = 38;
     this.bladeWidth = 6;
+    this.currentBladeAngle = 0;
     this.bladeCurrentHilt = { x: 0, y: 0 };
     this.bladeCurrentTip = { x: 0, y: 0 };
-
+    // 1. Spritesheet chodu (16x32 na klatkę)
     this.sprite = new Image();
     this.sprite.src = 'assets/player/spritesheet.png';
     this.spriteLoaded = false;
     this.sprite.onload = () => { this.spriteLoaded = true; };
-
     this.frameWidth = 16;
     this.frameHeight = 32;
     this.scale = 2.5;
-
     this.animTime = 0;
     this.animFrame = 0;
+    // 2. Spritesheet cięcia (Slash - 32x32 na klatkę)
     this.attackSprite = new Image();
     this.attackSprite.src = 'assets/player/attack.png';
     this.attackSpriteLoaded = false;
     this.attackSprite.onload = () => { this.attackSpriteLoaded = true; };
     this.attackFrameWidth = 32;
     this.attackFrameHeight = 32;
-    this.attackFrameCount = 4;
+    // 3. Rozdzielone Spritesheety pchnięcia (Thrust - góra i dół)
+    this.thrustSprites = {
+      up: new Image(),
+      down: new Image()
+    };
+    this.thrustSprites.up.src = 'assets/player/thrust-attack-up.png';
+    this.thrustSprites.down.src = 'assets/player/thrust-attack-down.png';
   }
 
   update(dt, input, chunkManager) {
@@ -71,22 +85,45 @@ export class Player {
     if (this.isAttacking) {
       this.attackTimer += dt;
       const progress = Math.min(1, this.attackTimer / this.attackDuration);
-      this.attackAnimFrame = Math.min(
-        this.attackFrameCount - 1,
-        Math.floor(progress * this.attackFrameCount)
-      );
-
-      // Płynna interpolacja kąta zamachu
+      if (this.attackType === 'thrust') {
+        // 2 klatki: do 40% doskok (klatka 0), od 40% wbity sztych (klatka 1)
+        this.attackAnimFrame = progress < 0.40 ? 0 : 1;
+        // Płynny Dash kontynuujący bieg:
+        if (progress < 0.65) {
+          const dashProgress = progress / 0.65;
+          const speedFactor = Math.pow(1 - dashProgress, 1.2);
+          const currentSpeed = this.thrustDashSpeed * speedFactor;
+          const nextX = this.x + this.thrustDirX * currentSpeed * dt;
+          const nextY = this.y + this.thrustDirY * currentSpeed * dt;
+          const resolved = chunkManager.resolveMovement(this, nextX, nextY);
+          this.x = resolved.x;
+          this.y = resolved.y;
+        }
+      } else {
+        this.attackAnimFrame = Math.min(
+          this.attackFrameCount - 1,
+          Math.floor(progress * this.attackFrameCount)
+        );
+      }
       this.currentBladeAngle = this.attackStartAngle + (this.attackEndAngle - this.attackStartAngle) * progress;
-
-      // Punkt dłoni gracza
-      const handOffsetY = -14;
-      this.bladeCurrentHilt.x = this.x + Math.cos(this.currentBladeAngle) * 10;
-      this.bladeCurrentHilt.y = (this.y + handOffsetY) + Math.sin(this.currentBladeAngle) * 10;
-
+      let handOffsetY = -14;
+      if (this.attackType === 'thrust') {
+        if (this.direction === 0) {
+          handOffsetY = -22;
+        } else if (this.direction === 1 || this.direction === 3) {
+          handOffsetY = -20;
+        } else if (this.direction === 2) {
+          handOffsetY = -16;
+        }
+      }
+      // TEJ JEDNEJ LINIJKI ZABRAKŁO:
+      const armExtension = this.attackType === 'thrust' ? (progress < 0.40 ? 6 : 20) : 10;
+      // Rękojeść i sztych przesuwają się w przód o stałą długość:
+      this.bladeCurrentHilt.x = this.x + Math.cos(this.currentBladeAngle) * armExtension;
+      this.bladeCurrentHilt.y = (this.y + handOffsetY) + Math.sin(this.currentBladeAngle) * armExtension;
       this.bladeCurrentTip.x = this.bladeCurrentHilt.x + Math.cos(this.currentBladeAngle) * this.bladeLength;
       this.bladeCurrentTip.y = this.bladeCurrentHilt.y + Math.sin(this.currentBladeAngle) * this.bladeLength;
-
+      
       if (this.attackTimer >= this.attackDuration) {
         this.isAttacking = false;
         this.attackTimer = 0;
@@ -139,31 +176,51 @@ export class Player {
     this.attackTimer = 0;
     this.attackAnimFrame = 0;
     this.attackCooldown = this.attackCooldownTime;
-
     const deltaX = input.mouse.worldX - this.x;
     const deltaY = input.mouse.worldY - (this.y - 14);
-    const baseAngle = Math.atan2(deltaY, deltaX);
-
     this.updateDirection(deltaX, deltaY);
-
-    const arcSpread = 0.95; // ~55 stopni zasięgu
-
-    // Downward attacks keep their original sweep; horizontal attacks follow the sprite.
-    if (this.direction === 0) {
-      if (deltaX < 0) {
+    const cardinalAngles = [Math.PI / 2, 0, -Math.PI / 2, Math.PI];
+    const cardinalVectors = [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: -1, y: 0 }];
+    const baseAngle = cardinalAngles[this.direction];
+    const baseVector = cardinalVectors[this.direction];
+    const wantsThrust = input.isDown('ShiftLeft') || input.isDown('ShiftRight');
+    if (wantsThrust) {
+      this.attackType = 'thrust';
+      this.attackFrameCount = 2; // 2 klatki
+      this.attackDuration = 0.22;
+      this.attackStartAngle = baseAngle;
+      this.attackEndAngle = baseAngle;
+      this.attackAngle = baseAngle;
+      // ZACHOWANIE PĘDU: Jeśli już biegniesz, prędkość sprintu dodaje się do Dasha!
+      // Dzięki temu gracz nie staje w miejscu, tylko wystrzeliwuje jak z procy:
+      const sprintBoost = this.isRunning ? 200 : 0;
+      this.thrustDashSpeed = 460 + sprintBoost;
+      this.thrustDirX = baseVector.x;
+      this.thrustDirY = baseVector.y;
+    } else {
+      this.attackType = 'slash';
+      this.attackFrameCount = 4;
+      this.attackDuration = 0.22;
+      this.thrustDashSpeed = 0;
+      this.thrustDirX = 0;
+      this.thrustDirY = 0;
+      this.attackAngle = baseAngle;
+      const arcSpread = 0.95;
+      if (this.direction === 0) {
+        this.attackStartAngle = baseAngle - arcSpread;
+        this.attackEndAngle = baseAngle + arcSpread;
+      } else if (this.direction === 2) {
         this.attackStartAngle = baseAngle + arcSpread;
         this.attackEndAngle = baseAngle - arcSpread;
+      } else if (this.direction === 3) {
+        this.attackStartAngle = baseAngle - arcSpread;
+        this.attackEndAngle = baseAngle + arcSpread;
       } else {
         this.attackStartAngle = baseAngle - arcSpread;
         this.attackEndAngle = baseAngle + arcSpread;
       }
-    } else if (deltaX < 0) {
-      this.attackStartAngle = baseAngle - arcSpread;
-      this.attackEndAngle = baseAngle + arcSpread;
-    } else {
-      this.attackStartAngle = baseAngle + arcSpread;
-      this.attackEndAngle = baseAngle - arcSpread;
     }
+    this.hitsThisSwing.clear();
   }
 
   updateDirection(dx, dy) {
@@ -178,22 +235,55 @@ export class Player {
     const proj = heightmap.toScreen(this.x, this.y);
     const screenX = proj.screenX;
     const screenY = proj.screenY;
-    if (this.isAttacking && this.attackSpriteLoaded) {
-      const destW = this.attackFrameWidth * this.scale;
-      const destH = this.attackFrameHeight * this.scale;
-      const destX = screenX - destW / 2;
-      const destY = screenY - destH + 4;
-      ctx.drawImage(
-        this.attackSprite,
-        this.attackAnimFrame * this.attackFrameWidth,
-        ATTACK_SPRITE_ROWS[this.direction] * this.attackFrameHeight,
-        this.attackFrameWidth,
-        this.attackFrameHeight,
-        Math.round(destX),
-        Math.round(destY),
-        destW,
-        destH
-      );
+    if (this.isAttacking) {
+      if (this.attackType === 'thrust') {
+        // Wybieramy odpowiedni plik w zależności od kierunku:
+        let thrustImg = null;
+        if (this.direction === 0 && this.thrustSprites.down.complete) {
+          thrustImg = this.thrustSprites.down; // W DÓŁ
+        } else if (this.direction === 2 && this.thrustSprites.up.complete) {
+          thrustImg = this.thrustSprites.up;   // W GÓRĘ
+        }
+        if (thrustImg) {
+          const frameW = Math.floor(thrustImg.naturalWidth / 2); // 32 px
+          const frameH = thrustImg.naturalHeight;                // 32 px
+          const destW = frameW * this.scale;
+          const destH = frameH * this.scale;
+          const destX = screenX - destW / 2;
+          const destY = screenY - destH + 4;
+          ctx.drawImage(
+            thrustImg,
+            this.attackAnimFrame * frameW,
+            0, // te pliki mają 1 rząd
+            frameW,
+            frameH,
+            Math.round(destX),
+            Math.round(destY),
+            destW,
+            destH
+          );
+          return;
+        }
+      }
+      // Zwykłe cięcie (lub fallback, gdy atakujesz w boki przed dorysowaniem lewo/prawo):
+      if (this.attackSpriteLoaded && this.attackSprite.complete) {
+        const destW = this.attackFrameWidth * this.scale;
+        const destH = this.attackFrameHeight * this.scale;
+        const destX = screenX - destW / 2;
+        const destY = screenY - destH + 4;
+        ctx.drawImage(
+          this.attackSprite,
+          this.attackAnimFrame * this.attackFrameWidth,
+          ATTACK_SPRITE_ROWS[this.direction] * this.attackFrameHeight,
+          this.attackFrameWidth,
+          this.attackFrameHeight,
+          Math.round(destX),
+          Math.round(destY),
+          destW,
+          destH
+        );
+        return;
+      }
     } else if (this.spriteLoaded) {
       const destW = this.frameWidth * this.scale;
       const destH = this.frameHeight * this.scale;
@@ -263,6 +353,51 @@ export class Player {
       ctx.fill();
 
       ctx.restore();
+    }
+  }
+  checkCombatCollisions(targets, onHitCallback) {
+     if (!this.isAttacking) return;
+    const hilt = this.bladeCurrentHilt;
+    const tip = this.bladeCurrentTip;
+    for (const target of targets) {
+      if (!target.hurtbox || this.hitsThisSwing.has(target)) continue;
+      const targetX = target.x + target.hurtbox.offsetX;
+      const targetY = target.y + target.hurtbox.offsetY;
+      const radiusX = target.hurtbox.radiusX;
+      const radiusY = target.hurtbox.radiusY;
+      const scaleRatio = radiusX / radiusY;
+      const scaledHiltY = hilt.y * scaleRatio;
+      const scaledTipY = tip.y * scaleRatio;
+      const scaledTargetY = targetY * scaleRatio;
+      const lineDx = tip.x - hilt.x;
+      const lineDy = scaledTipY - scaledHiltY;
+      const lineLengthSq = lineDx * lineDx + lineDy * lineDy;
+      let closestT = 0;
+      if (lineLengthSq > 0) {
+        closestT = ((targetX - hilt.x) * lineDx + (scaledTargetY - scaledHiltY) * lineDy) / lineLengthSq;
+        closestT = Math.max(0, Math.min(1, closestT));
+      }
+      const closestX = hilt.x + closestT * lineDx;
+      const closestY = scaledHiltY + closestT * lineDy;
+      const distance = Math.hypot(targetX - closestX, scaledTargetY - closestY);
+      if (distance <= radiusX + 6) {
+        this.hitsThisSwing.add(target);
+        
+        const hitWorldX = hilt.x + closestT * (tip.x - hilt.x);
+        const hitWorldY = hilt.y + closestT * (tip.y - hilt.y);
+        
+        const knockbackForce = this.attackType === 'thrust' ? 260 : 130;
+        target.takeDamage(this.baseDamage, this.attackAngle, knockbackForce);
+        
+        if (onHitCallback) {
+          onHitCallback({
+            x: hitWorldX,
+            y: hitWorldY,
+            damage: this.baseDamage,
+            target: target
+          });
+        }
+      }
     }
   }
 }

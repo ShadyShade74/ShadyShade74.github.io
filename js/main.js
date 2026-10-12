@@ -2,6 +2,7 @@ import { Input } from './core/input.js';
 import { Camera } from './core/camera.js';
 import { ChunkManager } from './world/chunkManager.js';
 import { Player } from './entities/player.js';
+import { Dummy } from './entities/dummy.js';
 
 class Game {
   constructor() {
@@ -21,13 +22,20 @@ class Game {
     this.world = new ChunkManager(4096, 4096);
     this.camera.setWorldBounds(0, 0, this.world.worldWidth, this.world.worldHeight);
 
+    // Gracz i Kukła treningowa
     this.player = new Player(1910, 1960);
+    this.dummy = new Dummy(2040, 1960);
+
     this.camera.x = this.player.x - this.canvas.width / 2;
     this.camera.y = this.player.y - this.canvas.height / 2;
 
     this.debugMode = false;
     this.fps = 60;
     this.lastTime = 0;
+
+    // Pływające cyfry obrażeń
+    this.damageNumbers = [];
+
     this.loop = this.loop.bind(this);
   }
 
@@ -59,27 +67,56 @@ class Game {
 
     this.input.updateWorldPosition(this.camera.x, this.camera.y);
     this.player.update(dt, this.input, this.world);
-    
+    this.dummy.update(dt);
+
+    // Sprawdzenie ciosu ostrza w manekina
+    this.player.checkCombatCollisions([this.dummy], (hitInfo) => {
+      this.damageNumbers.push({
+        x: hitInfo.x,
+        y: hitInfo.y - 10,
+        amount: hitInfo.damage,
+        life: 0.8,
+        maxLife: 0.8,
+        vy: -45
+      });
+    });
+
+    // Aktualizacja cyfr obrażeń
+    for (let i = this.damageNumbers.length - 1; i >= 0; i--) {
+      const num = this.damageNumbers[i];
+      num.life -= dt;
+      num.y += num.vy * dt;
+      num.vy += 35 * dt;
+      if (num.life <= 0) {
+        this.damageNumbers.splice(i, 1);
+      }
+    }
+
     const proj = this.world.heightmap.toScreen(this.player.x, this.player.y);
     this.camera.follow(proj.screenX, proj.screenY, dt);
   }
 
-    draw() {
+  draw() {
     this.ctx.fillStyle = '#0a140a';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // 1. WŁĄCZENIE KAMERY ŚWIATA:
     this.camera.apply(this.ctx);
-    this.world.draw(this.ctx, this.camera, [this.player]);
+    
+    // Y-sorting: gracz i manekin
+    this.world.draw(this.ctx, this.camera, [this.player, this.dummy]);
 
-    // Wewnątrz kamery rysujemy elementy świata w F3:
+    // Cyfry obrażeń
+    this.drawDamageNumbers(this.ctx);
+
     if (this.debugMode) {
-      this.world.drawDebug(this.ctx, this.camera, [this.player]);
-      this.player.drawDebug(this.ctx); // <-- TUTAJ! PRZED camera.restore()
+      this.world.drawDebug(this.ctx, this.camera, [this.player, this.dummy]);
+      this.player.drawDebug(this.ctx);
+      this.dummy.drawDebug(this.ctx);
     }
-    this.camera.restore(this.ctx); // 2. WYŁĄCZENIE KAMERY ŚWIATA
+    
+    this.camera.restore(this.ctx);
 
-    // 3. Rysowanie interfejsu (na stałe na ekranie)
+    // Twój czysty HUD
     this.drawCleanHUD();
 
     if (this.debugMode) {
@@ -87,6 +124,22 @@ class Game {
     }
   }
 
+  drawDamageNumbers(ctx) {
+    ctx.save();
+    for (const num of this.damageNumbers) {
+      const alpha = Math.max(0, num.life / num.maxLife);
+      ctx.globalAlpha = alpha;
+      ctx.font = 'bold 18px "Segoe UI", sans-serif';
+      ctx.fillStyle = '#f87171';
+      ctx.strokeStyle = '#450a0a';
+      ctx.lineWidth = 3;
+      ctx.strokeText(`-${num.amount}`, Math.round(num.x), Math.round(num.y));
+      ctx.fillText(`-${num.amount}`, Math.round(num.x), Math.round(num.y));
+    }
+    ctx.restore();
+  }
+
+  // Twój oryginalny, minimalistyczny HUD
   drawCleanHUD() {
     const ctx = this.ctx;
 
@@ -127,7 +180,7 @@ class Game {
     ctx.fillText(`fps: ${this.fps}`, this.canvas.width - 224, 62);
     ctx.fillText(`player: x:${Math.round(this.player.x)} y:${Math.round(this.player.y)}`, this.canvas.width - 224, 78);
     const box = this.player.collisionBox;
-    ctx.fillText(`collision: ${box.radiusX}x${box.radiusY} [${box.offsetX}, ${box.offsetY}]`, this.canvas.width - 224, 94);
+    ctx.fillText(`collision: ${box.radiusX}x${box.radiusY}`, this.canvas.width - 224, 94);
     ctx.restore();
   }
 }
