@@ -3,6 +3,8 @@ import { Camera } from './core/camera.js';
 import { ChunkManager } from './world/chunkManager.js';
 import { Player } from './entities/player.js';
 import { Dummy } from './entities/dummy.js';
+import { rollLoot } from './items/lootTable.js';
+import { DroppedItem } from './items/droppedItem.js';
 
 class Game {
   constructor() {
@@ -32,6 +34,11 @@ class Game {
     this.debugMode = false;
     this.fps = 60;
     this.lastTime = 0;
+
+    // Przedmioty na ziemi i interakcja
+    this.droppedItems = [];
+    this.activeInteractable = null;
+    this.lootNotifications = [];
 
     // Pływające cyfry obrażeń
     this.damageNumbers = [];
@@ -67,9 +74,62 @@ class Game {
 
     this.input.updateWorldPosition(this.camera.x, this.camera.y);
     this.player.update(dt, this.input, this.world);
-    this.dummy.update(dt);
 
-    // Sprawdzenie ciosu ostrza w manekina
+    // 1. Manekin i wypadanie lootu
+    this.dummy.update(dt);
+    if (this.dummy.isDead && !this.dummy.lootDropped) {
+      this.dummy.lootDropped = true;
+      const rolled = rollLoot(this.dummy.lootTable);
+      for (const item of rolled) {
+        this.droppedItems.push(new DroppedItem(this.dummy.x, this.dummy.y, item));
+      }
+    }
+
+    // 2. Interakcja ze światem pod klawiszem [E]
+    this.activeInteractable = null;
+    let closestDist = Infinity;
+
+    for (let i = this.droppedItems.length - 1; i >= 0; i--) {
+      const item = this.droppedItems[i];
+      item.update(dt);
+
+      const dist = Math.hypot(this.player.x - item.x, this.player.y - item.y);
+      if (dist < item.interactionRadius && dist < closestDist) {
+        closestDist = dist;
+        this.activeInteractable = item;
+      }
+    }
+
+    // Zebranie przedmiotów pod 'E'
+    if (this.input.isJustPressed('KeyE') && this.activeInteractable) {
+      for (let i = this.droppedItems.length - 1; i >= 0; i--) {
+        const item = this.droppedItems[i];
+        const dist = Math.hypot(this.player.x - item.x, this.player.y - item.y);
+        
+        if (dist < item.interactionRadius) {
+          this.lootNotifications.push({
+            text: `+${item.count} ${item.name}`,
+            color: item.color,
+            life: 2.2,
+            y: 80
+          });
+          this.droppedItems.splice(i, 1);
+        }
+      }
+      this.activeInteractable = null;
+    }
+
+    // Aktualizacja powiadomień lootu
+    for (let i = this.lootNotifications.length - 1; i >= 0; i--) {
+      const notif = this.lootNotifications[i];
+      notif.life -= dt;
+      notif.y -= 15 * dt;
+      if (notif.life <= 0) {
+        this.lootNotifications.splice(i, 1);
+      }
+    }
+
+    // 3. Sprawdzenie ciosu ostrza w manekina
     this.player.checkCombatCollisions([this.dummy], (hitInfo) => {
       this.damageNumbers.push({
         x: hitInfo.x,
@@ -100,28 +160,98 @@ class Game {
     this.ctx.fillStyle = '#0a140a';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // 1. WŁĄCZENIE KAMERY ŚWIATA:
     this.camera.apply(this.ctx);
-    
-    // Y-sorting: gracz i manekin
-    this.world.draw(this.ctx, this.camera, [this.player, this.dummy]);
 
-    // Cyfry obrażeń
+    // Dynamiczne byty w świecie:
+    const entitiesToDraw = [this.player];
+    if (this.dummy && !this.dummy.isDestroyed) {
+      entitiesToDraw.push(this.dummy);
+    }
+    entitiesToDraw.push(...this.droppedItems);
+
+    // Rysowanie świata z Y-Sortingiem:
+    this.world.draw(this.ctx, this.camera, entitiesToDraw);
+
+    // Dymek interakcji [E] (nad przedmiotem w świecie):
+    if (this.activeInteractable) {
+      this.drawInteractionPrompt(this.ctx, this.activeInteractable);
+    }
+
+    // Cyfry obrażeń w świecie:
     this.drawDamageNumbers(this.ctx);
 
+    // Tryb debugowania F3:
     if (this.debugMode) {
-      this.world.drawDebug(this.ctx, this.camera, [this.player, this.dummy]);
+      this.world.drawDebug(this.ctx, this.camera, [this.player]);
       this.player.drawDebug(this.ctx);
-      this.dummy.drawDebug(this.ctx);
+      if (this.dummy && !this.dummy.isDestroyed) {
+        this.dummy.drawDebug(this.ctx);
+      }
     }
     
+    // 2. WYŁĄCZENIE KAMERY ŚWIATA:
     this.camera.restore(this.ctx);
 
-    // Twój czysty HUD
+    // 3. Rysowanie interfejsu (na stałe na ekranie):
     this.drawCleanHUD();
 
     if (this.debugMode) {
       this.drawDebugPanel();
     }
+
+    // Powiadomienia o łupie na ekranie:
+    this.ctx.save();
+    for (let i = 0; i < this.lootNotifications.length; i++) {
+      const notif = this.lootNotifications[i];
+      const alpha = Math.min(1, notif.life);
+      this.ctx.globalAlpha = alpha;
+      this.ctx.fillStyle = notif.color;
+      this.ctx.font = 'bold 14px "Segoe UI", sans-serif';
+      this.ctx.fillText(notif.text, 32, notif.y + i * 22);
+    }
+    this.ctx.restore();
+  }
+
+  drawInteractionPrompt(ctx, interactable) {
+    const proj = this.world.heightmap.toScreen(interactable.x, interactable.y);
+    const x = proj.screenX;
+    const y = proj.screenY - 26;
+
+    ctx.save();
+    const promptText = interactable.getPrompt();
+
+    ctx.font = 'bold 11px "Segoe UI", sans-serif';
+    const textW = ctx.measureText(promptText).width;
+    const badgeW = 20;
+    const totalW = textW + badgeW + 16;
+
+    // Ciemne tło dymka
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.beginPath();
+    ctx.roundRect(x - totalW / 2, y - 10, totalW, 20, 4);
+    ctx.fill();
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Złoty znaczek [E]
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.roundRect(x - totalW / 2 + 4, y - 7, 14, 14, 3);
+    ctx.fill();
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('E', x - totalW / 2 + 11, y + 4);
+
+    // Tekst akcji
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 11px "Segoe UI", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(promptText, x - totalW / 2 + 22, y + 4);
+
+    ctx.restore();
   }
 
   drawDamageNumbers(ctx) {
@@ -139,10 +269,8 @@ class Game {
     ctx.restore();
   }
 
-  // Twój oryginalny, minimalistyczny HUD
   drawCleanHUD() {
     const ctx = this.ctx;
-
     ctx.save();
     ctx.fillStyle = 'rgba(10, 15, 20, 0.75)';
     ctx.beginPath();
@@ -160,7 +288,6 @@ class Game {
     ctx.fillRect(32, 48, 204, 10);
     ctx.fillStyle = this.player.isRunning ? '#38bdf8' : '#10b981';
     ctx.fillRect(32, 48, staminaPercent * 204, 10);
-
     ctx.restore();
   }
 

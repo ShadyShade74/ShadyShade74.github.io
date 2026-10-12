@@ -46,7 +46,7 @@ export class Player {
     this.thrustDirX = 0;
     this.thrustDirY = 0;
     // Fizyczna belka ostrza (pomarańczowa w F3)
-    this.bladeLength = 38;
+    this.bladeLength = 40;
     this.bladeWidth = 6;
     this.currentBladeAngle = 0;
     this.bladeCurrentHilt = { x: 0, y: 0 };
@@ -356,11 +356,12 @@ export class Player {
     }
   }
   checkCombatCollisions(targets, onHitCallback) {
-     if (!this.isAttacking) return;
+    if (!this.isAttacking) return;
     const hilt = this.bladeCurrentHilt;
     const tip = this.bladeCurrentTip;
     for (const target of targets) {
-      if (!target.hurtbox || this.hitsThisSwing.has(target)) continue;
+      // Martwy cel (isDead) lub brak hurtboxa = POMIJAMY!
+      if (!target || target.isDead || !target.hurtbox || this.hitsThisSwing.has(target)) continue;
       const targetX = target.x + target.hurtbox.offsetX;
       const targetY = target.y + target.hurtbox.offsetY;
       const radiusX = target.hurtbox.radiusX;

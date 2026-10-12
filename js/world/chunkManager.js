@@ -183,6 +183,8 @@ export class ChunkManager {
 
     // 2. Collision box gracza
     for (const ent of dynamicEntities) {
+      if (!ent.collisionBox) continue;
+      
       const box = ent.collisionBox;
       const centerX = ent.x + box.offsetX;
       const centerY = ent.y + box.offsetY;
