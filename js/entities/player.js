@@ -116,14 +116,14 @@ export class Player {
           handOffsetY = -16;
         }
       }
-      // TEJ JEDNEJ LINIJKI ZABRAKŁO:
+
       const armExtension = this.attackType === 'thrust' ? (progress < 0.40 ? 6 : 20) : 10;
-      // Rękojeść i sztych przesuwają się w przód o stałą długość:
+
       this.bladeCurrentHilt.x = this.x + Math.cos(this.currentBladeAngle) * armExtension;
       this.bladeCurrentHilt.y = (this.y + handOffsetY) + Math.sin(this.currentBladeAngle) * armExtension;
       this.bladeCurrentTip.x = this.bladeCurrentHilt.x + Math.cos(this.currentBladeAngle) * this.bladeLength;
       this.bladeCurrentTip.y = this.bladeCurrentHilt.y + Math.sin(this.currentBladeAngle) * this.bladeLength;
-      
+
       if (this.attackTimer >= this.attackDuration) {
         this.isAttacking = false;
         this.attackTimer = 0;
