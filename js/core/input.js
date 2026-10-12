@@ -1,106 +1,102 @@
-export class InputHandler {
-    constructor(canvas, camera) {
-        this.canvas = canvas;
-        this.camera = camera;
+export class Input {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.heldKeys = new Set();
+    this.tappedKeys = new Set();
 
-        this.keys = {
-            up: false,
-            down: false,
-            left: false,
-            right: false,
-            shift: false,
-            ctrl: false,
-            interact: false
-        };
+    this.mouse = {
+      screenX: 0,
+      screenY: 0,
+      worldX: 0,
+      worldY: 0,
+      isLeftDown: false,
+      isRightDown: false,
+      leftJustPressed: false,
+      rightJustPressed: false
+    };
 
-        this.mouse = {
-            screenX: 0,
-            screenY: 0,
-            worldX: 0,
-            worldY: 0,
-            leftButton: false,
-            rightButton: false
-        };
+    window.addEventListener('keydown', (e) => {
+      // Blokujemy przewijanie i wyszukiwarkę F3
+      if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'F3'].includes(e.code)) {
+        e.preventDefault();
+      }
+      if (!this.heldKeys.has(e.code)) {
+        this.tappedKeys.add(e.code);
+      }
+      this.heldKeys.add(e.code);
+    });
 
-        this.setupKeyboardListeners();
-        this.setupMouseListeners();
+    window.addEventListener('keyup', (e) => {
+      this.heldKeys.delete(e.code);
+    });
+
+    window.addEventListener('blur', () => {
+      this.heldKeys.clear();
+      this.tappedKeys.clear();
+      this.mouse.isLeftDown = false;
+      this.mouse.isRightDown = false;
+      this.mouse.leftJustPressed = false;
+      this.mouse.rightJustPressed = false;
+    });
+
+    this.canvas.addEventListener('mousemove', (e) => {
+      const rect = this.canvas.getBoundingClientRect();
+      this.mouse.screenX = (e.clientX - rect.left) * (this.canvas.width / rect.width);
+      this.mouse.screenY = (e.clientY - rect.top) * (this.canvas.height / rect.height);
+    });
+
+    this.canvas.addEventListener('mousedown', (e) => {
+      if (e.button === 0) {
+        this.mouse.isLeftDown = true;
+        this.mouse.leftJustPressed = true;
+      } else if (e.button === 2) {
+        this.mouse.isRightDown = true;
+        this.mouse.rightJustPressed = true;
+      }
+    });
+
+    this.canvas.addEventListener('mouseup', (e) => {
+      if (e.button === 0) this.mouse.isLeftDown = false;
+      if (e.button === 2) this.mouse.isRightDown = false;
+    });
+
+    this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+
+  isDown(code) {
+    return this.heldKeys.has(code);
+  }
+
+  isJustPressed(code) {
+    return this.tappedKeys.has(code);
+  }
+
+  getMovementVector() {
+    let x = 0;
+    let y = 0;
+
+    if (this.isDown('KeyW') || this.isDown('ArrowUp')) y -= 1;
+    if (this.isDown('KeyS') || this.isDown('ArrowDown')) y += 1;
+    if (this.isDown('KeyA') || this.isDown('ArrowLeft')) x -= 1;
+    if (this.isDown('KeyD') || this.isDown('ArrowRight')) x += 1;
+
+    if (x !== 0 && y !== 0) {
+      const factor = 1 / Math.SQRT2;
+      x *= factor;
+      y *= factor;
     }
 
-    setupKeyboardListeners() {
-        window.addEventListener('keydown', (event) => {
-            this.handleKey(event.code, true);
-        });
+    return { x, y };
+  }
 
-        window.addEventListener('keyup', (event) => {
-            this.handleKey(event.code, false);
-        });
-    }
+  updateWorldPosition(camX, camY) {
+    this.mouse.worldX = this.mouse.screenX + camX;
+    this.mouse.worldY = this.mouse.screenY + camY;
+  }
 
-    handleKey(code, isPressed) {
-        switch (code) {
-            case 'KeyW':
-            case 'ArrowUp':
-                this.keys.up = isPressed;
-                break;
-            case 'KeyS':
-            case 'ArrowDown':
-                this.keys.down = isPressed;
-                break;
-            case 'KeyA':
-            case 'ArrowLeft':
-                this.keys.left = isPressed;
-                break;
-            case 'KeyD':
-            case 'ArrowRight':
-                this.keys.right = isPressed;
-                break;
-            case 'ShiftLeft':
-            case 'ShiftRight':
-                this.keys.shift = isPressed;
-                break;
-            case 'ControlLeft':
-            case 'ControlRight':
-                this.keys.ctrl = isPressed;
-                break;
-            case 'KeyE':
-                this.keys.interact = isPressed;
-                break;
-        }
-    }
-
-    setupMouseListeners() {
-        // Blokada prawego kliku (aby menu przeglądarki nie przerywało bloku/parry)
-        this.canvas.addEventListener('contextmenu', (event) => {
-            event.preventDefault();
-        });
-
-        window.addEventListener('mousemove', (event) => {
-            const rect = this.canvas.getBoundingClientRect();
-            this.mouse.screenX = event.clientX - rect.left;
-            this.mouse.screenY = event.clientY - rect.top;
-
-            // Przeliczenie na pozycję w świecie przez kamerę
-            if (this.camera) {
-                const worldPos = this.camera.screenToWorld(this.mouse.screenX, this.mouse.screenY);
-                this.mouse.worldX = worldPos.x;
-                this.mouse.worldY = worldPos.y;
-            }
-        });
-
-        window.addEventListener('mousedown', (event) => {
-            if (event.button === 0) {
-                this.mouse.leftButton = true;
-            } else if (event.button === 2) {
-                this.mouse.rightButton = true;
-            }
-        });
-
-        window.addEventListener('mouseup', (event) => {
-            if (event.button === 0) {
-                this.mouse.leftButton = false;
-            } else if (event.button === 2) {
-                this.mouse.rightButton = false;
-            }
-        });
-    }
+  endFrame() {
+    this.tappedKeys.clear();
+    this.mouse.leftJustPressed = false;
+    this.mouse.rightJustPressed = false;
+  }
 }

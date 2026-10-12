@@ -1,133 +1,268 @@
-const directionRows = {
-    down: 0,
-    right: 1,
-    up: 2,
-    left: 3
-};
+const PLAYER_SPRITE_ROWS = [0, 1, 2, 3];
+const ATTACK_SPRITE_ROWS = [0, 2, 1, 3];
 
 export class Player {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.z = 0; // Wysokość w przestrzeni 2.5D
+  constructor(x = 1910, y = 1960) {
+    this.x = x;
+    this.y = y;
 
-        // Wymiary kolizyjne / bazowe
-        this.width = 24;
-        this.height = 36;
+    this.collisionBox = {
+      radiusX: 14,
+      radiusY: 7,
+      offsetX: 0,
+      offsetY: -13
+    };
 
-        // Wczytywanie spritesheetu
-        this.sprite = new Image();
-        this.sprite.src = './assets/entities/player/spritesheet.png';
-        this.spriteLoaded = false;
-        this.sprite.onload = () => {
-            this.spriteLoaded = true;
-        };
+    this.baseSpeed = 180;
+    this.runSpeed = 290;
+    this.speed = this.baseSpeed;
 
-        // Parametry klatki ze spritesheetu
-        this.frameWidth = 16;
-        this.frameHeight = 32;
-        this.scale = 2; // Skalowanie pixel-artu (2x = 32x64 px na ekranie)
+    this.direction = 0;
+    this.isMoving = false;
+    this.isRunning = false;
 
-        // Stan animacji chodu
-        this.currentFrame = 0;
-        this.totalFrames = 4;
-        this.animTimer = 0;
-        this.frameDuration = 0.15; // Czas trwania klatki w sekundach
+    this.maxHp = 100;
+    this.hp = 100;
+    this.maxStamina = 100;
+    this.stamina = 100;
+    this.staminaRegenRate = 25;
+    this.runStaminaCost = 25;
 
-        // Statystyki
-        this.maxHealth = 100;
-        this.health = 100;
-        this.maxStamina = 100;
-        this.stamina = 100;
+    // Mechanika ataku
+    this.isAttacking = false;
+    this.attackTimer = 0;
+    this.attackDuration = 0.22;
+    this.attackCooldown = 0;
+    this.attackCooldownTime = 0.32;
+    this.currentBladeAngle = 0;
+    this.attackAnimFrame = 0;
 
-        // Parametry ruchu
-        this.walkSpeed = 160;   // px na sekundę
-        this.runSpeed = 270;    // px na sekundę
-        this.staminaDrainPerSecond = 25;
-        this.staminaRegenPerSecond = 18;
+    // Wymiary ostrza miecza
+    this.bladeLength = 38;
+    this.bladeWidth = 6;
+    this.bladeCurrentHilt = { x: 0, y: 0 };
+    this.bladeCurrentTip = { x: 0, y: 0 };
 
-        this.isRunning = false;
-        this.facingDirection = 'down'; // 'down', 'up', 'left', 'right'
+    this.sprite = new Image();
+    this.sprite.src = 'assets/player/spritesheet.png';
+    this.spriteLoaded = false;
+    this.sprite.onload = () => { this.spriteLoaded = true; };
+
+    this.frameWidth = 16;
+    this.frameHeight = 32;
+    this.scale = 2.5;
+
+    this.animTime = 0;
+    this.animFrame = 0;
+    this.attackSprite = new Image();
+    this.attackSprite.src = 'assets/player/attack.png';
+    this.attackSpriteLoaded = false;
+    this.attackSprite.onload = () => { this.attackSpriteLoaded = true; };
+    this.attackFrameWidth = 32;
+    this.attackFrameHeight = 32;
+    this.attackFrameCount = 4;
+  }
+
+  update(dt, input, chunkManager) {
+    if (this.attackCooldown > 0) {
+      this.attackCooldown -= dt;
     }
 
-    update(dt, input) {
-        let moveX = 0;
-        let moveY = 0;
+    if (this.isAttacking) {
+      this.attackTimer += dt;
+      const progress = Math.min(1, this.attackTimer / this.attackDuration);
+      this.attackAnimFrame = Math.min(
+        this.attackFrameCount - 1,
+        Math.floor(progress * this.attackFrameCount)
+      );
 
-        if (input.keys.left) moveX -= 1;
-        if (input.keys.right) moveX += 1;
-        if (input.keys.up) moveY -= 1;
-        if (input.keys.down) moveY += 1;
+      // Płynna interpolacja kąta zamachu
+      this.currentBladeAngle = this.attackStartAngle + (this.attackEndAngle - this.attackStartAngle) * progress;
 
-        const isMoving = moveX !== 0 || moveY !== 0;
+      // Punkt dłoni gracza
+      const handOffsetY = -14;
+      this.bladeCurrentHilt.x = this.x + Math.cos(this.currentBladeAngle) * 10;
+      this.bladeCurrentHilt.y = (this.y + handOffsetY) + Math.sin(this.currentBladeAngle) * 10;
 
-        // Bieg i zużycie / regeneracja staminy
-        const wantsToRun = input.keys.shift && isMoving;
-        if (wantsToRun && this.stamina > 0) {
-            this.isRunning = true;
-            this.stamina = Math.max(0, this.stamina - this.staminaDrainPerSecond * dt);
-        } else {
-            this.isRunning = false;
-            this.stamina = Math.min(this.maxStamina, this.stamina + this.staminaRegenPerSecond * dt);
-        }
+      this.bladeCurrentTip.x = this.bladeCurrentHilt.x + Math.cos(this.currentBladeAngle) * this.bladeLength;
+      this.bladeCurrentTip.y = this.bladeCurrentHilt.y + Math.sin(this.currentBladeAngle) * this.bladeLength;
 
-        const currentSpeed = this.isRunning ? this.runSpeed : this.walkSpeed;
-
-        if (isMoving) {
-            // Normalizacja wektora po przekątnych
-            const length = Math.hypot(moveX, moveY);
-            const normalizedX = moveX / length;
-            const normalizedY = moveY / length;
-
-            this.x += normalizedX * currentSpeed * dt;
-            this.y += normalizedY * currentSpeed * dt;
-
-            // Wyznaczanie kierunku zwrotu
-            if (Math.abs(moveX) > Math.abs(moveY)) {
-                this.facingDirection = moveX > 0 ? 'right' : 'left';
-            } else {
-                this.facingDirection = moveY > 0 ? 'down' : 'up';
-            }
-
-            // Aktualizacja klatki animacji
-            this.animTimer += dt;
-            const speedMultiplier = this.isRunning ? 1.3 : 1.0;
-            if (this.animTimer >= this.frameDuration / speedMultiplier) {
-                this.animTimer = 0;
-                this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
-            }
-        } else {
-            // Po zatrzymaniu resetujemy do klatki spoczynkowej (idle)
-            this.animTimer = 0;
-            this.currentFrame = 0;
-        }
+      if (this.attackTimer >= this.attackDuration) {
+        this.isAttacking = false;
+        this.attackTimer = 0;
+      }
+      return;
     }
 
-    render(renderer, camera) {
-        const renderWidth = this.frameWidth * this.scale;
-        const renderHeight = this.frameHeight * this.scale;
-
-        // Pozycja stóp postaci w przestrzeni ekranu
-        const screenPos = camera.worldToScreen(this.x, this.y, this.z);
-        const drawX = Math.round(screenPos.x - renderWidth / 2);
-        const drawY = Math.round(screenPos.y - renderHeight);
-
-        // Jeśli spritesheet się jeszcze nie wczytał, rysujemy tymczasowy obrys
-        if (!this.spriteLoaded) {
-            renderer.drawRect(drawX, drawY, renderWidth, renderHeight, '#38bdf8');
-            return;
-        }
-
-        // Źródłowe współrzędne klatki na spritesheecie
-        const row = directionRows[this.facingDirection] ?? 0;
-        const sx = this.currentFrame * this.frameWidth;
-        const sy = row * this.frameHeight;
-
-        // Rysowanie klatki postaci
-        renderer.ctx.drawImage(
-            this.sprite,
-            sx, sy, this.frameWidth, this.frameHeight,
-            drawX, drawY, renderWidth, renderHeight
-        );
+    if (input.mouse.leftJustPressed && this.attackCooldown <= 0) {
+      this.startAttack(input);
+      return;
     }
+
+    const { x: dx, y: dy } = input.getMovementVector();
+    this.isMoving = dx !== 0 || dy !== 0;
+
+    const wantsRun = input.isDown('ShiftLeft') || input.isDown('ShiftRight');
+    if (wantsRun && this.isMoving && this.stamina > 2) {
+      this.isRunning = true;
+      this.speed = this.runSpeed;
+      this.stamina = Math.max(0, this.stamina - this.runStaminaCost * dt);
+    } else {
+      this.isRunning = false;
+      this.speed = this.baseSpeed;
+      if (this.stamina < this.maxStamina) {
+        this.stamina = Math.min(this.maxStamina, this.stamina + this.staminaRegenRate * dt);
+      }
+    }
+
+    if (this.isMoving) {
+      this.updateDirection(dx, dy);
+
+      const targetX = this.x + dx * this.speed * dt;
+      const targetY = this.y + dy * this.speed * dt;
+
+      const resolved = chunkManager.resolveMovement(this, targetX, targetY);
+      this.x = resolved.x;
+      this.y = resolved.y;
+
+      const animSpeed = this.isRunning ? 12 : 8;
+      this.animTime += dt * animSpeed;
+      this.animFrame = Math.floor(this.animTime) % 4;
+    } else {
+      this.animFrame = 0;
+      this.animTime = 0;
+    }
+  }
+
+  startAttack(input) {
+    this.isAttacking = true;
+    this.attackTimer = 0;
+    this.attackAnimFrame = 0;
+    this.attackCooldown = this.attackCooldownTime;
+
+    const deltaX = input.mouse.worldX - this.x;
+    const deltaY = input.mouse.worldY - (this.y - 14);
+    const baseAngle = Math.atan2(deltaY, deltaX);
+
+    this.updateDirection(deltaX, deltaY);
+
+    const arcSpread = 0.95; // ~55 stopni zasięgu
+
+    // Downward attacks keep their original sweep; horizontal attacks follow the sprite.
+    if (this.direction === 0) {
+      if (deltaX < 0) {
+        this.attackStartAngle = baseAngle + arcSpread;
+        this.attackEndAngle = baseAngle - arcSpread;
+      } else {
+        this.attackStartAngle = baseAngle - arcSpread;
+        this.attackEndAngle = baseAngle + arcSpread;
+      }
+    } else if (deltaX < 0) {
+      this.attackStartAngle = baseAngle - arcSpread;
+      this.attackEndAngle = baseAngle + arcSpread;
+    } else {
+      this.attackStartAngle = baseAngle + arcSpread;
+      this.attackEndAngle = baseAngle - arcSpread;
+    }
+  }
+
+  updateDirection(dx, dy) {
+    if (Math.abs(dy) > Math.abs(dx)) {
+      this.direction = dy > 0 ? 0 : 2;
+    } else {
+      this.direction = dx > 0 ? 1 : 3;
+    }
+  }
+
+  draw(ctx, heightmap) {
+    const proj = heightmap.toScreen(this.x, this.y);
+    const screenX = proj.screenX;
+    const screenY = proj.screenY;
+    if (this.isAttacking && this.attackSpriteLoaded) {
+      const destW = this.attackFrameWidth * this.scale;
+      const destH = this.attackFrameHeight * this.scale;
+      const destX = screenX - destW / 2;
+      const destY = screenY - destH + 4;
+      ctx.drawImage(
+        this.attackSprite,
+        this.attackAnimFrame * this.attackFrameWidth,
+        ATTACK_SPRITE_ROWS[this.direction] * this.attackFrameHeight,
+        this.attackFrameWidth,
+        this.attackFrameHeight,
+        Math.round(destX),
+        Math.round(destY),
+        destW,
+        destH
+      );
+    } else if (this.spriteLoaded) {
+      const destW = this.frameWidth * this.scale;
+      const destH = this.frameHeight * this.scale;
+      const destX = screenX - destW / 2;
+      const destY = screenY - destH + 4;
+      const srcX = this.animFrame * this.frameWidth;
+      const srcY = PLAYER_SPRITE_ROWS[this.direction] * this.frameHeight;
+      ctx.drawImage(
+        this.sprite,
+        srcX, srcY, this.frameWidth, this.frameHeight,
+        Math.round(destX), Math.round(destY), destW, destH
+      );
+    } else {
+      ctx.save();
+      ctx.fillStyle = '#3b82f6';
+      ctx.beginPath();
+      ctx.arc(screenX, screenY - 24, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Rysowanie bryły ostrza w trybie F3 (brak zapałki, solidny kształt)
+  drawDebug(ctx) {
+    if (this.isAttacking) {
+      ctx.save();
+
+      const hx = this.bladeCurrentHilt.x;
+      const hy = this.bladeCurrentHilt.y;
+      const tx = this.bladeCurrentTip.x;
+      const ty = this.bladeCurrentTip.y;
+      const angle = this.currentBladeAngle;
+      const normalX = -Math.sin(angle);
+      const normalY = Math.cos(angle);
+
+      const baseHalfWidth = this.bladeWidth / 2;
+      const tipHalfWidth = 1.5;
+      
+      // 1. Zarys klingi miecza (wielokąt zwężający się ku sztychowi)
+      ctx.beginPath();
+      ctx.moveTo(hx + normalX * baseHalfWidth, hy + normalY * baseHalfWidth);
+      ctx.lineTo(tx + normalX * tipHalfWidth, ty + normalY * tipHalfWidth);
+      ctx.lineTo(tx, ty); // sztych
+      ctx.lineTo(tx - normalX * tipHalfWidth, ty - normalY * tipHalfWidth);
+      ctx.lineTo(hx - normalX * baseHalfWidth, hy - normalY * baseHalfWidth);
+      ctx.closePath();
+
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.4)'; // Bursztynowy prześwitujący
+      ctx.fill();
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 2. Garda / jelec u nasady rękojeści
+      const guardWidth = 8;
+      ctx.beginPath();
+      ctx.moveTo(hx + normalX * guardWidth / 2, hy + normalY * guardWidth / 2);
+      ctx.lineTo(hx - normalX * guardWidth / 2, hy - normalY * guardWidth / 2);
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      
+      // 3. Czerwony punkt sztychu
+      ctx.beginPath();
+      ctx.arc(tx, ty, 2, 0, Math.PI * 2);
+      ctx.fillStyle = '#ef4444';
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
 }

@@ -1,47 +1,64 @@
 export class Camera {
-    constructor(width, height) {
-        this.x = 0;
-        this.y = 0;
-        this.viewportWidth = width;
-        this.viewportHeight = height;
-        this.target = null;
-        this.followSpeed = 0.08; // Płynność ruchu (0 = stoi, 1 = sztywne przyklejenie)
-    }
+  constructor(viewportWidth, viewportHeight) {
+    this.width = viewportWidth;
+    this.height = viewportHeight;
+    this.x = 0;
+    this.y = 0;
+    this.smoothness = 8.0;
 
-    resize(width, height) {
-        this.viewportWidth = width;
-        this.viewportHeight = height;
-    }
+    this.worldBounds = {
+      minX: 0,
+      minY: 0,
+      maxX: 10000,
+      maxY: 10000
+    };
+  }
 
-    follow(targetEntity) {
-        this.target = targetEntity;
-    }
+  setWorldBounds(minX, minY, maxX, maxY) {
+    this.worldBounds = { minX, minY, maxX, maxY };
+  }
 
-    update() {
-        if (!this.target) return;
+  follow(targetX, targetY, dt) {
+    const goalX = targetX - this.width / 2;
+    const goalY = targetY - this.height / 2;
 
-        // Celujemy w środek ekranu
-        const targetX = this.target.x - this.viewportWidth / 2;
-        const targetY = this.target.y - this.viewportHeight / 2;
+    const blend = 1 - Math.exp(-this.smoothness * dt);
+    this.x += (goalX - this.x) * blend;
+    this.y += (goalY - this.y) * blend;
 
-        // Płynna interpolacja liniowa (lerp)
-        this.x += (targetX - this.x) * this.followSpeed;
-        this.y += (targetY - this.y) * this.followSpeed;
-    }
+    const limitX = Math.max(this.worldBounds.minX, this.worldBounds.maxX - this.width);
+    const limitY = Math.max(this.worldBounds.minY, this.worldBounds.maxY - this.height);
 
-    // Przeliczenie pozycji w świecie 2.5D na współrzędne pikselowe canvasu
-    worldToScreen(worldX, worldY, heightZ = 0) {
-        return {
-            x: Math.round(worldX - this.x),
-            y: Math.round((worldY - this.y) - heightZ)
-        };
-    }
+    this.x = Math.max(this.worldBounds.minX, Math.min(this.x, limitX));
+    this.y = Math.max(this.worldBounds.minY, Math.min(this.y, limitY));
+  }
 
-    // Przeliczenie kliknięcia na ekranie na pozycję w świecie gry (płaszczyzna Z = 0)
-    screenToWorld(screenX, screenY) {
-        return {
-            x: screenX + this.x,
-            y: screenY + this.y
-        };
-    }
+  // Zwraca prostokąt pola widzenia kamery (Frustum Culling)
+  getFrustumBounds(padding = 0) {
+    return {
+      left: this.x - padding,
+      top: this.y - padding,
+      right: this.x + this.width + padding,
+      bottom: this.y + this.height + padding
+    };
+  }
+
+  // Sprawdza, czy dany prostokąt (np. chunk 1024x1024) mieści się w kadrze
+  isRectVisible(rx, ry, rw, rh) {
+    return (
+      rx + rw >= this.x &&
+      rx <= this.x + this.width &&
+      ry + rh >= this.y &&
+      ry <= this.y + this.height
+    );
+  }
+
+  apply(ctx) {
+    ctx.save();
+    ctx.translate(-Math.round(this.x), -Math.round(this.y));
+  }
+
+  restore(ctx) {
+    ctx.restore();
+  }
 }
