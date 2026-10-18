@@ -5,6 +5,7 @@ import { Player } from './entities/player.js';
 import { Dummy } from './entities/dummy.js';
 import { rollLoot } from './items/lootTable.js';
 import { DroppedItem } from './items/droppedItem.js';
+import { Dragon } from './entities/dragon.js';
 
 class Game {
   constructor() {
@@ -18,6 +19,7 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 1280;
     this.canvas.height = 720;
+    this.dragon = new Dragon(2250, 1960);
 
     this.input = new Input(this.canvas);
     this.camera = new Camera(this.canvas.width, this.canvas.height);
@@ -84,7 +86,19 @@ class Game {
         this.droppedItems.push(new DroppedItem(this.dummy.x, this.dummy.y, item));
       }
     }
-
+    this.dragon.update(dt, this.player);
+    // Sprawdzanie ciosów miecza (manekin ORAZ smok):
+    const combatTargets = [this.dummy, this.dragon];
+    this.player.checkCombatCollisions(combatTargets, (hitInfo) => {
+      this.damageNumbers.push({
+        x: hitInfo.x,
+        y: hitInfo.y - 10,
+        amount: hitInfo.damage,
+        life: 0.8,
+        maxLife: 0.8,
+        vy: -45
+      });
+    });
     // 2. Interakcja ze światem pod klawiszem [E]
     this.activeInteractable = null;
     let closestDist = Infinity;
@@ -163,10 +177,10 @@ class Game {
 
     // Dynamiczne byty w świecie:
     const entitiesToDraw = [this.player];
-    if (this.dummy && !this.dummy.isDestroyed) {
-      entitiesToDraw.push(this.dummy);
-    }
+    if (this.dummy && !this.dummy.isDestroyed) entitiesToDraw.push(this.dummy);
+    if (this.dragon && !this.dragon.isDestroyed) entitiesToDraw.push(this.dragon);
     entitiesToDraw.push(...this.droppedItems);
+    this.world.draw(this.ctx, this.camera, entitiesToDraw);
 
     // Rysowanie świata z Y-Sortingiem:
     this.world.draw(this.ctx, this.camera, entitiesToDraw);
@@ -193,6 +207,9 @@ class Game {
 
     // 3. Rysowanie interfejsu (na stałe na ekranie):
     this.drawCleanHUD();
+    if (this.dragon) {
+      this.dragon.drawBossHealthBar(this.ctx, this.canvas.width);
+    }
 
     if (this.debugMode) {
       this.drawDebugPanel();
