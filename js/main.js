@@ -6,6 +6,7 @@ import { Dummy } from './entities/dummy.js';
 import { rollLoot } from './items/lootTable.js';
 import { DroppedItem } from './items/droppedItem.js';
 import { Dragon } from './entities/dragon.js';
+import { Inventory } from './inventory/inventory.js';
 
 class Game {
   constructor() {
@@ -36,7 +37,7 @@ class Game {
     this.debugMode = false;
     this.fps = 60;
     this.lastTime = 0;
-
+    this.inventory = new Inventory(16);
     // Przedmioty na ziemi i interakcja
     this.droppedItems = [];
     this.activeInteractable = null;
@@ -117,20 +118,32 @@ class Game {
     // Zebranie przedmiotów pod 'E'
     if (this.input.isJustPressed('KeyE') && this.activeInteractable) {
       const itemToPick = this.activeInteractable;
-      const index = this.droppedItems.indexOf(itemToPick);
-      if (index !== -1) {
+      
+      const result = this.inventory.addItem(itemToPick.id, itemToPick.count);
+      if (result.success) {
         this.lootNotifications.push({
           text: `+${itemToPick.count} ${itemToPick.name}`,
           color: itemToPick.color,
           life: 2.2,
           y: 80
         });
-        // Usuwamy tylko ten jeden konkretny przedmiot:
-        this.droppedItems.splice(index, 1);
+        const index = this.droppedItems.indexOf(itemToPick);
+        if (index !== -1) {
+          this.droppedItems.splice(index, 1);
+        }
         this.activeInteractable = null;
+      } else if (result.reason === 'overweight') {
+        // Czerwone powiadomienie o braku udźwigu:
+        this.lootNotifications.push({
+          text: `Zbyt duży ciężar! (${this.inventory.getCurrentWeight()}/${this.inventory.maxWeight} kg)`,
+          color: '#ef4444',
+          life: 2.5,
+          y: 80
+        });
       }
     }
-    
+    // Aktualizacja ekwipunku (otwieranie Tab/I, najechanie myszką, kliknięcie PPM):
+    this.inventory.update(this.input);
     // Aktualizacja powiadomień lootu
     for (let i = this.lootNotifications.length - 1; i >= 0; i--) {
       const notif = this.lootNotifications[i];
@@ -213,7 +226,9 @@ class Game {
 
     if (this.debugMode) {
       this.drawDebugPanel();
-    }
+    } 
+    // Rysowanie okna ekwipunku (na samym wierzchu Canvasa):
+    this.inventory.draw(this.ctx, this.canvas.width, this.canvas.height, this.input.mouse.screenX, this.input.mouse.screenY);
 
     // Powiadomienia o łupie na ekranie:
     this.ctx.save();

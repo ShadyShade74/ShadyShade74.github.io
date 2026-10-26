@@ -12,7 +12,8 @@ export class Input {
       isLeftDown: false,
       isRightDown: false,
       leftJustPressed: false,
-      rightJustPressed: false
+      rightJustPressed: false,
+      wheelDelta: 0 // <--- Kółko myszy
     };
 
     window.addEventListener('keydown', (e) => {
@@ -37,6 +38,7 @@ export class Input {
       this.mouse.isRightDown = false;
       this.mouse.leftJustPressed = false;
       this.mouse.rightJustPressed = false;
+      this.mouse.wheelDelta = 0;
     });
 
     this.canvas.addEventListener('mousemove', (e) => {
@@ -59,6 +61,12 @@ export class Input {
       if (e.button === 0) this.mouse.isLeftDown = false;
       if (e.button === 2) this.mouse.isRightDown = false;
     });
+
+    // Nasłuchiwanie kółka myszy (Scroll):
+    this.canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      this.mouse.wheelDelta = e.deltaY;
+    }, { passive: false });
 
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
@@ -98,5 +106,6 @@ export class Input {
     this.tappedKeys.clear();
     this.mouse.leftJustPressed = false;
     this.mouse.rightJustPressed = false;
+    this.mouse.wheelDelta = 0; // <--- Reset kółka po każdej klatce
   }
 }
